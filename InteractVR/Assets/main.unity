@@ -38,11 +38,16 @@ RenderSettings:
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+
+
+
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 7
-  m_GIWorkflowMode: 0
+
+  m_GIWorkflowMode: 1
+
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -91,6 +96,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+
 --- !u!1 &106814462
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,3 +476,5 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+
+
