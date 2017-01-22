@@ -1,0 +1,83 @@
+[33mcommit f7c6b490787b92e152e981d91e03e1b61ac2b42b[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 14:11:25 2017 -0500
+
+    Changed Unity Settings
+
+[33mcommit a7f94aa424a7d8019adf5df7a599e27d999b3fa2[m
+Merge: d2b7c73 23974a4
+Author: tabston1 <dakota_abston2006@yahoo.com>
+Date:   Sun Jan 22 14:09:21 2017 -0500
+
+    Merge pull request #1 from ahuber6/master
+    
+    Hello World!
+
+[33mcommit 23974a435c852f172e42f587c931a9b3e2b7489b[m
+Merge: d048bea d2b7c73
+Author: tabston1 <dakota_abston2006@yahoo.com>
+Date:   Sun Jan 22 14:09:12 2017 -0500
+
+    Merge branch 'master' into master
+
+[33mcommit d2b7c7385c1588a51850db39b55e544f0140d860[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 14:07:19 2017 -0500
+
+    Changed Unity Settings
+
+[33mcommit d048beab3fe3c76f19d52c1041706ad783de7d3a[m
+Author: ahuber6 <anthony.huber6@gmail.com>
+Date:   Sun Jan 22 14:05:00 2017 -0500
+
+    Hello World!
+    
+    Added project settings and Hello World! text
+
+[33mcommit ad768ad65b23b8269cdc22078d3cfe8d15e62a05[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:57:25 2017 -0500
+
+    Testing .gitignore
+
+[33mcommit adf03deb358e9f226b1d5e06178dadbe9acb3da3[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:49:46 2017 -0500
+
+    Fixed untracked files
+
+[33mcommit 2fd52d1db43f0dda011ec586ef1b0ffb4f5fffb1[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:41:49 2017 -0500
+
+    Changed .gitignore
+
+[33mcommit a608df38530b2dcd38d453d96cf2e34627b4becf[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:37:26 2017 -0500
+
+    Testing .gitignore
+
+[33mcommit 159d4806b79b153346b889f6c4a8cd87eb128675[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:36:37 2017 -0500
+
+    Changed location of .gitignore file
+
+[33mcommit 02906725a6d2d844f36d99bd4efca26d00c6b7bd[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:28:00 2017 -0500
+
+    Testing gitignore file
+
+[33mcommit 1b278bdf90571bd9828fe62c4309bf7f7e56168b[m
+Author: Dakota <tabston1@vols.utk.edu>
+Date:   Sun Jan 22 13:23:17 2017 -0500
+
+    Added Unity Project
+
+[33mcommit ea716ced6edb343d35bc98444c0569370979125b[m
+Author: tabston1 <dakota_abston2006@yahoo.com>
+Date:   Sun Jan 22 13:17:49 2017 -0500
+
+    Adding .gitignore file
