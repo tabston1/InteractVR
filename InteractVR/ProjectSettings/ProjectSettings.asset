@@ -5,7 +5,6 @@ PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   productGUID: 37376e91838142a4c9c2597194a3d1f7
-
   AndroidProfiler: 0
   defaultScreenOrientation: 4
   targetDevice: 2
@@ -69,10 +68,7 @@ PlayerSettings:
   defaultIsNativeResolution: 1
   runInBackground: 0
   captureSingleScreen: 0
-  Override IPod Music: 0
-
   muteOtherAudioSources: 0
-
   Prepare IOS For Recording: 0
   submitAnalytics: 1
   usePlayerLog: 1
@@ -122,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.Company.ProductName
+  bundleIdentifier: com.Company.InteractVR
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
@@ -173,7 +169,6 @@ PlayerSettings:
   tvOSLargeIconLayers: []
   tvOSTopShelfImageLayers: []
   tvOSTopShelfImageWideLayers: []
-
   iOSLaunchScreenType: 0
   iOSLaunchScreenPortrait: {fileID: 0}
   iOSLaunchScreenLandscape: {fileID: 0}
@@ -213,7 +208,10 @@ PlayerSettings:
   m_BuildTargetIcons: []
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs: []
-  m_BuildTargetVRSettings: []
+  m_BuildTargetVRSettings:
+  - m_BuildTarget: Android
+    m_Enabled: 0
+    m_Devices: []
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
   webPlayerTemplate: APPLICATION:Default
@@ -415,9 +413,7 @@ PlayerSettings:
   tizenGPSPermissions: 0
   tizenMicrophonePermissions: 0
   tizenDeploymentTarget: 
-
   tizenDeploymentTargetType: 1113137880
-
   tizenMinOSVersion: 0
   n3dsUseExtSaveData: 0
   n3dsCompressStaticMem: 1
