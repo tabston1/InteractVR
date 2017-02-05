@@ -11,7 +11,7 @@ public class Navigate : MonoBehaviour {
 
 	//Sets the speed of the movement and grabs the head object for referencing the persons gaze direction
 	void Start () {
-        speed = 0.5f;
+        speed = 0.1f;
         head = FindObjectOfType<GvrHead>();
     }
 	
