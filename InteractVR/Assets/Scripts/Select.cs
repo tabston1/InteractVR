@@ -7,6 +7,10 @@ public class Select : MonoBehaviour {
     private GameObject camera;
     private GameObject selectedObject;
     private Transform cameraTrans;
+    private bool holdingObject;
+    private bool canSelect;
+    private float timer;
+    private const float grabTime = 3f; 
 
     [Tooltip("Maximum gaze distance, in meters, for calculating a hit.")]
     public float MaxGazeDistance = 40.0f;
@@ -114,12 +118,25 @@ public class Select : MonoBehaviour {
         OldFocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
     }
 
+    void Grab()
+    {
+        holdingObject = true;   
+    }
+
+    void Drop()
+    {
+        holdingObject = false;
+        canSelect = false;
+    }
 
     // Use this for initialization
     void Start () {
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         cameraTrans = camera.GetComponent<Transform>();
         selectedObject = null;
+        timer = 0f;
+        holdingObject = false;
+        canSelect = true;
     }
 
     void Update()
@@ -128,21 +145,51 @@ public class Select : MonoBehaviour {
         gazeDirection = Camera.main.transform.forward;
         gazeRotation = Camera.main.transform.rotation;
 
-        UpdateRaycast();
-        
-        //Used to make the information about an object pop up
-        if (Input.GetButtonDown("Jump"))
+        if (!holdingObject)
         {
+            UpdateRaycast();
+        }
+        else
+        {
+            HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+
+        }
+
+        //Checks for holding an object
+        if (Input.GetButton("Jump"))
+        {
+            
             if (Hit)
             {
-                OnSelect();  
+                timer += Time.deltaTime;
+                if (timer >= grabTime)
+                { 
+                    Grab();
+                }
+            }
+
+        }
+
+        //Used to make the information about an object pop up
+        if (Input.GetButtonUp("Jump"))
+        {
+            if (Hit) {
+                if (!holdingObject && canSelect) OnSelect();   
             }
             else
             {
-                Deselect();
+                if (!holdingObject) Deselect();
             }
+            canSelect = true;
+            timer = 0f;
         }
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (holdingObject) Drop();
+       
+        }
+        
     }
 
 }
