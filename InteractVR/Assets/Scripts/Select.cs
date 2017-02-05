@@ -4,10 +4,35 @@ using UnityEngine;
 
 public class Select : MonoBehaviour {
 
-    GameObject camera;
-    GameObject hitObject;
-    Transform cameraTrans;
-    RaycastHit hit;
+    private GameObject camera;
+    private GameObject hitObject;
+    private GameObject description;
+    private Transform cameraTrans;
+    private RaycastHit hit;
+    public 
+
+
+    void OnGazeEnter()
+    {
+        //Enable the description for the object
+        foreach (Transform child in hit.transform)
+        {
+            if (child.CompareTag("Description"))
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+
+
+
+    }
+    
+    void OnGazeExit()
+    {
+  
+
+    }
+
 
 	// Use this for initialization
 	void Start () {
@@ -33,12 +58,15 @@ public class Select : MonoBehaviour {
             Debug.DrawRay(cameraTrans.position, cameraTrans.forward * 10, Color.green);
             if (Physics.Raycast(cameraTrans.position, cameraTrans.forward, out hit, 10))
             {
+                
                 //Debug.DrawRay(cameraTrans.position, cameraTrans.forward * 20, Color.green);
                 Debug.Log("Hit an Object");
                 hitObject = hit.transform.gameObject;
                 Debug.Log(hitObject.name);
             }
-
+            OnGazeEnter();
+            OnGazeExit();
         }
+        
     }
 }
