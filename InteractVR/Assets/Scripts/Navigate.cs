@@ -16,7 +16,7 @@ public class Navigate : MonoBehaviour {
     }
 	
     //Continuously check for the navigation button being pressed
-	void Update () {
+	void FixedUpdate () {
 
         //Moves the camera forward in the direction you are looking
         if (Input.GetButton("Fire3"))
