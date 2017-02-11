@@ -180,8 +180,8 @@ public class Select : MonoBehaviour {
         var yRotation = Input.GetAxis("Vertical") * axisSpeed;
         var xRotation = Input.GetAxis("Horizontal") * axisSpeed;
 
-        transform.Rotate(xRotation, 0, 0);
-        transform.Rotate(0, yRotation, 0);
+        transform.Rotate(xRotation, yRotation, 0);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
     }
 
     void updateLine()
@@ -223,9 +223,6 @@ public class Select : MonoBehaviour {
         controllerDirection = controller.transform.forward;
         controllerRotation = controller.transform.rotation;
 
-        // Update controller's laser
-        updateLine();
-
         // Grab functionality
         if (!holdingObject) UpdateRaycast();
         else HitInfo.transform.position = (controllerOrigin + (lastHitDistance * controllerDirection));
@@ -233,5 +230,8 @@ public class Select : MonoBehaviour {
 
         // Get inputs from controller
         GetInputs();
+
+        // Update controller's laser
+        updateLine();
     }
 }
