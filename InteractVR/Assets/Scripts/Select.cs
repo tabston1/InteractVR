@@ -163,8 +163,10 @@ public class Select : MonoBehaviour {
             {
                 timer += Time.deltaTime;
                 if (timer >= grabTime)
-                { 
-                    Grab();
+                {
+                    if (HitInfo.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Movable"))){  
+                        Grab();
+                    }
                 }
             }
 
