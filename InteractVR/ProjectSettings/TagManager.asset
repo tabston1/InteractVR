@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Description
+  - Controller
   layers:
   - Default
   - TransparentFX

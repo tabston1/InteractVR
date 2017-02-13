@@ -5,8 +5,9 @@ using UnityEngine;
 public class Select : MonoBehaviour {
 
     private GameObject camera;
-    private GameObject selectedObject;
     private Transform cameraTrans;
+
+    private GameObject selectedObject;
     private bool holdingObject;
     private bool canSelect;
     private float timer;
@@ -31,7 +32,14 @@ public class Select : MonoBehaviour {
     private Vector3 gazeDirection;
     private Quaternion gazeRotation;
     private float lastHitDistance = 15.0f;
-   
+
+    private GameObject controller;
+    private Vector3 controllerOrigin;
+    private Vector3 controllerDirection;
+    private Quaternion controllerRotation;
+    private Component linePointer;
+    public float axisSpeed;
+
     // Finds the description child of an object and makes the description appear
     void OnSelect()
     {
@@ -72,7 +80,8 @@ public class Select : MonoBehaviour {
         RaycastHit hitInfo;
         GameObject oldFocusedObject = FocusedObject;
 
-        Hit = Physics.Raycast(gazeOrigin, gazeDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
+        //Hit = Physics.Raycast(gazeOrigin, gazeDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
+        Hit = Physics.Raycast(controllerOrigin, controllerDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
 
         // Update the HitInfo property so other classes can use this hit information.
         HitInfo = hitInfo;
@@ -89,8 +98,10 @@ public class Select : MonoBehaviour {
         {
             // If the raycast does not hit a hologram, default the position to last hit distance in front of the user,
             // and the normal to face the user.
-            Position = gazeOrigin + (gazeDirection * lastHitDistance);
-            Normal = -gazeDirection;
+            //Position = gazeOrigin + (gazeDirection * lastHitDistance);
+            Position = controllerOrigin + (controllerDirection * lastHitDistance);
+            //Normal = -gazeDirection;
+            Normal = -controllerDirection;
             FocusedObject = null;
         }
 
@@ -129,54 +140,27 @@ public class Select : MonoBehaviour {
         canSelect = false;
     }
 
-    // Use this for initialization
-    void Start () {
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
-        cameraTrans = camera.GetComponent<Transform>();
-        selectedObject = null;
-        timer = 0f;
-        holdingObject = false;
-        canSelect = true;
-    }
-
-    void Update()
+    void GetInputs()
     {
-        gazeOrigin = Camera.main.transform.position;
-        gazeDirection = Camera.main.transform.forward;
-        gazeRotation = Camera.main.transform.rotation;
-
-        if (!holdingObject)
-        {
-            UpdateRaycast();
-        }
-        else
-        {
-            HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
-
-        }
-
         //Checks for holding an object
         if (Input.GetButton("Jump"))
         {
-            
             if (Hit)
             {
                 timer += Time.deltaTime;
                 if (timer >= grabTime)
                 {
-                    if (HitInfo.transform.gameObject.layer.Equals(LayerMask.NameToLayer("Movable"))){  
-                        Grab();
-                    }
+                    Grab();
                 }
             }
-
         }
 
         //Used to make the information about an object pop up
         if (Input.GetButtonUp("Jump"))
         {
-            if (Hit) {
-                if (!holdingObject && canSelect) OnSelect();   
+            if (Hit)
+            {
+                if (!holdingObject && canSelect) OnSelect();
             }
             else
             {
@@ -189,9 +173,65 @@ public class Select : MonoBehaviour {
         if (Input.GetButtonDown("Jump"))
         {
             if (holdingObject) Drop();
-       
+
         }
-        
+
+        // Control the direction the controller faces
+        var yRotation = Input.GetAxis("Vertical") * axisSpeed;
+        var xRotation = Input.GetAxis("Horizontal") * axisSpeed;
+
+        transform.Rotate(xRotation, yRotation, 0);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
     }
 
+    void updateLine()
+    {
+        // Updates the laser from the controller
+        LineRenderer linePointer = controller.GetComponent<LineRenderer>();
+
+        var points = new Vector3[2];
+
+        points[0] = transform.position;
+
+        if (Hit) points[1] = transform.position + lastHitDistance * transform.forward;
+        else points[1] = transform.position + MaxGazeDistance * transform.forward;
+
+        linePointer.SetPositions(points);
+    }
+
+    // Use this for initialization
+    void Start () {
+        //camera = GameObject.FindGameObjectWithTag("MainCamera");
+        //cameraTrans = camera.GetComponent<Transform>();
+
+        controller = GameObject.FindGameObjectWithTag("Controller");
+
+        selectedObject = null;
+        timer = 0f;
+        holdingObject = false;
+        canSelect = true;
+    }
+
+    void Update()
+    {
+        //gazeOrigin = Camera.main.transform.position;
+        //gazeDirection = Camera.main.transform.forward;
+        //gazeRotation = Camera.main.transform.rotation;
+
+        // Update controller information
+        controllerOrigin = controller.transform.position;
+        controllerDirection = controller.transform.forward;
+        controllerRotation = controller.transform.rotation;
+
+        // Grab functionality
+        if (!holdingObject) UpdateRaycast();
+        else HitInfo.transform.position = (controllerOrigin + (lastHitDistance * controllerDirection));
+        //else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+
+        // Get inputs from controller
+        GetInputs();
+
+        // Update controller's laser
+        updateLine();
+    }
 }
