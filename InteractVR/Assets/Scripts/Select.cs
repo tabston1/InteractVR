@@ -176,6 +176,7 @@ public class Select : MonoBehaviour {
             {
                 if (!holdingObject) Deselect();
             }
+            holdingObject = false;
             canSelect = true;
             timer = 0f;
         }
