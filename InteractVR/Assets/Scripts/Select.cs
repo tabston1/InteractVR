@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Select : MonoBehaviour {
 
@@ -50,6 +52,12 @@ public class Select : MonoBehaviour {
 
         selectedObject = HitInfo.transform.gameObject;
         //Enable the description for the object
+
+        if (selectedObject.tag == "Button")
+        {
+            selectedObject.BroadcastMessage("onClick");
+        }
+
         foreach (Transform child in HitInfo.transform)
         {
            if (child.CompareTag("Description"))
@@ -121,12 +129,14 @@ public class Select : MonoBehaviour {
 
     private void OnGazeEnter(GameObject FocusedObject)
     {
-        FocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
+        if (FocusedObject.tag == "Button") Debug.Log("Button"); //FocusedObject.GetComponent<Button>().Select();
+        else FocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
     }
 
     private void OnGazeLeave(GameObject OldFocusedObject)
     {
-        OldFocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
+        if (OldFocusedObject.tag == "Button") Debug.Log("Button"); //EventSystem.current.SetSelectedGameObject(null);
+        else OldFocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
     }
 
     void Grab()
@@ -178,8 +188,8 @@ public class Select : MonoBehaviour {
         }
 
         // Control the direction the controller faces
-        var yRotation = Input.GetAxis("Vertical") * axisSpeed;
-        var xRotation = Input.GetAxis("Horizontal") * axisSpeed;
+        var xRotation = Input.GetAxis("Vertical") * axisSpeed;
+        var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
 
         transform.Rotate(xRotation, yRotation, 0);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
