@@ -53,18 +53,8 @@ public class Select : MonoBehaviour {
         selectedObject = HitInfo.transform.gameObject;
         //Enable the description for the object
 
-        if (selectedObject.tag == "Button")
-        {
-            selectedObject.BroadcastMessage("onClick");
-        }
-
-        foreach (Transform child in HitInfo.transform)
-        {
-           if (child.CompareTag("Description"))
-            { 
-                child.gameObject.SetActive(true);
-            }
-        }
+        if (selectedObject.tag == "Button") selectedObject.BroadcastMessage("onClick");
+        else selectedObject.BroadcastMessage("onSelect");
     }
 
     //Disables an active description for a child, making it disappear.
@@ -210,6 +200,12 @@ public class Select : MonoBehaviour {
         linePointer.SetPositions(points);
     }
 
+    void grab()
+    {
+        float distance = Vector3.Distance(controller.transform.position, HitInfo.transform.position);
+        HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+    }
+
     // Use this for initialization
     void Start () {
         //camera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -236,7 +232,7 @@ public class Select : MonoBehaviour {
 
         // Grab functionality
         if (!holdingObject) UpdateRaycast();
-        else HitInfo.transform.position = (controllerOrigin + (lastHitDistance * controllerDirection));
+        else grab();  
         //else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
 
         // Get inputs from controller
