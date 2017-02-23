@@ -10,17 +10,11 @@ public class Menu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         isActive = false;
-        menu.transform.position = menu.transform.parent.transform.position;
-        menu.transform.position = new Vector3(menu.transform.position.x, menu.transform.position.y, menu.transform.position.z + 1f);
-        menu.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame
     void Update () {
-
         if (Input.GetButtonDown("Submit")) menuButton();
-
 	}
 
     void menuButton()
