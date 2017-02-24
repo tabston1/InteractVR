@@ -119,13 +119,13 @@ public class Select : MonoBehaviour {
 
     private void OnGazeEnter(GameObject FocusedObject)
     {
-        if (FocusedObject.tag == "Button") Debug.Log("Button"); //FocusedObject.GetComponent<Button>().Select();
+        if (FocusedObject.tag == "Button") FocusedObject.GetComponent<Button>().Select();
         else FocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
     }
 
     private void OnGazeLeave(GameObject OldFocusedObject)
     {
-        if (OldFocusedObject.tag == "Button") Debug.Log("Button"); //EventSystem.current.SetSelectedGameObject(null);
+        if (OldFocusedObject.tag == "Button") EventSystem.current.SetSelectedGameObject(null);
         else OldFocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
     }
 
