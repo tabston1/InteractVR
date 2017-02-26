@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: bfdc37de3a15540b3b111ac60a921e3b
+timeCreated: 1488149380
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: bedframe
+    100002: ID112
+    100004: ID12
+    100006: ID12 1
+    100008: ID18
+    100010: ID18 1
+    100012: ID22
+    100014: ID22 1
+    100016: ID26
+    100018: ID26 1
+    100020: ID30
+    100022: ID30 1
+    100024: ID34
+    100026: ID34 1
+    100028: ID54
+    100030: ID72
+    100032: ID80
+    100034: ID99
+    100036: instance_0
+    100038: instance_1
+    100040: instance_2
+    100042: instance_3
+    100044: mattress
+    100046: //RootNode
+    100048: pillow
+    100050: pillow 1
+    400000: bedframe
+    400002: ID112
+    400004: ID12
+    400006: ID12 1
+    400008: ID18
+    400010: ID18 1
+    400012: ID22
+    400014: ID22 1
+    400016: ID26
+    400018: ID26 1
+    400020: ID30
+    400022: ID30 1
+    400024: ID34
+    400026: ID34 1
+    400028: ID54
+    400030: ID72
+    400032: ID80
+    400034: ID99
+    400036: instance_0
+    400038: instance_1
+    400040: instance_2
+    400042: instance_3
+    400044: mattress
+    400046: //RootNode
+    400048: pillow
+    400050: pillow 1
+    2300000: bedframe
+    2300002: ID112
+    2300004: ID54
+    2300006: ID72
+    2300008: ID80
+    2300010: ID99
+    2300012: mattress
+    2300014: //RootNode
+    2300016: pillow
+    2300018: pillow 1
+    3300000: bedframe
+    3300002: ID112
+    3300004: ID54
+    3300006: ID72
+    3300008: ID80
+    3300010: ID99
+    3300012: mattress
+    3300014: //RootNode
+    3300016: pillow
+    3300018: pillow 1
+    4300000: SketchUp
+    4300002: ID99
+    4300004: ID112
+    4300006: pillow
+    4300008: bedframe
+    4300010: ID54
+    4300012: mattress
+    4300014: ID72
+    4300016: ID80
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
