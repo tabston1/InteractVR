@@ -74,7 +74,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1020672667146642
 GameObject:
   m_ObjectHideFlags: 1
@@ -314,6 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4148667309527264}
   - component: {fileID: 95147336198000102}
+  - component: {fileID: 65466085604597052}
   m_Layer: 0
   m_Name: ModernTable
   m_TagString: Untagged
@@ -3983,6 +3984,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1705274464294608}
   m_Mesh: {fileID: 4300066, guid: ec75f32a12e9a4f91aa61aea3813f184, type: 3}
+--- !u!65 &65466085604597052
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1151277995702886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 47.905952, y: 23.290483, z: 17.514841}
+  m_Center: {x: 20.40469, y: -11.145106, z: 8.257404}
 --- !u!95 &95147336198000102
 Animator:
   serializedVersion: 3

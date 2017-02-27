@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 33570115152931734}
   - component: {fileID: 23850984935664724}
   - component: {fileID: 95068439242485702}
+  - component: {fileID: 65268380495033348}
   m_Layer: 0
   m_Name: Sofa
   m_TagString: Untagged
@@ -165,6 +166,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1916672486904676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4751814410139822}
+  - component: {fileID: 23735467340394402}
+  - component: {fileID: 102243069237209338}
+  m_Layer: 8
+  m_Name: Description
+  m_TagString: Description
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!4 &4003151214006482
 Transform:
   m_ObjectHideFlags: 1
@@ -248,6 +266,7 @@ Transform:
   - {fileID: 4047224621883836}
   - {fileID: 4109764085901570}
   - {fileID: 4597918736601268}
+  - {fileID: 4751814410139822}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -277,6 +296,19 @@ Transform:
   m_Father: {fileID: 4451580354370068}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4751814410139822
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1916672486904676}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: -80, z: 50}
+  m_LocalScale: {x: 3, y: 3, z: 4}
+  m_Children: []
+  m_Father: {fileID: 4451580354370068}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4888915531282520
 Transform:
   m_ObjectHideFlags: 1
@@ -433,6 +465,37 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 8b99702a8338f43d78c47883bf5a7b9f, type: 2}
   - {fileID: 2100000, guid: f52476fa8c30f47039eedb080c007d4e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!23 &23735467340394402
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1916672486904676}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -641,6 +704,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1277284740614346}
   m_Mesh: {fileID: 4300008, guid: f92290b1f5dd7485b9ac02ecc3a23ff3, type: 3}
+--- !u!65 &65268380495033348
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736136658083926}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: -43.111195, y: -104.63886, z: 33.354366}
+  m_Center: {x: 0.5551076, y: 1.8226004, z: 16.67735}
 --- !u!95 &95068439242485702
 Animator:
   serializedVersion: 3
@@ -658,3 +733,25 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!102 &102243069237209338
+TextMesh:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1916672486904676}
+  m_Text: "Name: Sofa\nProperties: \n          Color:  Gray\n          Width:  1m\n
+    \         Height: 1m\n          Depth:  1m"
+  m_OffsetZ: 0
+  m_CharacterSize: 1
+  m_LineSpacing: 1
+  m_Anchor: 0
+  m_Alignment: 0
+  m_TabSize: 4
+  m_FontSize: 0
+  m_FontStyle: 0
+  m_RichText: 1
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278255611

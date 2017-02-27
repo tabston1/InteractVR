@@ -2410,6 +2410,7 @@ GameObject:
   - component: {fileID: 23961757446523160}
   - component: {fileID: 95257424304310806}
   - component: {fileID: 114981377186114220}
+  - component: {fileID: 65396675287920140}
   m_Layer: 0
   m_Name: Desk
   m_TagString: Untagged
@@ -3389,7 +3390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1719370169963734
 GameObject:
   m_ObjectHideFlags: 0
@@ -8297,7 +8298,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1716579550112448}
   m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 800, y: 1000.0002, z: 600.00037}
+  m_LocalPosition: {x: 800, y: 500, z: 500}
   m_LocalScale: {x: 40, y: 40, z: 50.000015}
   m_Children: []
   m_Father: {fileID: 4953456644627542}
@@ -8518,7 +8519,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1516484734744424}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.09, y: -0.12, z: 0}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children:
   - {fileID: 4239643379803736}
@@ -18250,6 +18251,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880160341773234}
   m_Mesh: {fileID: 4300270, guid: 8bd684ff97c214bbe821ed431a126ef6, type: 3}
+--- !u!65 &65396675287920140
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1516484734744424}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 829.11035, y: -704.5264, z: 595.06665}
+  m_Center: {x: -44.615555, y: 364.32834, z: 216.59467}
 --- !u!95 &95257424304310806
 Animator:
   serializedVersion: 3
