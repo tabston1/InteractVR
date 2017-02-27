@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InstantiateScene : MonoBehaviour {
 
-    WWW www;
+    UnityEngine.WWW www;
 
     /*
     void Start()
@@ -23,15 +23,20 @@ public class InstantiateScene : MonoBehaviour {
        // Instantiate(l);
         if (Application.platform == RuntimePlatform.Android)
         {
-            www = new WWW("https://s3.amazonaws.com/immersacad-storage/demos/mars/5846ce4637518_Android.unity3d");
+            www = UnityEngine.WWW.LoadFromCacheOrDownload("https://s3.amazonaws.com/immersacad-storage/demos/mars/5846cd4637518_Android.unity3d", 0, 0);
             yield return www;
-            Object[] mars;
-            mars = www.assetBundle.LoadAllAssets();
-            foreach(Object n in mars)
-            {
-                Instantiate(n);
-            }
-           // Instantiate(www.assetBundle.LoadAllAssets());
+            Instantiate(www.assetBundle.mainAsset, new Vector3(0, 45, 0), new Quaternion(0, 0, 0, 0));
+            
+            //www = new WWW("https://s3.amazonaws.com/immersacad-storage/demos/mars/5846ce4637518_Android.unity3d");
+            //yield return www;
+            //Object[] mars;
+            //mars = www.assetBundle.LoadAllAssets();
+            //foreach(Object n in mars)
+           // {
+             //   Instantiate(n);
+          //  }
+            
+            // Instantiate(www.assetBundle.LoadAllAssets());
         }
         
     }
