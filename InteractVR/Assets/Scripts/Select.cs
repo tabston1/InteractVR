@@ -34,12 +34,14 @@ public class Select : MonoBehaviour {
     private Vector3 gazeDirection;
     private Quaternion gazeRotation;
     private float lastHitDistance = 15.0f;
+    private float distance;
 
     private GameObject controller;
     private Vector3 controllerOrigin;
     private Vector3 controllerDirection;
     private Quaternion controllerRotation;
-    private Component linePointer;
+
+    private LineRenderer linePointer;
     public float axisSpeed;
 
     // Finds the description child of an object and makes the description appear
@@ -51,8 +53,8 @@ public class Select : MonoBehaviour {
         }
 
         selectedObject = HitInfo.transform.gameObject;
-        //Enable the description for the object
 
+        //Enable the description for the object
         if (selectedObject.tag == "Button") selectedObject.BroadcastMessage("onClick");
         else selectedObject.BroadcastMessage("onSelect");
     }
@@ -120,24 +122,29 @@ public class Select : MonoBehaviour {
     private void OnGazeEnter(GameObject FocusedObject)
     {
         if (FocusedObject.tag == "Button") FocusedObject.GetComponent<Button>().Select();
-        else FocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Self-Illumin/Outlined Diffuse");
+ 
+        lineColor(Color.green, Color.green);        
     }
 
     private void OnGazeLeave(GameObject OldFocusedObject)
     {
         if (OldFocusedObject.tag == "Button") EventSystem.current.SetSelectedGameObject(null);
-        else OldFocusedObject.GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
+
+        lineColor(Color.red, Color.red);        
     }
 
     void Grab()
     {
-        holdingObject = true;   
+        holdingObject = true;
+        distance = Vector3.Distance(controller.transform.position, HitInfo.transform.position);
+        lineColor(Color.blue, Color.blue);
     }
 
     void Drop()
     {
         holdingObject = false;
         canSelect = false;
+        lineColor(Color.green, Color.green);
     }
 
     void GetInputs()
@@ -166,15 +173,10 @@ public class Select : MonoBehaviour {
             {
                 if (!holdingObject) Deselect();
             }
-            holdingObject = false;
+
+            if (holdingObject) Drop();
             canSelect = true;
             timer = 0f;
-        }
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (holdingObject) Drop();
-
         }
 
         // Control the direction the controller faces
@@ -188,7 +190,7 @@ public class Select : MonoBehaviour {
     void updateLine()
     {
         // Updates the laser from the controller
-        LineRenderer linePointer = controller.GetComponent<LineRenderer>();
+        linePointer = controller.GetComponent<LineRenderer>();
 
         var points = new Vector3[2];
 
@@ -200,10 +202,10 @@ public class Select : MonoBehaviour {
         linePointer.SetPositions(points);
     }
 
-    void grab()
+    void lineColor(Color start, Color end)
     {
-        float distance = Vector3.Distance(controller.transform.position, HitInfo.transform.position);
-        HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+        linePointer.startColor = start;
+        linePointer.endColor = end;
     }
 
     // Use this for initialization
@@ -232,7 +234,8 @@ public class Select : MonoBehaviour {
 
         // Grab functionality
         if (!holdingObject) UpdateRaycast();
-        else grab();  
+        else HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+
         //else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
 
         // Get inputs from controller
