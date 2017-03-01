@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 120200703126228892}
   - component: {fileID: 114400241160786192}
   - component: {fileID: 114626471995765178}
+  - component: {fileID: 114805559682577076}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Controller
@@ -123,6 +124,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 0}
+--- !u!114 &114805559682577076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1504899082201814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617a6349145367045984622e9ac8b854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &120200703126228892
 LineRenderer:
   m_ObjectHideFlags: 1
