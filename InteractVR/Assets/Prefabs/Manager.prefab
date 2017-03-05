@@ -55,3 +55,8 @@ MonoBehaviour:
   mode: {fileID: 0}
   menu: {fileID: 0}
   modelMenu: {fileID: 0}
+  syncMenu: {fileID: 0}
+  menuIsActive: 0
+  modelMenuIsActive: 0
+  syncMenuIsActive: 0
+  controllerOffset: {x: 0, y: 0, z: 0}

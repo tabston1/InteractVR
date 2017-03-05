@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour {
 
-    public Canvas menu;
-    private bool isActive;
+    private GameObject manager;
+    private Manager managerScript;
 
-	// Use this for initialization
-	void Start () {
-        isActive = false;
+    private GameObject controller;
+
+    // Use this for initialization
+    void Start () {
+        manager = GameObject.Find("Manager");
+        managerScript = manager.GetComponent<Manager>();
+
+        controller = GameObject.FindGameObjectWithTag("Controller");
     }
 
     // Update is called once per frame
@@ -19,7 +24,24 @@ public class Menu : MonoBehaviour {
 
     void menuButton()
     {
-        menu.gameObject.SetActive(!isActive);
-        isActive = !isActive;
+        if (managerScript.modelMenuIsActive)
+        {
+            managerScript.modelMenu.gameObject.SetActive(false);
+            managerScript.modelMenuIsActive = false;
+        }
+
+        else if (managerScript.syncMenuIsActive)
+        {
+            managerScript.BroadcastMessage("Sync");
+
+            managerScript.syncMenu.gameObject.SetActive(false);
+            managerScript.syncMenuIsActive = false;
+        }
+
+        else
+        {
+            managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
+            managerScript.menuIsActive = !managerScript.menuIsActive;
+        }
     }
 }

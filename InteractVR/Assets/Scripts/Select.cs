@@ -240,7 +240,10 @@ public class Select : MonoBehaviour {
 
         // Get inputs from controller
         GetInputs();
+    }
 
+    void LateUpdate()
+    {
         // Update controller's laser
         updateLine();
     }

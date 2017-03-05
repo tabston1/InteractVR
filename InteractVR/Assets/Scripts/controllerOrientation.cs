@@ -9,10 +9,19 @@ public class controllerOrientation : MonoBehaviour {
     private SerialPort stream;
     private GameObject controller;
 
-	// Use this for initialization
-	void Start () {
+    private GameObject manager;
+    private Manager managerScript;
+
+    private float x;
+    private float y;
+    private float z;
+
+    // Use this for initialization
+    void Start () {
 
         controller = GameObject.Find("Controller");
+        manager = GameObject.Find("Manager");
+        managerScript = manager.GetComponent<Manager>();
 
         stream = new SerialPort("COM6", 115200);
         stream.ReadTimeout = 50;
@@ -26,8 +35,10 @@ public class controllerOrientation : MonoBehaviour {
                 10000f                                 // Timeout (seconds)
             )
         );
+
+
     }
-	
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -73,14 +84,19 @@ public class controllerOrientation : MonoBehaviour {
     void updateController(string s)
     {
         // rotate the controller
-        Debug.Log(s);
-
         string[] orientation = s.Split(' ');
 
-        Quaternion rotation = Quaternion.Euler(Convert.ToSingle(orientation[1]), -Convert.ToSingle(orientation[2]), -Convert.ToSingle(orientation[0]));
+        x = -Convert.ToSingle(orientation[1]) - managerScript.controllerOffset.x;
+        y = -Convert.ToSingle(orientation[2]) - managerScript.controllerOffset.y;
+        z = Convert.ToSingle(orientation[0]) - managerScript.controllerOffset.z;
 
+        Quaternion rotation = Quaternion.Euler(x, y, z);
+
+        Debug.Log("rotation:" + rotation);
+        Debug.Log("offset:" + managerScript.controllerOffset);
+
+        //controller.transform.rotation = rotation * Quaternion.Inverse(managerScript.controllerOffset);
         controller.transform.rotation = rotation;
-        //controller.transform.Rotate(new Vector3(Convert.ToSingle(orientation[0]), Convert.ToSingle(orientation[2]), Convert.ToSingle(orientation[1])));
-        //controller.transform.
+
     }
 }
