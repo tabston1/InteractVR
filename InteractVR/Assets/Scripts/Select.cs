@@ -13,7 +13,7 @@ public class Select : MonoBehaviour {
     private bool holdingObject;
     private bool canSelect;
     private float timer;
-    private const float grabTime = 3f; 
+    private const float grabTime = 1.5f; 
 
     [Tooltip("Maximum gaze distance, in meters, for calculating a hit.")]
     public float MaxGazeDistance = 40.0f;

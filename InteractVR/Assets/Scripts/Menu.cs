@@ -9,6 +9,9 @@ public class Menu : MonoBehaviour {
 
     private GameObject controller;
 
+    private float timer;
+    private const float syncTime = 1.5f;
+
     // Use this for initialization
     void Start () {
         manager = GameObject.Find("Manager");
@@ -19,7 +22,21 @@ public class Menu : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetButtonDown("Submit")) menuButton();
+
+        if (Input.GetButton("Submit"))
+        {
+            timer += Time.deltaTime;
+            if (timer >= syncTime)
+            {
+                Sync();
+            }
+        }
+
+        else if (Input.GetButtonUp("Submit"))
+        {
+            if (timer < syncTime) menuButton();
+            timer = 0f;
+        }
 	}
 
     void menuButton()
@@ -43,5 +60,11 @@ public class Menu : MonoBehaviour {
             managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
             managerScript.menuIsActive = !managerScript.menuIsActive;
         }
+    }
+
+    void Sync()
+    {
+        managerScript.syncMenu.gameObject.SetActive(true);
+        managerScript.syncMenuIsActive = true;
     }
 }
