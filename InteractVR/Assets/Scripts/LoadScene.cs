@@ -3,19 +3,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
+//Loads a scene from a Unity Asset which contains a single object
 public class LoadScene: MonoBehaviour {
     UnityEngine.WWW www;
-    protected List<string> models { get; set; }
-    protected int numModels { get; set; }
+    GameObject[] sceneObjects;
 
-    void Start()
-    {
-        models = new List<string>();
-        addIDs();
-        numModels = 6;
-        StartCoroutine(Loading());
-    }
-
+    /*
     void addIDs()
     {
         models.Add("58b3381e12d47");    //Modern Bed
@@ -25,40 +18,49 @@ public class LoadScene: MonoBehaviour {
         models.Add("58b33a3f36d58");    //Simple Empty House
         models.Add("58b33caa845ad");    //Modern Table
     }
+    */
 
-    IEnumerator Loading()
+    void Start()
+    {
+        loadObject("58b3381e12d47");
+    }
+
+
+    public void loadObject(string buildNo)
+    {
+        StartCoroutine(Loading(buildNo));
+    }
+
+    IEnumerator Loading(string buildNo)
     {
         string asset;
-        int i;
+        Scene newScene;
 
-        for (i = 0; i < numModels; i++)
+        //Wait until the cache is ready to be used
+        while (!UnityEngine.Caching.ready)
         {
-
-            //Wait until the cache is ready to be used
-            while (!UnityEngine.Caching.ready)
-            {
-                yield return null;
-            }
-
-            asset = "https://s3.amazonaws.com/immersacad-storage/demos/utk/" + models[i] + "_Android.unity3d";
-            //Pull the asset bundle from either the cache or the web.
-            www = UnityEngine.WWW.LoadFromCacheOrDownload(asset, 0, 0);
-
-            //Wait for the model to load into the scene before continuing
-            while (!www.isDone)
-            {
-                yield return null;
-            }
-
-            //Instantiates the asset bundle that was downloaded
-            if (www != null)
-            {
-                //Instantiate(www.assetBundle, new Vector3 (0, i, 0), new Quaternion(0,0,0,0));
-                //UnityEngine.AssetBundle bundle = www.assetBundle;
-            }
-
-            //Loads the scene using the Build Number
-            SceneManager.LoadScene(models[i], LoadSceneMode.Additive);
+            yield return null;
         }
+
+        asset = "https://s3.amazonaws.com/immersacad-storage/demos/utk/" + buildNo + "_Android.unity3d";
+
+        //Pull the asset bundle from either the cache or the web.
+        www = UnityEngine.WWW.LoadFromCacheOrDownload(asset, 0, 0);
+
+        //Wait for the model to load into the scene before continuing
+        while (!www.isDone)
+        {
+            yield return null;
+        }
+
+        //Instantiates the asset bundle that was downloaded
+        if (www != null)
+        {
+            //UnityEngine.AssetBundle bundle = www.assetBundle;
+        }
+
+        //Loads the scene using the Build Number
+        SceneManager.LoadScene(buildNo, LoadSceneMode.Additive);
+
     }
 }

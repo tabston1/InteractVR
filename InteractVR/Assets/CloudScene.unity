@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 187372476}
   - component: {fileID: 187372480}
   m_Layer: 5
-  m_Name: Sofa
+  m_Name: 58b339ae52366
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 219680308}
   - component: {fileID: 219680312}
   m_Layer: 5
-  m_Name: ModernBed
+  m_Name: 58b3381e12d47
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,6 +562,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+--- !u!1 &276618970 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1993254377051188, guid: 0136f8e1a797f904cacbea8c3004b767,
+    type: 2}
+  m_PrefabInternal: {fileID: 653697640}
+--- !u!114 &276618971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276618970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07041685b91ff42418bc396f194a5d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &276618974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276618970}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3762af5815a804242a3b16a7266ae0e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &484903829
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +604,7 @@ GameObject:
   - component: {fileID: 484903831}
   - component: {fileID: 484903835}
   m_Layer: 5
-  m_Name: ModernTable
+  m_Name: 58b33caa845ad
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -718,7 +745,7 @@ GameObject:
   - component: {fileID: 505550851}
   - component: {fileID: 505550855}
   m_Layer: 5
-  m_Name: GlassTable
+  m_Name: 58b338d5eb081
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -898,6 +925,10 @@ Prefab:
       propertyPath: mode
       value: 
       objectReference: {fileID: 1517616462}
+    - target: {fileID: 1993254377051188, guid: 0136f8e1a797f904cacbea8c3004b767, type: 2}
+      propertyPath: m_TagString
+      value: Manager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0136f8e1a797f904cacbea8c3004b767, type: 2}
   m_IsPrefabParent: 0
@@ -1532,7 +1563,7 @@ GameObject:
   - component: {fileID: 1992428159}
   - component: {fileID: 1992428163}
   m_Layer: 5
-  m_Name: Desk
+  m_Name: 58b33868081ef
   m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1780,7 +1811,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2109713968}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3762af5815a804242a3b16a7266ae0e4, type: 3}
   m_Name: 
