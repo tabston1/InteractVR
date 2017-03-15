@@ -9,9 +9,8 @@ public class InstantiateObject : MonoBehaviour {
     Dictionary<string, GameObject> Objects;
     UnityEngine.WWW www;
     GameObject[] sceneObjects;
-    private GameObject newObj;
-    private GameObject Camera;
-
+    private GameObject newObj { get; set; }
+    private GameObject Camera { get; set; }
 
     void Awake()
     {
@@ -79,7 +78,8 @@ public class InstantiateObject : MonoBehaviour {
         Objects.Add(buildNo, newObj);
         newObj.SetActive(true);
         newObj.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
-
+        AddCollider(newObj);
+        addShader(newObj);
 
     }
 
@@ -97,17 +97,70 @@ public class InstantiateObject : MonoBehaviour {
             current = (GameObject)Objects[buildNo];
             current = Instantiate(current);
             current.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
-            Debug.Log("Grabbing from Dictionary");
-
+            AddCollider(current);
+            addShader(current);
         }
 
         //Else load the scene with the object in it, remove the object from the scene and add it to the dictionary
         else
         {
             loadObject(buildNo);
-
         }
 
     }
 
+    //Removes colliders from the child objects making up the object and adds just one to the parent object
+    public void AddCollider(GameObject obj)
+    {
+        Mesh objMesh;
+        MeshFilter[] childrenMesh;
+        MeshCollider objMeshCollider;
+        MeshCollider[] children;
+        children = obj.GetComponentsInChildren<MeshCollider>();
+
+        //Adds a single mesh collider to the parent object
+        objMeshCollider = obj.GetComponent<MeshCollider>();
+        if (objMeshCollider == null) {
+            objMeshCollider = obj.AddComponent<MeshCollider>();
+            objMesh = obj.GetComponent<Mesh>();
+            if (objMesh == null)
+            {
+                //Search children of object for a mesh if one is not found on the parent
+                childrenMesh = obj.GetComponentsInChildren<MeshFilter>();
+                objMeshCollider.sharedMesh = childrenMesh[0].mesh;
+               
+            }
+            obj.AddComponent<MeshRenderer>();
+            
+            //Removes mesh colliders from the children of the main object
+            foreach (MeshCollider element in children)
+            {
+                if (element != null)
+                {
+                    Destroy(element);
+                }
+            }
+        }  
+    }
+
+    //Adds a standard shader to all of the components of the Immersafied Object
+    public void addShader(GameObject obj)
+    {
+
+        Renderer[] objRenderers;
+        Material[] objMaterials;
+
+        objRenderers = obj.GetComponentsInChildren<Renderer>();
+
+        foreach(Renderer element in objRenderers)
+        {
+            objMaterials = element.materials;
+            foreach(Material mat in objMaterials)
+            {
+                mat.shader = Shader.Find("Standard");
+            }
+        }
+
+
+    }
 }

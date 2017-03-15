@@ -8,6 +8,7 @@ TagManager:
   - Controller
   - Button
   - Manager
+  - Billboard
   layers:
   - Default
   - TransparentFX
