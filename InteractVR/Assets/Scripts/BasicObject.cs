@@ -13,5 +13,7 @@ public class BasicObject : MonoBehaviour {
     {
         Transform child = this.transform.FindChild("Description");
         child.gameObject.SetActive(true);
+        child = child.transform.FindChild("Text");
+        child.gameObject.SetActive(true);
     }
 }

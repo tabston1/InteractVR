@@ -14,7 +14,7 @@ public class controllerOrientation : MonoBehaviour {
 
         controller = GameObject.Find("Controller");
 
-        stream = new SerialPort("COM6", 115200);
+        stream = new SerialPort("COM5", 115200);
         stream.ReadTimeout = 50;
         stream.Open();
 
