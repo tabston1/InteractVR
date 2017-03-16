@@ -75,11 +75,10 @@ public class InstantiateObject : MonoBehaviour {
         }
 
         //Add it to the dictionary for future uses and make the object visible to the user.
-        Objects.Add(buildNo, newObj);
+        Objects.Add(buildNo, Instantiate(newObj));
         newObj.SetActive(true);
         newObj.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
-        AddCollider(newObj);
-        addShader(newObj);
+        attachComponents(newObj);
 
     }
 
@@ -97,8 +96,9 @@ public class InstantiateObject : MonoBehaviour {
             current = (GameObject)Objects[buildNo];
             current = Instantiate(current);
             current.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
-            AddCollider(current);
-            addShader(current);
+            current.SetActive(true);
+            attachComponents(current);
+           
         }
 
         //Else load the scene with the object in it, remove the object from the scene and add it to the dictionary
@@ -107,6 +107,13 @@ public class InstantiateObject : MonoBehaviour {
             loadObject(buildNo);
         }
 
+    }
+
+    public void attachComponents(GameObject obj)
+    {
+        AddCollider(obj);
+        addShader(obj);
+        addBillboard(obj);
     }
 
     //Removes colliders from the child objects making up the object and adds just one to the parent object
@@ -146,7 +153,6 @@ public class InstantiateObject : MonoBehaviour {
     //Adds a standard shader to all of the components of the Immersafied Object
     public void addShader(GameObject obj)
     {
-
         Renderer[] objRenderers;
         Material[] objMaterials;
 
@@ -160,7 +166,22 @@ public class InstantiateObject : MonoBehaviour {
                 mat.shader = Shader.Find("Standard");
             }
         }
+    }
 
+    //Adds the generic billboard as a child of each of the Immersafied Objects
+    public void addBillboard(GameObject obj)
+    {
+        GameObject Billboard;
+        GameObject newBillboard;
+
+        Billboard = (GameObject)Resources.Load("Prefabs/Billboard");
+        newBillboard = Instantiate(Billboard);
+        newBillboard.SetActive(false);
+        newBillboard.transform.SetParent(obj.transform);
+        newBillboard.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + 2, obj.transform.position.z);
+
+        //Add the script for showing the billboard
+        obj.AddComponent(typeof(ShowBillboard));
 
     }
 }

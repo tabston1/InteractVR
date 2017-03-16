@@ -6,14 +6,12 @@ public class BillboardExit : MonoBehaviour
 {
 
     private GameObject parent;
-
-
     void onClick()
     {
         parent = this.transform.parent.gameObject;
         if (parent != null)
         {
-            Destroy(parent);
+            parent.SetActive(false);
         }
 
     }
