@@ -9,7 +9,8 @@ namespace RuntimeGizmos
 	public class TransformGizmo : MonoBehaviour
 	{
 		//get the controller's selection script for laser information
-		public GameObject controller;
+		//public GameObject controller;
+		public Select select;
 
 		public TransformSpace space = TransformSpace.Global;
 		public TransformType type = TransformType.Move;
@@ -31,7 +32,9 @@ namespace RuntimeGizmos
 		float boxSize = .01f;
 		int circleDetail = 40;
 		float minSelectedDistanceCheck = .04f;
-		float moveSpeedMultiplier = 1f;
+		float laserHighlightDistanceCheck = 1.5f;
+		float moveSpeedMultiplier = 0.5f;
+		//float moveSpeedMultiplier = 1f;		Original
 		float scaleSpeedMultiplier = 1f;
 		float rotateSpeedMultiplier = 200f;
 		float allRotateSpeedMultiplier = 20f;
@@ -57,7 +60,8 @@ namespace RuntimeGizmos
 			myCamera = GetComponent<Camera> ();
 
 			//grab the controller from the scene
-			controller = GameObject.FindGameObjectsWithTag ("Controller") [0];
+			//controller = GameObject.FindGameObjectsWithTag ("Controller") [0];
+			select = (GameObject.FindGameObjectsWithTag ("Controller") [0]).GetComponent<Select> ();
 
 			SetMaterial ();
 		}
@@ -67,6 +71,13 @@ namespace RuntimeGizmos
 			SetSpaceAndType ();
 			SelectAxis ();
 			GetTarget ();
+
+			/*
+			if (selectedAxis != Axis.None) {
+				select.lineColor (Color.green, Color.green);
+			}
+			*/
+
 			if (target == null)
 				return;
 			
@@ -83,6 +94,8 @@ namespace RuntimeGizmos
 			SetLines ();
 		}
 
+		//void OnPostRender ()
+		//void OnRenderObject ()
 		void OnPostRender ()
 		{
 			if (target == null)
@@ -147,7 +160,9 @@ namespace RuntimeGizmos
 
 		void TransformSelected ()
 		{
-			if (selectedAxis != Axis.None && Input.GetMouseButtonDown (0)) {
+			//if (selectedAxis != Axis.None && Input.GetMouseButtonDown (0)) {
+			if (selectedAxis != Axis.None && Input.GetButtonDown ("Jump")) {
+				Debug.Log ("Trying to start TransformSelected coroutine");
 				StartCoroutine (TransformSelected (type));
 			}
 		}
@@ -164,8 +179,11 @@ namespace RuntimeGizmos
 			Vector3 projectedAxis = Vector3.ProjectOnPlane (axis, planeNormal).normalized;
 			Vector3 previousMousePosition = Vector3.zero;
 
-			while (!Input.GetMouseButtonUp (0)) {
-				Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+			//while (!Input.GetMouseButtonUp (0)) {
+			while (!Input.GetButtonUp ("Jump")) {
+				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
+
 				Vector3 mousePosition = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, originalTargetPosition, planeNormal);
 
 				if (previousMousePosition != Vector3.zero && mousePosition != Vector3.zero) {
@@ -230,6 +248,17 @@ namespace RuntimeGizmos
 
 		void GetTarget ()
 		{
+			if (selectedAxis == Axis.None && Input.GetButtonDown ("Jump")) {
+				//check if the controller laser is hitting anything
+				if (select.Hit) {
+					//if so, use the HitInfo to grab the transform of the object being selected
+					target = select.HitInfo.transform;
+					Debug.Log ("Object hit: " + select.HitInfo.transform.name);
+				} else {
+					target = null;
+				}
+			}
+			/*
 			if (selectedAxis == Axis.None && Input.GetMouseButtonDown (0)) {
 				RaycastHit hitInfo; 
 				if (Physics.Raycast (myCamera.ScreenPointToRay (Input.mousePosition), out hitInfo)) {
@@ -238,13 +267,91 @@ namespace RuntimeGizmos
 					target = null;
 				}
 			}
+			*/
 		}
 
 		AxisVectors selectedLinesBuffer = new AxisVectors ();
 
 		void SelectAxis ()
 		{
-			if (!Input.GetMouseButtonDown (0))
+			if (!Input.GetButtonDown ("Jump"))
+				return;
+
+			if (Input.GetButtonDown ("Jump"))
+				selectedAxis = Axis.None;
+
+			float xClosestDistance = float.MaxValue;
+			float yClosestDistance = float.MaxValue;
+			float zClosestDistance = float.MaxValue;
+			float allClosestDistance = float.MaxValue;
+			float minSelectedDistanceCheck = this.minSelectedDistanceCheck * GetDistanceMultiplier ();
+
+			Debug.Log ("Max float: " + float.MaxValue);
+
+			if (type == TransformType.Move || type == TransformType.Scale) {
+				selectedLinesBuffer.Clear ();
+				selectedLinesBuffer.Add (handleLines);
+				if (type == TransformType.Move)
+					selectedLinesBuffer.Add (handleTriangles);
+				else if (type == TransformType.Scale)
+					selectedLinesBuffer.Add (handleSquares);
+
+				xClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.x);
+				yClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.y);
+				zClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.z);
+				allClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.all);
+			} else if (type == TransformType.Rotate) {
+				xClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.x);
+				yClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.y);
+				zClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.z);
+				allClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.all);
+			}
+
+			if (type == TransformType.Scale && allClosestDistance <= minSelectedDistanceCheck) {
+				if (Input.GetButtonDown ("Jump"))
+					selectedAxis = Axis.Any;
+			} else if (xClosestDistance <= minSelectedDistanceCheck && xClosestDistance <= yClosestDistance && xClosestDistance <= zClosestDistance) {
+				if (Input.GetButtonDown ("Jump"))
+					selectedAxis = Axis.X;
+			} else if (yClosestDistance <= minSelectedDistanceCheck && yClosestDistance <= xClosestDistance && yClosestDistance <= zClosestDistance) {
+				if (Input.GetButtonDown ("Jump"))
+					selectedAxis = Axis.Y;
+			} else if (zClosestDistance <= minSelectedDistanceCheck && zClosestDistance <= xClosestDistance && zClosestDistance <= yClosestDistance) {
+				if (Input.GetButtonDown ("Jump"))
+					selectedAxis = Axis.Z;
+			} else if (type == TransformType.Rotate && target != null) {
+				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
+
+				Vector3 mousePlaneHit = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, target.position, (transform.position - target.position).normalized);
+				if ((target.position - mousePlaneHit).sqrMagnitude <= (handleLength * GetDistanceMultiplier ()).Squared ()) {
+					if (Input.GetButtonDown ("Jump"))
+						selectedAxis = Axis.Any;
+				}
+			}
+
+			/*
+			//change the laser pointer color if it is close enough to a selectable gizmo handle
+			if (allClosestDistance <= laserHighlightDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+				Debug.Log ("Within range (allClosestDistance)! Distance: " + allClosestDistance);
+			} else if (xClosestDistance <= laserHighlightDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+				Debug.Log ("Within range (xClosestDistance)! Distance: " + xClosestDistance);
+			} else if (yClosestDistance <= laserHighlightDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+				Debug.Log ("Within range (yClosestDistance)! Distance: " + yClosestDistance);
+			} else if (zClosestDistance <= laserHighlightDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+				Debug.Log ("Within range (zClosestDistance)! Distance: " + zClosestDistance);
+			} else {
+				Debug.Log ("Not within range! all: " + allClosestDistance + ", x: " + xClosestDistance + ", y: " + yClosestDistance + ", z: " + zClosestDistance);
+			}
+			*/
+
+			/*
+			//if (!Input.GetMouseButtonDown (0))
+			if (!Input.GetButtonDown ("Jump"))
 				return;
 			selectedAxis = Axis.None;
 
@@ -282,16 +389,20 @@ namespace RuntimeGizmos
 			else if (zClosestDistance <= minSelectedDistanceCheck && zClosestDistance <= xClosestDistance && zClosestDistance <= yClosestDistance)
 				selectedAxis = Axis.Z;
 			else if (type == TransformType.Rotate && target != null) {
-				Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
+
 				Vector3 mousePlaneHit = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, target.position, (transform.position - target.position).normalized);
 				if ((target.position - mousePlaneHit).sqrMagnitude <= (handleLength * GetDistanceMultiplier ()).Squared ())
 					selectedAxis = Axis.Any;
 			}
+			*/
 		}
 
 		float ClosestDistanceFromMouseToLines (List<Vector3> lines)
 		{
-			Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+			//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+			Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
 			float closestDistance = float.MaxValue;
 			for (int i = 0; i < lines.Count; i += 2) {
@@ -301,6 +412,13 @@ namespace RuntimeGizmos
 					closestDistance = distance;
 				}
 			}
+
+			if (closestDistance <= laserHighlightDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+				Debug.Log ("In range, closestDistance: " + closestDistance);
+			} else
+				Debug.Log ("Not in range, closestDistance: " + closestDistance);
+
 			return closestDistance;
 		}
 
