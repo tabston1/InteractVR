@@ -68,9 +68,10 @@ namespace RuntimeGizmos
 
 		void Update ()
 		{
-			SetSpaceAndType ();
+			//SetSpaceAndType ();
 			SelectAxis ();
-			GetTarget ();
+			//GetTarget ();
+
 
 			/*
 			if (selectedAxis != Axis.None) {
@@ -93,8 +94,7 @@ namespace RuntimeGizmos
 			SetAxisInfo ();
 			SetLines ();
 		}
-
-		//void OnPostRender ()
+			
 		//void OnRenderObject ()
 		void OnPostRender ()
 		{
@@ -138,14 +138,28 @@ namespace RuntimeGizmos
 			DrawCircles (rotationAxisVector.all, allColor);
 		}
 
-		void SetSpaceAndType ()
+		public void SetType (String typeString)
 		{
+			if (String.Equals (typeString, "Translate"))
+				type = TransformType.Move;
+			else if (String.Equals (typeString, "Rotate"))
+				type = TransformType.Rotate;
+			else if (String.Equals (typeString, "Scale"))
+				type = TransformType.Scale;
+			else
+				Debug.Log ("Invalid transformation type. typeString: " + typeString);
+
+
+			Debug.Log ("Current transform type: " + type);
+
+			/*
 			if (Input.GetKeyDown (SetMoveType))
 				type = TransformType.Move;
 			else if (Input.GetKeyDown (SetRotateType))
 				type = TransformType.Rotate;
 			else if (Input.GetKeyDown (SetScaleType))
 				type = TransformType.Scale;
+			*/
 
 			if (Input.GetKeyDown (SetSpaceToggle)) {
 				if (space == TransformSpace.Global)
@@ -258,6 +272,7 @@ namespace RuntimeGizmos
 					target = null;
 				}
 			}
+
 			/*
 			if (selectedAxis == Axis.None && Input.GetMouseButtonDown (0)) {
 				RaycastHit hitInfo; 
@@ -269,6 +284,13 @@ namespace RuntimeGizmos
 			}
 			*/
 		}
+
+
+		public void SetTarget (Transform newTarget)
+		{
+			target = newTarget;
+		}
+
 
 		AxisVectors selectedLinesBuffer = new AxisVectors ();
 
@@ -286,7 +308,7 @@ namespace RuntimeGizmos
 			float allClosestDistance = float.MaxValue;
 			float minSelectedDistanceCheck = this.minSelectedDistanceCheck * GetDistanceMultiplier ();
 
-			Debug.Log ("Max float: " + float.MaxValue);
+			//Debug.Log ("Max float: " + float.MaxValue);
 
 			if (type == TransformType.Move || type == TransformType.Scale) {
 				selectedLinesBuffer.Clear ();
@@ -415,9 +437,10 @@ namespace RuntimeGizmos
 
 			if (closestDistance <= laserHighlightDistanceCheck) {
 				select.lineColor (Color.yellow, Color.yellow);
-				Debug.Log ("In range, closestDistance: " + closestDistance);
-			} else
-				Debug.Log ("Not in range, closestDistance: " + closestDistance);
+				//Debug.Log ("In range, closestDistance: " + closestDistance);
+			} else {
+				//Debug.Log ("Not in range, closestDistance: " + closestDistance);
+			}
 
 			return closestDistance;
 		}

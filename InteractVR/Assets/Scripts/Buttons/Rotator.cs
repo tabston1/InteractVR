@@ -1,11 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RuntimeGizmos;
 
-public class Rotator : MonoBehaviour {
+public class Rotator : MonoBehaviour
+{
 
-    void onClick()
-    {
+	void onClick ()
+	{
+		enableRotateTool ();
+	}
 
-    }
+	void enableRotateTool ()
+	{
+		var leftCameraScript = GameObject.Find ("Main Camera Left").GetComponent<TransformGizmo> ();
+		var rightCameraScript = GameObject.Find ("Main Camera Right").GetComponent<TransformGizmo> ();
+
+		if (leftCameraScript == null || rightCameraScript == null) {
+			Debug.Log ("Couldn't find one of the TransformGizmos scripts on a camera --> BillboardExit/disableTransformTool()");
+			return;
+		}
+
+		//enable the TransformGizmo script on both the left and right Main Cameras
+		//leftCameraScript.enabled = true;
+		//rightCameraScript.enabled = true;
+
+		//enable the Rotation tool specifically within the TransformGizmo script
+		leftCameraScript.SetType ("Rotate");
+		rightCameraScript.SetType ("Rotate");
+	}
+
+
 }
