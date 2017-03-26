@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-
+	public static bool activeTransformGizmo = false;
 	public bool authoring;
 	public UnityEngine.UI.Text mode;
 

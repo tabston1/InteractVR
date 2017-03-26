@@ -135,6 +135,10 @@ public class Select : MonoBehaviour
 
 	void Grab ()
 	{
+		//Disable Grab functionality if any tool from the Transform Gizmo is currently active
+		if (Manager.activeTransformGizmo)
+			return;
+
 		holdingObject = true;
 		distance = Vector3.Distance (controller.transform.position, HitInfo.transform.position);
 		lineColor (Color.blue, Color.blue);

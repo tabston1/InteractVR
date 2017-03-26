@@ -9,7 +9,6 @@ namespace RuntimeGizmos
 	public class TransformGizmo : MonoBehaviour
 	{
 		//get the controller's selection script for laser information
-		//public GameObject controller;
 		public Select select;
 
 		public TransformSpace space = TransformSpace.Global;
@@ -34,8 +33,7 @@ namespace RuntimeGizmos
 		float minSelectedDistanceCheck = .04f;
 		float laserHighlightDistanceCheck = 1.5f;
 		float moveSpeedMultiplier = 0.5f;
-		//float moveSpeedMultiplier = 1f;		Original
-		float scaleSpeedMultiplier = 1f;
+		float scaleSpeedMultiplier = 0.5f;
 		float rotateSpeedMultiplier = 200f;
 		float allRotateSpeedMultiplier = 20f;
 
@@ -68,8 +66,11 @@ namespace RuntimeGizmos
 
 		void Update ()
 		{
+			if (!Manager.activeTransformGizmo)
+				return;
+
 			//SetSpaceAndType ();
-			SelectAxis ();
+			//SelectAxis ();
 			//GetTarget ();
 
 
@@ -81,6 +82,8 @@ namespace RuntimeGizmos
 
 			if (target == null)
 				return;
+
+			SelectAxis ();
 			
 			TransformSelected ();
 		}
@@ -176,7 +179,6 @@ namespace RuntimeGizmos
 		{
 			//if (selectedAxis != Axis.None && Input.GetMouseButtonDown (0)) {
 			if (selectedAxis != Axis.None && Input.GetButtonDown ("Jump")) {
-				Debug.Log ("Trying to start TransformSelected coroutine");
 				StartCoroutine (TransformSelected (type));
 			}
 		}
@@ -296,8 +298,8 @@ namespace RuntimeGizmos
 
 		void SelectAxis ()
 		{
-			if (!Input.GetButtonDown ("Jump"))
-				return;
+			//if (!Input.GetButtonDown ("Jump"))
+			//	return;
 
 			if (Input.GetButtonDown ("Jump"))
 				selectedAxis = Axis.None;
@@ -308,7 +310,6 @@ namespace RuntimeGizmos
 			float allClosestDistance = float.MaxValue;
 			float minSelectedDistanceCheck = this.minSelectedDistanceCheck * GetDistanceMultiplier ();
 
-			//Debug.Log ("Max float: " + float.MaxValue);
 
 			if (type == TransformType.Move || type == TransformType.Scale) {
 				selectedLinesBuffer.Clear ();
@@ -328,6 +329,20 @@ namespace RuntimeGizmos
 				zClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.z);
 				allClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.all);
 			}
+
+
+			float smallest = Math.Min (Math.Min (Math.Min (xClosestDistance, yClosestDistance), zClosestDistance), allClosestDistance);
+
+			if (smallest <= minSelectedDistanceCheck) {
+				select.lineColor (Color.yellow, Color.yellow);
+			} else {
+				select.lineColor (Color.red, Color.red);
+			}
+
+			if (!Input.GetButtonDown ("Jump"))
+				return;
+
+
 
 			if (type == TransformType.Scale && allClosestDistance <= minSelectedDistanceCheck) {
 				if (Input.GetButtonDown ("Jump"))
@@ -351,74 +366,6 @@ namespace RuntimeGizmos
 						selectedAxis = Axis.Any;
 				}
 			}
-
-			/*
-			//change the laser pointer color if it is close enough to a selectable gizmo handle
-			if (allClosestDistance <= laserHighlightDistanceCheck) {
-				select.lineColor (Color.yellow, Color.yellow);
-				Debug.Log ("Within range (allClosestDistance)! Distance: " + allClosestDistance);
-			} else if (xClosestDistance <= laserHighlightDistanceCheck) {
-				select.lineColor (Color.yellow, Color.yellow);
-				Debug.Log ("Within range (xClosestDistance)! Distance: " + xClosestDistance);
-			} else if (yClosestDistance <= laserHighlightDistanceCheck) {
-				select.lineColor (Color.yellow, Color.yellow);
-				Debug.Log ("Within range (yClosestDistance)! Distance: " + yClosestDistance);
-			} else if (zClosestDistance <= laserHighlightDistanceCheck) {
-				select.lineColor (Color.yellow, Color.yellow);
-				Debug.Log ("Within range (zClosestDistance)! Distance: " + zClosestDistance);
-			} else {
-				Debug.Log ("Not within range! all: " + allClosestDistance + ", x: " + xClosestDistance + ", y: " + yClosestDistance + ", z: " + zClosestDistance);
-			}
-			*/
-
-			/*
-			//if (!Input.GetMouseButtonDown (0))
-			if (!Input.GetButtonDown ("Jump"))
-				return;
-			selectedAxis = Axis.None;
-
-			float xClosestDistance = float.MaxValue;
-			float yClosestDistance = float.MaxValue;
-			float zClosestDistance = float.MaxValue;
-			float allClosestDistance = float.MaxValue;
-			float minSelectedDistanceCheck = this.minSelectedDistanceCheck * GetDistanceMultiplier ();
-
-			if (type == TransformType.Move || type == TransformType.Scale) {
-				selectedLinesBuffer.Clear ();
-				selectedLinesBuffer.Add (handleLines);
-				if (type == TransformType.Move)
-					selectedLinesBuffer.Add (handleTriangles);
-				else if (type == TransformType.Scale)
-					selectedLinesBuffer.Add (handleSquares);
-
-				xClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.x);
-				yClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.y);
-				zClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.z);
-				allClosestDistance = ClosestDistanceFromMouseToLines (selectedLinesBuffer.all);
-			} else if (type == TransformType.Rotate) {
-				xClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.x);
-				yClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.y);
-				zClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.z);
-				allClosestDistance = ClosestDistanceFromMouseToLines (circlesLines.all);
-			}
-
-			if (type == TransformType.Scale && allClosestDistance <= minSelectedDistanceCheck)
-				selectedAxis = Axis.Any;
-			else if (xClosestDistance <= minSelectedDistanceCheck && xClosestDistance <= yClosestDistance && xClosestDistance <= zClosestDistance)
-				selectedAxis = Axis.X;
-			else if (yClosestDistance <= minSelectedDistanceCheck && yClosestDistance <= xClosestDistance && yClosestDistance <= zClosestDistance)
-				selectedAxis = Axis.Y;
-			else if (zClosestDistance <= minSelectedDistanceCheck && zClosestDistance <= xClosestDistance && zClosestDistance <= yClosestDistance)
-				selectedAxis = Axis.Z;
-			else if (type == TransformType.Rotate && target != null) {
-				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
-				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
-
-				Vector3 mousePlaneHit = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, target.position, (transform.position - target.position).normalized);
-				if ((target.position - mousePlaneHit).sqrMagnitude <= (handleLength * GetDistanceMultiplier ()).Squared ())
-					selectedAxis = Axis.Any;
-			}
-			*/
 		}
 
 		float ClosestDistanceFromMouseToLines (List<Vector3> lines)
@@ -433,13 +380,6 @@ namespace RuntimeGizmos
 				if (distance < closestDistance) {
 					closestDistance = distance;
 				}
-			}
-
-			if (closestDistance <= laserHighlightDistanceCheck) {
-				select.lineColor (Color.yellow, Color.yellow);
-				//Debug.Log ("In range, closestDistance: " + closestDistance);
-			} else {
-				//Debug.Log ("Not in range, closestDistance: " + closestDistance);
 			}
 
 			return closestDistance;
