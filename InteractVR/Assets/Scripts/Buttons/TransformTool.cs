@@ -22,13 +22,15 @@ public abstract class TransformTool : MonoBehaviour
 		get { return _active; }
 		set {
 			_active = value;
-			Manager.activeTransformGizmo = value;
 
 			if (_active) {
-				//Debug.Log ("Activating a transformation tool");
+				if (Manager.activeTransformGizmo)
+					Debug.Log ("Activating a transformation tool, but the Manager says a tool is already active!");
 			} else {
 				//Debug.Log ("Deactivating a transformation tool");
 			}
+
+			Manager.activeTransformGizmo = value;
 		}
 	}
 
@@ -47,7 +49,11 @@ public abstract class TransformTool : MonoBehaviour
 	{
 		//Ensure we have a reference to the object before enabling the tool
 		if (obj != null) {
-			enableTool ();
+			//Enable the tool, but disable it instead if the user clicks the button again while it is already enabled
+			if (!Active)
+				enableTool ();
+			else
+				disableTool ();
 		} else {
 			Debug.Log ("No reference to the object being transformed. Did not enable the Transform Gizmo.");
 		}
@@ -59,8 +65,8 @@ public abstract class TransformTool : MonoBehaviour
 		if (gizmoScript == null)
 			return;
 
-		//Ensure no other tool is enabled already
-		Billboard.BroadcastMessage ("disableTool");
+		//Ensure no other tool is enabled already (even on a different billboard)
+		Manager.disableAllTransformTools ();
 
 		Active = true;
 
