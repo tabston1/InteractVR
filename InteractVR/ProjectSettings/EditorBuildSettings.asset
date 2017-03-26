@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Dakota2.unity
   - enabled: 1
     path: Assets/CloudScene.unity
+  - enabled: 1
+    path: Assets/Robby2.unity
