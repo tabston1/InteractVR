@@ -30,7 +30,7 @@ public class BillboardExit : MonoBehaviour
 	void OnDisable ()
 	{
 		if (billboard != null) {
-			Debug.Log ("BillboardExit: Disabling object: " + billboard.name);
+			//Debug.Log ("BillboardExit: Disabling object: " + billboard.name);
 			billboard.BroadcastMessage ("disableTool");
 		}
 	}

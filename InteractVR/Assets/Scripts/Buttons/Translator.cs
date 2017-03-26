@@ -11,7 +11,6 @@ public class Translator : TransformTool
 	{
 		base.enableTool ();
 
-		leftCameraScript.SetType ("Translate");
-		rightCameraScript.SetType ("Translate");
+		gizmoScript.SetType ("Translate");
 	}
 }

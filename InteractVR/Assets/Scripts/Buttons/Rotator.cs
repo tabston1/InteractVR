@@ -11,7 +11,6 @@ public class Rotator : TransformTool
 	{
 		base.enableTool ();
 
-		leftCameraScript.SetType ("Rotate");
-		rightCameraScript.SetType ("Rotate");
+		gizmoScript.SetType ("Rotate");
 	}
 }

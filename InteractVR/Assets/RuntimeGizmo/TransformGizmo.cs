@@ -49,38 +49,43 @@ namespace RuntimeGizmos
 		Axis selectedAxis = Axis.None;
 		AxisInfo axisInfo;
 		Transform target;
-		Camera myCamera;
+		Camera mainCamera;
+
+		GameObject leftEye;
+		GameObject rightEye;
+		TransformGizmoRenderer leftEyeGizmoScript;
+		TransformGizmoRenderer rightEyeGizmoScript;
 
 		static Material lineMaterial;
 
 		void Awake ()
 		{
-			myCamera = GetComponent<Camera> ();
+			mainCamera = GetComponent<Camera> ();
 
-			//grab the controller from the scene
-			//controller = GameObject.FindGameObjectsWithTag ("Controller") [0];
+			//grab the Select script attached to the Controller object in the scene
 			select = (GameObject.FindGameObjectsWithTag ("Controller") [0]).GetComponent<Select> ();
 
 			SetMaterial ();
 		}
 
+		void Start ()
+		{
+			//Grab a reference to the Left and Right Main Cameras (children of Main Camera object)
+			leftEye = transform.FindChild ("Main Camera Left").gameObject;
+			rightEye = transform.FindChild ("Main Camera Right").gameObject;
+
+			//Add a script to each of the "eye" cameras for rendering the Transformation Gizmo
+			leftEyeGizmoScript = leftEye.AddComponent<TransformGizmoRenderer> () as TransformGizmoRenderer;
+			rightEyeGizmoScript = rightEye.AddComponent<TransformGizmoRenderer> () as TransformGizmoRenderer;
+
+			//Ensure each of those scripts can access this class instance
+			leftEyeGizmoScript.setGizmoReference (this);
+			rightEyeGizmoScript.setGizmoReference (this);
+		}
+
 		void Update ()
 		{
-			if (!Manager.activeTransformGizmo)
-				return;
-
-			//SetSpaceAndType ();
-			//SelectAxis ();
-			//GetTarget ();
-
-
-			/*
-			if (selectedAxis != Axis.None) {
-				select.lineColor (Color.green, Color.green);
-			}
-			*/
-
-			if (target == null)
+			if (!Manager.activeTransformGizmo || target == null)
 				return;
 
 			SelectAxis ();
@@ -98,11 +103,12 @@ namespace RuntimeGizmos
 			SetLines ();
 		}
 			
-		//void OnRenderObject ()
-		void OnPostRender ()
+		//void OnPostRender ()
+		public void RenderGizmo ()
 		{
-			if (target == null)
+			if (target == null) {
 				return;
+			}
 
 			lineMaterial.SetPass (0);
 
@@ -197,7 +203,7 @@ namespace RuntimeGizmos
 
 			//while (!Input.GetMouseButtonUp (0)) {
 			while (!Input.GetButtonUp ("Jump")) {
-				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
 				Vector3 mousePosition = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, originalTargetPosition, planeNormal);
@@ -262,6 +268,8 @@ namespace RuntimeGizmos
 			return Vector3.zero;
 		}
 
+
+		//NOT USED. Replaced with SetTarget
 		void GetTarget ()
 		{
 			if (selectedAxis == Axis.None && Input.GetButtonDown ("Jump")) {
@@ -278,7 +286,7 @@ namespace RuntimeGizmos
 			/*
 			if (selectedAxis == Axis.None && Input.GetMouseButtonDown (0)) {
 				RaycastHit hitInfo; 
-				if (Physics.Raycast (myCamera.ScreenPointToRay (Input.mousePosition), out hitInfo)) {
+				if (Physics.Raycast (mainCamera.ScreenPointToRay (Input.mousePosition), out hitInfo)) {
 					target = hitInfo.transform;
 				} else {
 					target = null;
@@ -331,12 +339,13 @@ namespace RuntimeGizmos
 			}
 
 
+			//Change the color of the laser if it is close enough to select a Gizmo handle/axis
 			float smallest = Math.Min (Math.Min (Math.Min (xClosestDistance, yClosestDistance), zClosestDistance), allClosestDistance);
-
 			if (smallest <= minSelectedDistanceCheck) {
 				select.lineColor (Color.yellow, Color.yellow);
 			} else {
-				select.lineColor (Color.red, Color.red);
+				if (!select.Hit)
+					select.lineColor (Color.red, Color.red);
 			}
 
 			if (!Input.GetButtonDown ("Jump"))
@@ -357,7 +366,7 @@ namespace RuntimeGizmos
 				if (Input.GetButtonDown ("Jump"))
 					selectedAxis = Axis.Z;
 			} else if (type == TransformType.Rotate && target != null) {
-				//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+				//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
 				Vector3 mousePlaneHit = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, target.position, (transform.position - target.position).normalized);
@@ -370,7 +379,7 @@ namespace RuntimeGizmos
 
 		float ClosestDistanceFromMouseToLines (List<Vector3> lines)
 		{
-			//Ray mouseRay = myCamera.ScreenPointToRay (Input.mousePosition);
+			//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 			Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
 			float closestDistance = float.MaxValue;
@@ -407,7 +416,7 @@ namespace RuntimeGizmos
 		{
 			if (target == null)
 				return 0f;
-			return Mathf.Max (.01f, Mathf.Abs (ExtVector3.MagnitudeInDirection (target.position - transform.position, myCamera.transform.forward)));
+			return Mathf.Max (.01f, Mathf.Abs (ExtVector3.MagnitudeInDirection (target.position - transform.position, mainCamera.transform.forward)));
 		}
 
 		void SetLines ()

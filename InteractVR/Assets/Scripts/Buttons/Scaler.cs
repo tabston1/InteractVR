@@ -11,7 +11,6 @@ public class Scaler : TransformTool
 	{
 		base.enableTool ();
 
-		leftCameraScript.SetType ("Scale");
-		rightCameraScript.SetType ("Scale");
+		gizmoScript.SetType ("Scale");
 	}
 }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Select : MonoBehaviour
 {
-
+	
 	private GameObject camera;
 	private Transform cameraTrans;
 
