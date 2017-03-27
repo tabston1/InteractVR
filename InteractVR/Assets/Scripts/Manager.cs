@@ -37,6 +37,17 @@ public class Manager : MonoBehaviour {
         controllerOffset = new Vector3();
     }
 
+    /*
+    void Update()
+    {
+        
+        if (Input.GetButton("Fire1")) Debug.Log("Fire1");
+        if (Input.GetButton("Fire2")) Debug.Log("Fire2");
+        if (Input.GetButton("Jump")) Debug.Log("Jump");
+        if (Input.GetButton("Submit")) Debug.Log("Submit");
+        if (Input.GetButton("Cancel")) Debug.Log("Cancel");
+    }
+*/
     void Sync()
     {
         //controllerOffset = controllerOffset * controller.transform.rotation;

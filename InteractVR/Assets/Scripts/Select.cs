@@ -179,12 +179,14 @@ public class Select : MonoBehaviour {
             timer = 0f;
         }
 
-        // Control the direction the controller faces
-        var xRotation = Input.GetAxis("Vertical") * axisSpeed;
-        var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
+        // TODO: use arrow keys to control the controller
 
-        transform.Rotate(xRotation, yRotation, 0);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+        // Control the direction the controller faces
+        //var xRotation = Input.GetAxis("Vertical") * axisSpeed;
+        //var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
+
+        //transform.Rotate(xRotation, yRotation, 0);
+        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
     }
 
     void updateLine()

@@ -23,7 +23,7 @@ public class controllerOrientation : MonoBehaviour {
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
 
-        stream = new SerialPort("COM8", 115200);
+        stream = new SerialPort("COM1", 9600);
         stream.ReadTimeout = 50;
         stream.Open();
 
@@ -86,28 +86,29 @@ public class controllerOrientation : MonoBehaviour {
         // rotate the controller
         string[] orientation = s.Split(' ');
 
+        //Debug.Log(s);
+
         try
         {
             x = -Convert.ToSingle(orientation[1]) - managerScript.controllerOffset.x;
             y = -Convert.ToSingle(orientation[2]) - managerScript.controllerOffset.y;
             z = Convert.ToSingle(orientation[0]) - managerScript.controllerOffset.z;
 
+            Quaternion rotation = Quaternion.Euler(x, y, z);
+
+            //controller.transform.rotation = rotation * Quaternion.Inverse(managerScript.controllerOffset);
+            controller.transform.rotation = rotation;
         }
         catch (IndexOutOfRangeException)
         {
-            Debug.Log(s);
+            Debug.Log(s + "  IndexOutOfRange");
             return;
 
-        }catch (FormatException)
+        }
+        catch (FormatException)
         {
-            Debug.Log(s);
+            Debug.Log(s + "  FormatException");
             return;
         }
-
-        Quaternion rotation = Quaternion.Euler(x, y, z);
-
-        //controller.transform.rotation = rotation * Quaternion.Inverse(managerScript.controllerOffset);
-        controller.transform.rotation = rotation;
-
     }
 }
