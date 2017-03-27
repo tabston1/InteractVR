@@ -12,5 +12,15 @@ public class Rotator : TransformTool
 		base.enableTool ();
 
 		gizmoScript.SetType ("Rotate");
+
+		detachBillboard ();
+	}
+
+	//Enable the Rotation tool specifically from the TransformGizmo script
+	protected override void disableTool ()
+	{
+		base.disableTool ();
+
+		reattachBillboard ();
 	}
 }
