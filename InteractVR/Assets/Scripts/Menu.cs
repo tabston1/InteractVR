@@ -49,8 +49,18 @@ public class Menu : MonoBehaviour {
             managerScript.syncMenu.gameObject.SetActive(false);
             managerScript.syncMenuIsActive = false;
         }
+        else if (managerScript.landingMenuIsActive)
+        {
+            managerScript.landingMenu.gameObject.SetActive(false);
+            managerScript.landingMenuIsActive = false;
+        }
+        else if (managerScript.modelMenuIsActive)
+        {
+            managerScript.modelMenu.gameObject.SetActive(false);
+            managerScript.modelMenuIsActive = false;
+        }
 
-        else if (!managerScript.landingMenuIsActive)
+        else
         {
             managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
             managerScript.menuIsActive = !managerScript.menuIsActive;
