@@ -18,9 +18,11 @@ public class BillboardExit : MonoBehaviour
 
 	void onClick ()
 	{
-		//parent = this.transform.parent.gameObject;
 		if (billboard != null) {
-			//disableTransformTool ();
+			//Disable any active tool
+			billboard.BroadcastMessage ("disableTool");
+
+			//Hide the billboard
 			billboard.SetActive (false);
 		}
 
@@ -29,9 +31,11 @@ public class BillboardExit : MonoBehaviour
 	//Called whenever a particular Billboard is closed or destroyed (if it has this script attached)
 	void OnDisable ()
 	{
+		/*
 		if (billboard != null) {
 			//Debug.Log ("BillboardExit: Disabling object: " + billboard.name);
 			billboard.BroadcastMessage ("disableTool");
 		}
+		*/
 	}
 }

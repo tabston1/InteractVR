@@ -107,17 +107,21 @@ public abstract class TransformTool : MonoBehaviour
 		obj = billboard.parent;
 	}
 
-	//Detach the billboard as a child object
+	//Detach the billboard as a child object (so it will not be affected by rotations/scaling)
 	protected void detachBillboard ()
 	{
-		Vector3 temp = transform.position - transform.localPosition;
-		Billboard.transform.SetParent (null, true);
-		Billboard.transform.position = temp;
+		if (Billboard.transform.parent != null) {
+			Vector3 temp = Billboard.transform.position;
+			Billboard.transform.SetParent (null, true);
+			Billboard.transform.position = temp;
+		}
 	}
 
 	//Reatach the billboard as a child object
 	protected void reattachBillboard ()
 	{
-		Billboard.transform.SetParent (obj, true);
+		if (obj != null && Billboard != null && Billboard.transform.parent == null) {
+			Billboard.transform.SetParent (obj, true);
+		}
 	}
 }
