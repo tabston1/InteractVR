@@ -10,14 +10,17 @@ public class Manager : MonoBehaviour {
     public Canvas menu;
     public Canvas modelMenu;
     public Canvas syncMenu;
+    public Canvas landingMenu;
 
     public bool menuIsActive;
     public bool modelMenuIsActive;
     public bool syncMenuIsActive;
+    public bool landingMenuIsActive;
 
     private GameObject controller;
-   // public Quaternion controllerOffset;
     public Vector3 controllerOffset;
+
+    public GameObject landingController;
 
     // Use this for initialization
     void Start () {
@@ -27,14 +30,17 @@ public class Manager : MonoBehaviour {
         menu.gameObject.SetActive(false);
         modelMenu.gameObject.SetActive(false);
         syncMenu.gameObject.SetActive(false);
+        landingMenu.gameObject.SetActive(true);
 
         menuIsActive = false;
         modelMenuIsActive = false;
         syncMenuIsActive = false;
+        landingMenuIsActive = true;
 
         controller = GameObject.FindGameObjectWithTag("Controller");
-        //controllerOffset = Quaternion.identity;
         controllerOffset = new Vector3();
+
+        landingController.SetActive(true);
     }
 
     /*

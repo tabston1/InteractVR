@@ -41,13 +41,8 @@ public class Menu : MonoBehaviour {
 
     void menuButton()
     {
-        if (managerScript.modelMenuIsActive)
-        {
-            managerScript.modelMenu.gameObject.SetActive(false);
-            managerScript.modelMenuIsActive = false;
-        }
 
-        else if (managerScript.syncMenuIsActive)
+        if (managerScript.syncMenuIsActive)
         {
             managerScript.BroadcastMessage("Sync");
 
@@ -55,7 +50,7 @@ public class Menu : MonoBehaviour {
             managerScript.syncMenuIsActive = false;
         }
 
-        else
+        else if (!managerScript.landingMenuIsActive)
         {
             managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
             managerScript.menuIsActive = !managerScript.menuIsActive;
