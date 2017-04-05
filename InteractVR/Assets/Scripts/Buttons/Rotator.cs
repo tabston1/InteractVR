@@ -12,5 +12,16 @@ public class Rotator : TransformTool
 		base.enableTool ();
 
 		gizmoScript.SetType ("Rotate");
+
+		//Detach the billboard as a child object so it is not rotated with the transform target object
+		detachBillboard ();
+	}
+
+	//Reattach the billboard to the object after the Rotation tool has been disabled
+	protected override void disableTool ()
+	{
+		base.disableTool ();
+
+		reattachBillboard ();
 	}
 }
