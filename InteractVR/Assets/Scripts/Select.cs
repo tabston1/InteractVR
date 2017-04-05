@@ -44,6 +44,9 @@ public class Select : MonoBehaviour {
     private LineRenderer linePointer;
     public float axisSpeed;
 
+    private GameObject manager;
+    private Manager managerScript;
+
     // Finds the description child of an object and makes the description appear
     void OnSelect()
     {
@@ -150,7 +153,7 @@ public class Select : MonoBehaviour {
     void GetInputs()
     {
         //Checks for holding an object
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") || managerScript.select)
         {
             if (Hit)
             {
@@ -163,7 +166,7 @@ public class Select : MonoBehaviour {
         }
 
         //Used to make the information about an object pop up
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Jump") || managerScript.selectUp)
         {
             if (Hit)
             {
@@ -182,11 +185,15 @@ public class Select : MonoBehaviour {
         // TODO: use arrow keys to control the controller
 
         // Control the direction the controller faces
-        //var xRotation = Input.GetAxis("Vertical") * axisSpeed;
-        //var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
+        var xRotation = Input.GetAxis("Vertical") * axisSpeed;
+        var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
 
-        //transform.Rotate(xRotation, yRotation, 0);
-        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+        if (xRotation != 0.0 || yRotation != 0.0)
+        {
+            transform.Rotate(xRotation, yRotation, 0);
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+        }
+
     }
 
     void updateLine()
@@ -221,6 +228,9 @@ public class Select : MonoBehaviour {
         timer = 0f;
         holdingObject = false;
         canSelect = true;
+
+        manager = GameObject.Find("Manager");
+        managerScript = manager.GetComponent<Manager>();
     }
 
     void Update()

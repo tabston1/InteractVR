@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour {
 
+    [HideInInspector]
     public bool authoring;
     public UnityEngine.UI.Text mode;
 
@@ -12,12 +13,32 @@ public class Manager : MonoBehaviour {
     public Canvas syncMenu;
     public Canvas landingMenu;
 
+    [HideInInspector]
     public bool menuIsActive;
+    [HideInInspector]
     public bool modelMenuIsActive;
+    [HideInInspector]
     public bool syncMenuIsActive;
+    [HideInInspector]
     public bool landingMenuIsActive;
 
+    [HideInInspector]
+    public bool fire1;
+    [HideInInspector]
+    public bool fire1Up;
+    [HideInInspector]
+    public bool select;
+    [HideInInspector]
+    public bool selectUp;
+    [HideInInspector]
+    public bool submit;
+    [HideInInspector]
+    public bool submitUp;
+    [HideInInspector]
+
     private GameObject controller;
+
+    [HideInInspector]
     public Vector3 controllerOffset;
 
     public GameObject landingController;
@@ -36,6 +57,13 @@ public class Manager : MonoBehaviour {
         modelMenuIsActive = false;
         syncMenuIsActive = false;
         landingMenuIsActive = true;
+
+        fire1 = false;
+        fire1Up = false;
+        select = false;
+        selectUp = false;
+        submit = false;
+        submitUp = false;
 
         controller = GameObject.FindGameObjectWithTag("Controller");
         controllerOffset = new Vector3();

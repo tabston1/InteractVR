@@ -23,7 +23,7 @@ public class Menu : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (Input.GetButton("Submit"))
+        if (Input.GetButton("Submit") || managerScript.submit)
         {
             timer += Time.deltaTime;
             if (timer >= syncTime)
@@ -32,7 +32,7 @@ public class Menu : MonoBehaviour {
             }
         }
 
-        else if (Input.GetButtonUp("Submit"))
+        else if (Input.GetButtonUp("Submit") || managerScript.submitUp)
         {
             if (timer < syncTime) menuButton();
             timer = 0f;

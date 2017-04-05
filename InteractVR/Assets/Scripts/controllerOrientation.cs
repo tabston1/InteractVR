@@ -16,12 +16,20 @@ public class controllerOrientation : MonoBehaviour {
     private float y;
     private float z;
 
+    private bool submit;
+    private bool fire1;
+    private bool select;
+
     // Use this for initialization
     void Start () {
 
         controller = GameObject.Find("Controller");
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
+
+        submit = false;
+        fire1 = false;
+        select = false;
 
         stream = new SerialPort("COM1", 9600);
         stream.ReadTimeout = 50;
@@ -85,6 +93,7 @@ public class controllerOrientation : MonoBehaviour {
     {
         // rotate the controller
         string[] orientation = s.Split(' ');
+        string buttons;
 
         //Debug.Log(s);
 
@@ -93,11 +102,13 @@ public class controllerOrientation : MonoBehaviour {
             x = -Convert.ToSingle(orientation[1]) - managerScript.controllerOffset.x;
             y = -Convert.ToSingle(orientation[2]) - managerScript.controllerOffset.y;
             z = Convert.ToSingle(orientation[0]) - managerScript.controllerOffset.z;
+            buttons = orientation[3];
 
             Quaternion rotation = Quaternion.Euler(x, y, z);
 
             //controller.transform.rotation = rotation * Quaternion.Inverse(managerScript.controllerOffset);
             controller.transform.rotation = rotation;
+            handleButtons(buttons);
         }
         catch (IndexOutOfRangeException)
         {
@@ -109,6 +120,63 @@ public class controllerOrientation : MonoBehaviour {
         {
             Debug.Log(s + "  FormatException");
             return;
+        }
+    }
+
+    void handleButtons(string buttons)
+    {
+        // Fire1
+        if (buttons[0] == '1')
+        {
+            managerScript.fire1 = true;
+            fire1 = true;
+
+            if (managerScript.fire1Up) managerScript.fire1Up = false;
+        }
+        else
+        {
+            managerScript.fire1 = false;
+
+            if (fire1) managerScript.fire1Up = true;
+            else managerScript.fire1Up = false;
+
+            fire1 = false;
+        }
+
+        // Select
+        if (buttons[1] == '1')
+        {
+            managerScript.select = true;
+            select = true;
+
+            if (managerScript.selectUp) managerScript.selectUp = false;
+        }
+        else
+        {
+            managerScript.select = false;
+
+            if (select) managerScript.selectUp = true;
+            else managerScript.selectUp = false;
+
+            select = false;
+        }
+
+        // Submit
+        if (buttons[2] == '1')
+        {
+            managerScript.submit = true;
+            submit = true;
+
+            if (managerScript.submitUp) managerScript.submitUp = false;
+        }
+        else
+        {
+            managerScript.submit = false;
+
+            if (submit) managerScript.submitUp = true;
+            else managerScript.submitUp = false;
+
+            submit = false;
         }
     }
 }
