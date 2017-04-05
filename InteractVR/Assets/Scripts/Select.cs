@@ -36,10 +36,10 @@ public class Select : MonoBehaviour {
     private float lastHitDistance = 15.0f;
     private float distance;
 
-    private GameObject controller;
-    private Vector3 controllerOrigin;
-    private Vector3 controllerDirection;
-    private Quaternion controllerRotation;
+    public GameObject controller;
+    public Vector3 controllerOrigin;
+    public Vector3 controllerDirection;
+    public Quaternion controllerRotation;
 
     private LineRenderer linePointer;
     public float axisSpeed;
@@ -211,7 +211,7 @@ public class Select : MonoBehaviour {
         linePointer.SetPositions(points);
     }
 
-    void lineColor(Color start, Color end)
+    public void lineColor(Color start, Color end)
     {
         linePointer.startColor = start;
         linePointer.endColor = end;
