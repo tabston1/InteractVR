@@ -126,7 +126,7 @@ public class Select : MonoBehaviour {
     {
         if (FocusedObject.tag == "Button") FocusedObject.GetComponent<Button>().Select();
  
-        lineColor(Color.green, Color.green);        
+        if (FocusedObject.tag != "UI") lineColor(Color.green, Color.green);        
     }
 
     private void OnGazeLeave(GameObject OldFocusedObject)
