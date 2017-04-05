@@ -122,6 +122,7 @@ public class Select : MonoBehaviour
 		if (FocusedObject.tag == "Button")
 			FocusedObject.GetComponent<Button> ().Select ();
  
+
 		lineColor (Color.green, Color.green);        
 	}
 
@@ -249,4 +250,5 @@ public class Select : MonoBehaviour
 		// Update controller's laser
 		updateLine ();
 	}
+
 }
