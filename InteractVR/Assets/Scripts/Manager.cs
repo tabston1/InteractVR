@@ -2,89 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour {
+public class Manager : MonoBehaviour
+{
+	//True if any transformation tool is active on any billboard
+	public static bool activeTransformGizmo = false;
 
-    [HideInInspector]
-    public bool authoring;
-    public UnityEngine.UI.Text mode;
+	//Global reference to the Controller object
+	public static GameObject controller = null;
 
-    public Canvas menu;
-    public Canvas modelMenu;
-    public Canvas syncMenu;
-    public Canvas landingMenu;
 
-    [HideInInspector]
-    public bool menuIsActive;
-    [HideInInspector]
-    public bool modelMenuIsActive;
-    [HideInInspector]
-    public bool syncMenuIsActive;
-    [HideInInspector]
-    public bool landingMenuIsActive;
 
-    [HideInInspector]
-    public bool fire1;
-    [HideInInspector]
-    public bool fire1Up;
-    [HideInInspector]
-    public bool select;
-    [HideInInspector]
-    public bool selectUp;
-    [HideInInspector]
-    public bool submit;
-    [HideInInspector]
-    public bool submitUp;
-    [HideInInspector]
 
-    private GameObject controller;
+	//Global reference to the Controller's Select script (for laser information)
+	public static Select select = null;
 
-    [HideInInspector]
-    public Vector3 controllerOffset;
+  public bool menuIsActive;
+  public bool modelMenuIsActive;
+  public bool syncMenuIsActive;
+	public bool authoring;
+	public UnityEngine.UI.Text mode;
 
-    public GameObject landingController;
+	public Canvas menu;
+	public Canvas modelMenu;
+  public Canvas syncMenu;
+	
 
-    // Use this for initialization
-    void Start () {
-        authoring = false;
-        mode.text = "Current mode: Run-time";
-
-        menu.gameObject.SetActive(false);
-        modelMenu.gameObject.SetActive(false);
-        syncMenu.gameObject.SetActive(false);
-        landingMenu.gameObject.SetActive(true);
-
-        menuIsActive = false;
+   public Vector3 controllerOffset;
+  
+  // Use this for initialization
+	void Start ()
+	{
+   
+        
+       
+    menuIsActive = false;
         modelMenuIsActive = false;
         syncMenuIsActive = false;
-        landingMenuIsActive = true;
 
-        fire1 = false;
-        fire1Up = false;
-        select = false;
-        selectUp = false;
-        submit = false;
-        submitUp = false;
-
-        controller = GameObject.FindGameObjectWithTag("Controller");
-        controllerOffset = new Vector3();
-
-        landingController.SetActive(true);
-    }
-
-    /*
-    void Update()
-    {
         
-        if (Input.GetButton("Fire1")) Debug.Log("Fire1");
-        if (Input.GetButton("Fire2")) Debug.Log("Fire2");
-        if (Input.GetButton("Jump")) Debug.Log("Jump");
-        if (Input.GetButton("Submit")) Debug.Log("Submit");
-        if (Input.GetButton("Cancel")) Debug.Log("Cancel");
-    }
-*/
-    void Sync()
+        
+    
+  
+  
+		authoring = false;
+		mode.text = "Current mode: Run-time";
+
+		menu.gameObject.SetActive (false);
+		modelMenu.gameObject.SetActive (false);
+    syncMenu.gameObject.SetActive(false);
+    controllerOffset = new Vector3();
+
+
+		//Grab the Controller object from the scene
+		controller = GameObject.FindGameObjectWithTag ("Controller");
+		if (controller != null) {
+			//Grab the Select script attached to the Controller object in the scene
+			select = controller.GetComponent<Select> ();
+			if (select == null) {
+				Debug.Log ("Could not grab a reference to the Controller's Select script");
+			}
+		} else
+			Debug.Log ("Could not grab a reference to the Controller object");
+	}
+
+	//Utility function to disable any open Transform Gizmo tool by broadcasting to all open Billboards
+	public static void disableAllTransformTools ()
+	{
+		GameObject[] allBillboards = GameObject.FindGameObjectsWithTag ("Billboard");
+		foreach (GameObject billboard in allBillboards) {
+			billboard.BroadcastMessage ("disableTool");
+		}
+	}
+  
+   void Sync()
     {
         //controllerOffset = controllerOffset * controller.transform.rotation;
         controllerOffset = controllerOffset + controller.transform.rotation.eulerAngles;
     }
+
 }
