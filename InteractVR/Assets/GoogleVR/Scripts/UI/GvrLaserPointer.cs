@@ -14,7 +14,7 @@
 
 // The controller is not available for versions of Unity without the
 // GVR native integration.
-#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)
+//#if UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)
 
 using UnityEngine;
 using System.Collections;
@@ -79,9 +79,11 @@ public class GvrLaserPointer : GvrBasePointer {
       transform.position + (transform.forward * maxLaserDistance);
     lineRenderer.SetPosition(1, lineEndPoint);
 
-    // Adjust transparency
-    float alpha = GvrArmModel.Instance.alphaValue;
-    lineRenderer.SetColors(Color.Lerp(Color.clear, laserColor, alpha), Color.clear);
+        // Adjust transparency
+        float alpha = 0.5f;
+    //lineRenderer.SetColors(Color.Lerp(Color.clear, laserColor, alpha), Color.clear);
+        lineRenderer.startColor = laserColor;
+        lineRenderer.endColor = laserColor;
   }
 
   public override void OnInputModuleEnabled() {
@@ -135,4 +137,4 @@ public class GvrLaserPointer : GvrBasePointer {
   }
 }
 
-#endif  // UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)
+//#endif  // UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)

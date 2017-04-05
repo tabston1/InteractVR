@@ -19,38 +19,41 @@ public class Manager : MonoBehaviour
   public bool menuIsActive;
   public bool modelMenuIsActive;
   public bool syncMenuIsActive;
+    public bool landingMenuIsActive;
+
+    public bool fire1;
+    public bool fire1Up;
+    public bool use;
+    public bool useUp;
+    public bool submit;
+    public bool submitUp;
+
+
 	public bool authoring;
 	public UnityEngine.UI.Text mode;
 
 	public Canvas menu;
 	public Canvas modelMenu;
   public Canvas syncMenu;
+    public Canvas landingMenu;
 	
 
    public Vector3 controllerOffset;
   
   // Use this for initialization
 	void Start ()
-	{
-   
-        
-       
-    menuIsActive = false;
+	{ 
+        menuIsActive = false;
         modelMenuIsActive = false;
         syncMenuIsActive = false;
 
-        
-        
-    
-  
-  
 		authoring = false;
 		mode.text = "Current mode: Run-time";
 
 		menu.gameObject.SetActive (false);
 		modelMenu.gameObject.SetActive (false);
-    syncMenu.gameObject.SetActive(false);
-    controllerOffset = new Vector3();
+        syncMenu.gameObject.SetActive(false);
+        controllerOffset = new Vector3();
 
 
 		//Grab the Controller object from the scene
