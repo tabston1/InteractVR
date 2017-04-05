@@ -23,7 +23,7 @@ public class controllerOrientation : MonoBehaviour {
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
 
-        stream = new SerialPort("COM6", 115200);
+        stream = new SerialPort("COM5", 115200);
         stream.ReadTimeout = 50;
         stream.Open();
 

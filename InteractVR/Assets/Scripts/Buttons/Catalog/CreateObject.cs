@@ -5,14 +5,14 @@ using UnityEngine;
 public class CreateObject : MonoBehaviour
 {
 
-    private GameObject camera;
-    GameObject bed;
+    private GameObject manager;
+    InstantiateObject newObj;
 
     void onClick()
     {
-        camera = GameObject.Find("Main Camera");
-        bed = (GameObject)Instantiate(Resources.Load(this.name));
-        bed.transform.position = camera.transform.position + (5 * camera.transform.forward);
+        manager = GameObject.FindGameObjectWithTag("Manager");
+        newObj = (InstantiateObject)manager.GetComponent(typeof(InstantiateObject));
+        newObj.addObject(this.name);
 
     }
 

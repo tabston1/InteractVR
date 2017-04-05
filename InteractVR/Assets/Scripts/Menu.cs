@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Menu : MonoBehaviour {
+public class Menu : MonoBehaviour
+{
+
 
     private GameObject manager;
     private Manager managerScript;
@@ -17,10 +19,18 @@ public class Menu : MonoBehaviour {
         controller = GameObject.FindGameObjectWithTag("Controller");
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetButtonDown("Submit")) menuButton();
+
+
+
+
+
+	// Update is called once per frame
+	void Update ()
+	{
+		if (Input.GetButtonDown ("Submit"))
+			menuButton ();
 	}
+
 
     void menuButton()
     {
@@ -40,8 +50,17 @@ public class Menu : MonoBehaviour {
 
         else
         {
+            if (!managerScript.menuIsActive) {
+			          //Ensure no other tool is enabled already (even on a different billboard)
+			          Manager.disableAllTransformTools ();
+            }
+    
+            
             managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
             managerScript.menuIsActive = !managerScript.menuIsActive;
         }
     }
+
+
+
 }

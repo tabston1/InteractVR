@@ -4,247 +4,251 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Select : MonoBehaviour {
+public class Select : MonoBehaviour
+{
+	
+	private GameObject camera;
+	private Transform cameraTrans;
 
-    private GameObject camera;
-    private Transform cameraTrans;
+	private GameObject selectedObject;
+	private bool holdingObject;
+	private bool canSelect;
+	private float timer;
+	private const float grabTime = 3f;
 
-    private GameObject selectedObject;
-    private bool holdingObject;
-    private bool canSelect;
-    private float timer;
-    private const float grabTime = 3f; 
+	[Tooltip ("Maximum gaze distance, in meters, for calculating a hit.")]
+	public float MaxGazeDistance = 40.0f;
 
-    [Tooltip("Maximum gaze distance, in meters, for calculating a hit.")]
-    public float MaxGazeDistance = 40.0f;
+	[Tooltip ("Select the layers raycast should target.")]
+	public LayerMask RaycastLayerMask = Physics.DefaultRaycastLayers;
 
-    [Tooltip("Select the layers raycast should target.")]
-    public LayerMask RaycastLayerMask = Physics.DefaultRaycastLayers;
-    public bool Hit { get; private set; }
-    public RaycastHit HitInfo { get; private set; }
+	public bool Hit { get; private set; }
 
-    /// Position of the intersection of the user's gaze and the object in the scene.
-    public Vector3 Position { get; private set; }
+	public RaycastHit HitInfo { get; private set; }
 
-    /// RaycastHit Normal direction.
-    public Vector3 Normal { get; private set; }
-    public GameObject FocusedObject { get; private set; }
+	/// Position of the intersection of the user's gaze and the object in the scene.
+	public Vector3 Position { get; private set; }
 
-    private Vector3 gazeOrigin;
-    private Vector3 gazeDirection;
-    private Quaternion gazeRotation;
-    private float lastHitDistance = 15.0f;
-    private float distance;
+	/// RaycastHit Normal direction.
+	public Vector3 Normal { get; private set; }
 
-    private GameObject controller;
-    private Vector3 controllerOrigin;
-    private Vector3 controllerDirection;
-    private Quaternion controllerRotation;
+	public GameObject FocusedObject { get; private set; }
 
-    private LineRenderer linePointer;
-    public float axisSpeed;
+	private Vector3 gazeOrigin;
+	private Vector3 gazeDirection;
+	private Quaternion gazeRotation;
+	private float lastHitDistance = 15.0f;
+	private float distance;
 
-    // Finds the description child of an object and makes the description appear
-    void OnSelect()
-    {
-        if (selectedObject != null)
-        {
-            Deselect();
-        }
+	public GameObject controller;
+	public Vector3 controllerOrigin;
+	public Vector3 controllerDirection;
+	public Quaternion controllerRotation;
 
-        selectedObject = HitInfo.transform.gameObject;
+	private LineRenderer linePointer;
+	public float axisSpeed;
 
-        //Enable the description for the object
-        if (selectedObject.tag == "Button") selectedObject.BroadcastMessage("onClick");
-        else selectedObject.BroadcastMessage("onSelect");
-    }
+	// Finds the description child of an object and makes the description appear
+	void OnSelect ()
+	{
+		if (selectedObject != null) {
+			Deselect ();
+		}
 
-    //Disables an active description for a child, making it disappear.
-    void Deselect()
-    {
-        if (selectedObject == null) return;
-        foreach (Transform child in selectedObject.transform)
-        {
-            if (child.CompareTag("Description"))
-            {
-                child.gameObject.SetActive(false);
-            }
-        }
-        selectedObject = null;
-    }
+		selectedObject = HitInfo.transform.gameObject;
+
+		//Enable the description for the object
+		if (selectedObject.tag == "Button")
+			selectedObject.BroadcastMessage ("onClick");
+		else
+			selectedObject.BroadcastMessage ("onSelect");
+	}
+
+	//Disables an active description for a child, making it disappear.
+	void Deselect ()
+	{
+		if (selectedObject == null)
+			return;
+		foreach (Transform child in selectedObject.transform) {
+			if (child.CompareTag ("Description")) {
+				child.gameObject.SetActive (false);
+			}
+		}
+		selectedObject = null;
+	}
 
 
-    private void UpdateRaycast()
-    {
-        // Get the raycast hit information from Unity's physics system.
-        RaycastHit hitInfo;
-        GameObject oldFocusedObject = FocusedObject;
+	private void UpdateRaycast ()
+	{
+		// Get the raycast hit information from Unity's physics system.
+		RaycastHit hitInfo;
+		GameObject oldFocusedObject = FocusedObject;
 
-        //Hit = Physics.Raycast(gazeOrigin, gazeDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
-        Hit = Physics.Raycast(controllerOrigin, controllerDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
+		//Hit = Physics.Raycast(gazeOrigin, gazeDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
+		Hit = Physics.Raycast (controllerOrigin, controllerDirection, out hitInfo, MaxGazeDistance, RaycastLayerMask);
 
-        // Update the HitInfo property so other classes can use this hit information.
-        HitInfo = hitInfo;
+		// Update the HitInfo property so other classes can use this hit information.
+		HitInfo = hitInfo;
 
-        if (Hit)
-        {
-            // If the raycast hits a hologram, set the position and normal to match the intersection point.
-            Position = hitInfo.point;
-            Normal = hitInfo.normal;
-            lastHitDistance = hitInfo.distance;
-            FocusedObject = hitInfo.collider.gameObject;
-        }
-        else
-        {
-            // If the raycast does not hit a hologram, default the position to last hit distance in front of the user,
-            // and the normal to face the user.
-            //Position = gazeOrigin + (gazeDirection * lastHitDistance);
-            Position = controllerOrigin + (controllerDirection * lastHitDistance);
-            //Normal = -gazeDirection;
-            Normal = -controllerDirection;
-            FocusedObject = null;
-        }
+		if (Hit) {
+			// If the raycast hits a hologram, set the position and normal to match the intersection point.
+			Position = hitInfo.point;
+			Normal = hitInfo.normal;
+			lastHitDistance = hitInfo.distance;
+			FocusedObject = hitInfo.collider.gameObject;
+		} else {
+			// If the raycast does not hit a hologram, default the position to last hit distance in front of the user,
+			// and the normal to face the user.
+			//Position = gazeOrigin + (gazeDirection * lastHitDistance);
+			Position = controllerOrigin + (controllerDirection * lastHitDistance);
+			//Normal = -gazeDirection;
+			Normal = -controllerDirection;
+			FocusedObject = null;
+		}
 
-        // Check if the currently hit object has changed
-        if (oldFocusedObject != FocusedObject)
-        {
-            if (oldFocusedObject != null)
-            {
-                OnGazeLeave(oldFocusedObject);
-            }
-            if (FocusedObject != null)
-            {
-                OnGazeEnter(FocusedObject);
-            }
-        }
-    }
+		// Check if the currently hit object has changed
+		if (oldFocusedObject != FocusedObject) {
+			if (oldFocusedObject != null) {
+				OnGazeLeave (oldFocusedObject);
+			}
+			if (FocusedObject != null) {
+				OnGazeEnter (FocusedObject);
+			}
+		}
+	}
 
-    private void OnGazeEnter(GameObject FocusedObject)
-    {
-        if (FocusedObject.tag == "Button") FocusedObject.GetComponent<Button>().Select();
+	private void OnGazeEnter (GameObject FocusedObject)
+	{
+		if (FocusedObject.tag == "Button")
+			FocusedObject.GetComponent<Button> ().Select ();
  
-        lineColor(Color.green, Color.green);        
-    }
 
-    private void OnGazeLeave(GameObject OldFocusedObject)
-    {
-        if (OldFocusedObject.tag == "Button") EventSystem.current.SetSelectedGameObject(null);
+		lineColor (Color.green, Color.green);        
+	}
 
-        lineColor(Color.red, Color.red);        
-    }
+	private void OnGazeLeave (GameObject OldFocusedObject)
+	{
+		if (OldFocusedObject.tag == "Button")
+			EventSystem.current.SetSelectedGameObject (null);
 
-    void Grab()
-    {
-        holdingObject = true;
-        distance = Vector3.Distance(controller.transform.position, HitInfo.transform.position);
-        lineColor(Color.blue, Color.blue);
-    }
+		lineColor (Color.red, Color.red);        
+	}
 
-    void Drop()
-    {
-        holdingObject = false;
-        canSelect = false;
-        lineColor(Color.green, Color.green);
-    }
+	void Grab ()
+	{
+		//Disable Grab functionality if any tool from the Transform Gizmo is currently active
+		if (Manager.activeTransformGizmo)
+			return;
 
-    void GetInputs()
-    {
-        //Checks for holding an object
-        if (Input.GetButton("Jump"))
-        {
-            if (Hit)
-            {
-                timer += Time.deltaTime;
-                if (timer >= grabTime)
-                {
-                    Grab();
-                }
-            }
-        }
+		holdingObject = true;
+		distance = Vector3.Distance (controller.transform.position, HitInfo.transform.position);
+		lineColor (Color.blue, Color.blue);
+	}
 
-        //Used to make the information about an object pop up
-        if (Input.GetButtonUp("Jump"))
-        {
-            if (Hit)
-            {
-                if (!holdingObject && canSelect) OnSelect();
-            }
-            else
-            {
-                if (!holdingObject) Deselect();
-            }
+	void Drop ()
+	{
+		holdingObject = false;
+		canSelect = false;
+		lineColor (Color.green, Color.green);
+	}
 
-            if (holdingObject) Drop();
-            canSelect = true;
-            timer = 0f;
-        }
+	void GetInputs ()
+	{
+		//Checks for holding an object
+		if (Input.GetButton ("Jump")) {
+			if (Hit) {
+				timer += Time.deltaTime;
+				if (timer >= grabTime) {
+					Grab ();
+				}
+			}
+		}
 
-        // Control the direction the controller faces
-        var xRotation = Input.GetAxis("Vertical") * axisSpeed;
-        var yRotation = Input.GetAxis("Horizontal") * axisSpeed;
+		//Used to make the information about an object pop up
+		if (Input.GetButtonUp ("Jump")) {
+			if (Hit) {
+				if (!holdingObject && canSelect)
+					OnSelect ();
+			} else {
+				if (!holdingObject)
+					Deselect ();
+			}
 
-        transform.Rotate(xRotation, yRotation, 0);
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
-    }
+			if (holdingObject)
+				Drop ();
+			canSelect = true;
+			timer = 0f;
+		}
 
-    void updateLine()
-    {
-        // Updates the laser from the controller
-        linePointer = controller.GetComponent<LineRenderer>();
+		// Control the direction the controller faces
+		var xRotation = Input.GetAxis ("Vertical") * axisSpeed;
+		var yRotation = Input.GetAxis ("Horizontal") * axisSpeed;
 
-        var points = new Vector3[2];
+		transform.Rotate (xRotation, yRotation, 0);
+		transform.eulerAngles = new Vector3 (transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+	}
 
-        points[0] = transform.position;
+	void updateLine ()
+	{
+		// Updates the laser from the controller
+		linePointer = controller.GetComponent<LineRenderer> ();
 
-        if (Hit) points[1] = transform.position + lastHitDistance * transform.forward;
-        else points[1] = transform.position + MaxGazeDistance * transform.forward;
+		var points = new Vector3[2];
 
-        linePointer.SetPositions(points);
-    }
+		points [0] = transform.position;
 
-    void lineColor(Color start, Color end)
-    {
-        linePointer.startColor = start;
-        linePointer.endColor = end;
-    }
+		if (Hit)
+			points [1] = transform.position + lastHitDistance * transform.forward;
+		else
+			points [1] = transform.position + MaxGazeDistance * transform.forward;
 
-    // Use this for initialization
-    void Start () {
-        //camera = GameObject.FindGameObjectWithTag("MainCamera");
-        //cameraTrans = camera.GetComponent<Transform>();
+		linePointer.SetPositions (points);
+	}
 
-        controller = GameObject.FindGameObjectWithTag("Controller");
+	public void lineColor (Color start, Color end)
+	{
+		linePointer.startColor = start;
+		linePointer.endColor = end;
+	}
 
-        selectedObject = null;
-        timer = 0f;
-        holdingObject = false;
-        canSelect = true;
-    }
+	// Use this for initialization
+	void Start ()
+	{
+		//camera = GameObject.FindGameObjectWithTag("MainCamera");
+		//cameraTrans = camera.GetComponent<Transform>();
 
-    void Update()
-    {
-        //gazeOrigin = Camera.main.transform.position;
-        //gazeDirection = Camera.main.transform.forward;
-        //gazeRotation = Camera.main.transform.rotation;
+		controller = GameObject.FindGameObjectWithTag ("Controller");
 
-        // Update controller information
-        controllerOrigin = controller.transform.position;
-        controllerDirection = controller.transform.forward;
-        controllerRotation = controller.transform.rotation;
+		selectedObject = null;
+		timer = 0f;
+		holdingObject = false;
+		canSelect = true;
+	}
 
-        // Grab functionality
-        if (!holdingObject) UpdateRaycast();
-        else HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+	void Update ()
+	{
+		//gazeOrigin = Camera.main.transform.position;
+		//gazeDirection = Camera.main.transform.forward;
+		//gazeRotation = Camera.main.transform.rotation;
 
-        //else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+		// Update controller information
+		controllerOrigin = controller.transform.position;
+		controllerDirection = controller.transform.forward;
+		controllerRotation = controller.transform.rotation;
 
-        // Get inputs from controller
-        GetInputs();
-    }
+		// Grab functionality
+		if (!holdingObject)
+			UpdateRaycast ();
+		else
+			HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
 
-    void LateUpdate()
-    {
-        // Update controller's laser
-        updateLine();
-    }
+		//else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+
+		// Get inputs from controller
+		GetInputs ();
+
+		// Update controller's laser
+		updateLine ();
+	}
+
 }
