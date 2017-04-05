@@ -12,7 +12,8 @@ public class BillboardExit : MonoBehaviour
 	void Start ()
 	{
 		if (this.transform.parent != null) {
-			billboard = this.transform.parent.gameObject;
+			//billboard = this.transform.parent.gameObject;
+			billboard = this.transform.parent.transform.parent.gameObject;
 		}
 	}
 

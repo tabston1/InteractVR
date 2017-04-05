@@ -13,8 +13,10 @@ public class ObjectDelete : MonoBehaviour
 
 	void Start ()
 	{
+		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
 		if (this.transform.parent != null) {
-			billboard = this.transform.parent.gameObject;
+			//billboard = this.transform.parent.gameObject;
+			billboard = this.transform.parent.transform.parent.gameObject;
 
 			if (billboard.transform.parent != null) {
 				obj = billboard.transform.parent.gameObject;
