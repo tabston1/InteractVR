@@ -31,7 +31,7 @@ public class controllerOrientation : MonoBehaviour {
         fire1 = false;
         select = false;
 
-        stream = new SerialPort("COM1", 9600);
+        stream = new SerialPort("COM3", 9600);
         stream.ReadTimeout = 50;
         stream.Open();
 
