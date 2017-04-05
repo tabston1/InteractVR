@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 114273175938186770}
   - component: {fileID: 65657189425408292}
   - component: {fileID: 114448543797924432}
+  - component: {fileID: 114156108205167676}
   m_Layer: 5
   m_Name: DeleteBillboard
   m_TagString: Button
@@ -80,7 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224280062474898068}
   - component: {fileID: 222819378077867332}
-  - component: {fileID: 114947074186185112}
+  - component: {fileID: 114727122399292018}
   - component: {fileID: 23955116750916712}
   m_Layer: 5
   m_Name: Information
@@ -88,7 +89,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1746094943298522
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +157,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1590792078459468}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -252,6 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f19661083a6b434ca2baa0259a45bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  gizmoScript: {fileID: 0}
 --- !u!114 &114114976871103624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,6 +282,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114156108205167676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1475183380901506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95b4b376ebcd574cb8ca8955a557126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114166582154751612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -579,6 +593,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9736eafa79c5ef468fb3cf9005e17a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  gizmoScript: {fileID: 0}
+--- !u!114 &114727122399292018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590792078459468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7242c12455a695440ad73d988e6ffb05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114737041484340328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,6 +685,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af938590253547a4dbba20337dc843ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  gizmoScript: {fileID: 0}
 --- !u!114 &114833456797879696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -685,39 +714,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114947074186185112
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1590792078459468}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 3
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 40
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: " Name: Bed\n Color: Red\n Scale: 1\n Rotation: \n\tX: 0\n\tY: 0\n\tZ: 0\n "
 --- !u!114 &114976690875037666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -856,15 +852,15 @@ RectTransform:
   m_GameObject: {fileID: 1590792078459468}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.19, y: 0.19, z: 0.19}
   m_Children: []
   m_Father: {fileID: 224024741692504454}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 25, y: 25}
+  m_AnchoredPosition: {x: 0, y: -0.4}
+  m_SizeDelta: {x: 22, y: 22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224354381518564704
 RectTransform:

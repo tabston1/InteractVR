@@ -11,6 +11,8 @@ public class InstantiateObject : MonoBehaviour {
     GameObject[] sceneObjects;
     private GameObject newObj { get; set; }
     private GameObject Camera { get; set; }
+    private string buildNo;
+    public GameObject returnedObj;
 
     void Awake()
     {
@@ -18,12 +20,12 @@ public class InstantiateObject : MonoBehaviour {
         Camera = GameObject.Find("Main Camera");
     }
 
-    public void loadObject(string buildNo)
+    public void loadObject()
     {
         Debug.Log("loadObject");
-        StartCoroutine(Loading(buildNo));
+        StartCoroutine(Loading());
     }
-    IEnumerator Loading(string buildNo)
+    IEnumerator Loading()
     {
         string asset;
         Scene newScene;
@@ -44,6 +46,8 @@ public class InstantiateObject : MonoBehaviour {
         {
             yield return null;
         }
+        
+
 
         //Instantiates the asset bundle that was downloaded
         if (www != null)
@@ -54,18 +58,29 @@ public class InstantiateObject : MonoBehaviour {
         //Loads the scene using the Build Number
         SceneManager.LoadScene(buildNo, LoadSceneMode.Additive);
 
+        
         //Grabs the Object from the scene and makes the objects in the created scene invisible
         newScene = SceneManager.GetSceneByName(buildNo);
         while (!newScene.isLoaded)
         {
             yield return null;
         }
-        sceneObjects = newScene.GetRootGameObjects();
-        sceneObjects[0].SetActive(false);
 
+        
+        sceneObjects = newScene.GetRootGameObjects();
+
+        /*
+        foreach(Transform trans in sceneObjects[0].transform)
+        {
+            Debug.Log(trans.name);
+            trans.localScale = new Vector3(1, 1, 1);
+        }
+        */
+        //sceneObjects[0].SetActive(false);
+        /*
         newObj = Instantiate(sceneObjects[0]);
         newObj.SetActive(false);
-
+        
         //Remove the scene that was created for the object
         SceneManager.UnloadSceneAsync(buildNo);
         newScene = SceneManager.GetSceneByName(buildNo);
@@ -79,15 +94,18 @@ public class InstantiateObject : MonoBehaviour {
         newObj.SetActive(true);
         newObj.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
         attachComponents(newObj);
-
+        returnedObj = newObj;
+        */
     }
 
 
-    public void addObject(string buildNo)
+    public void addObject(string build)
     {
+        
         GameObject current;
         GameObject main;
-
+        buildNo = build;
+        returnedObj = null;
         main = GameObject.FindGameObjectWithTag("MainCamera");
 
         //If the object is already in the dictionary, grab it so it can be instantiated
@@ -98,13 +116,13 @@ public class InstantiateObject : MonoBehaviour {
             current.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
             current.SetActive(true);
             attachComponents(current);
-           
+            returnedObj = current;
         }
 
         //Else load the scene with the object in it, remove the object from the scene and add it to the dictionary
         else
         {
-            loadObject(buildNo);
+            loadObject();
         }
 
     }
@@ -183,5 +201,8 @@ public class InstantiateObject : MonoBehaviour {
         //Add the script for showing the billboard
         obj.AddComponent(typeof(ShowBillboard));
 
+        //Add BasicObject script
+        obj.AddComponent(typeof(BasicObject));
+        obj.GetComponent<BasicObject>().buildNo = buildNo;
     }
 }

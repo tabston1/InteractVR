@@ -6,7 +6,7 @@ public class UpdateScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        Debug.Log("Update Scene");
 	}
 	
 	// Update is called once per frame

@@ -74,7 +74,7 @@ public abstract class TransformTool : MonoBehaviour
 		obj.gameObject.layer = LayerMask.NameToLayer ("Ignore Raycast");
 
 		gizmoScript.SetTarget (obj);
-	}
+    }
 
 	//Disable the current transformation tool
 	protected virtual void disableTool ()
@@ -91,6 +91,8 @@ public abstract class TransformTool : MonoBehaviour
 
 		//Change the object's layer back to Movable
 		obj.gameObject.layer = LayerMask.NameToLayer ("Movable");
+
+        Billboard.GetComponentInChildren<GenerateText>().updateText();
 	}
 
 	//Grab a reference to the GameObject being manipulated

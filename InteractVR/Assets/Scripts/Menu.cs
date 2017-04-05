@@ -2,34 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Menu : MonoBehaviour
-{
+public class Menu : MonoBehaviour {
 
-	public Canvas menu;
-	private bool isActive;
+    private GameObject manager;
+    private Manager managerScript;
 
-	// Use this for initialization
-	void Start ()
-	{
-		isActive = false;
+    private GameObject controller;
+
+    private float timer;
+    private const float syncTime = 1.5f;
+
+    // Use this for initialization
+    void Start () {
+        manager = GameObject.Find("Manager");
+        managerScript = manager.GetComponent<Manager>();
+
+        controller = GameObject.FindGameObjectWithTag("Controller");
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+        if (Input.GetButton("Submit") || managerScript.submit)
+        {
+            timer += Time.deltaTime;
+            if (timer >= syncTime)
+            {
+                Sync();
+            }
+        }
+
+        else if (Input.GetButtonUp("Submit") || managerScript.submitUp)
+        {
+            if (timer < syncTime) menuButton();
+            timer = 0f;
+        }
 	}
 
-	// Update is called once per frame
-	void Update ()
-	{
-		if (Input.GetButtonDown ("Submit"))
-			menuButton ();
-	}
+    void menuButton()
+    {
 
-	void menuButton ()
-	{
-		//Before opening the main menu, disable any active transformation tools
-		if (!isActive) {
-			//Ensure no other tool is enabled already (even on a different billboard)
-			Manager.disableAllTransformTools ();
-		}
+        if (managerScript.syncMenuIsActive)
+        {
+            managerScript.BroadcastMessage("Sync");
 
-		menu.gameObject.SetActive (!isActive);
-		isActive = !isActive;
-	}
+            managerScript.syncMenu.gameObject.SetActive(false);
+            managerScript.syncMenuIsActive = false;
+        }
+        else if (managerScript.landingMenuIsActive)
+        {
+            managerScript.landingMenu.gameObject.SetActive(false);
+            managerScript.landingMenuIsActive = false;
+        }
+        else if (managerScript.modelMenuIsActive)
+        {
+            managerScript.modelMenu.gameObject.SetActive(false);
+            managerScript.modelMenuIsActive = false;
+        }
+
+        else
+        {
+            managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
+            managerScript.menuIsActive = !managerScript.menuIsActive;
+        }
+    }
+
+    void Sync()
+    {
+        managerScript.syncMenu.gameObject.SetActive(true);
+        managerScript.syncMenuIsActive = true;
+    }
 }

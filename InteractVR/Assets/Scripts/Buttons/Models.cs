@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Models : MonoBehaviour {
-    public Canvas modelMenu;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    private GameObject manager;
+    private Manager managerScript;
+
+    // Use this for initialization
+    void Start () {
+        manager = GameObject.Find("Manager");
+        managerScript = manager.GetComponent<Manager>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,6 +23,7 @@ public class Models : MonoBehaviour {
         GameObject controller = GameObject.Find("Controller");
         controller.BroadcastMessage("menuButton");
 
-        modelMenu.gameObject.SetActive(true);
+        managerScript.modelMenu.gameObject.SetActive(true);
+        managerScript.modelMenuIsActive = true;
     }
 }

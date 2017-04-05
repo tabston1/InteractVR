@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4584309502885716}
   - component: {fileID: 114677599884886668}
   - component: {fileID: 114159835876265596}
+  - component: {fileID: 114790557427013452}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Manager
@@ -34,8 +35,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993254377051188}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.114, z: 2.331}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.11399984, z: 2.3310003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,6 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07041685b91ff42418bc396f194a5d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  returnedObj: {fileID: 0}
 --- !u!114 &114677599884886668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -63,7 +65,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8cf9b8a52f0b8248968105c109e3dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuIsActive: 0
+  modelMenuIsActive: 0
+  syncMenuIsActive: 0
+  landingMenuIsActive: 0
+  fire1: 0
+  fire1Up: 0
+  use: 0
+  useUp: 0
+  submit: 0
+  submitUp: 0
   authoring: 0
   mode: {fileID: 0}
   menu: {fileID: 0}
   modelMenu: {fileID: 0}
+  syncMenu: {fileID: 223365237536419796, guid: b6a030c7f8b9a25478d6929bdddf8c4d, type: 2}
+  landingMenu: {fileID: 223176926126197350, guid: def52a9f07a730e4ba9a3aeb50a73fa2,
+    type: 2}
+  controllerOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &114790557427013452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993254377051188}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d067a7dd0fbc47dca40ba234988dab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
