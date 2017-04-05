@@ -146,17 +146,17 @@ public class controllerOrientation : MonoBehaviour {
         // Select
         if (buttons[1] == '1')
         {
-            managerScript.select = true;
+            managerScript.use = true;
             select = true;
 
-            if (managerScript.selectUp) managerScript.selectUp = false;
+            if (managerScript.useUp) managerScript.useUp = false;
         }
         else
         {
-            managerScript.select = false;
+            managerScript.use = false;
 
-            if (select) managerScript.selectUp = true;
-            else managerScript.selectUp = false;
+            if (select) managerScript.useUp = true;
+            else managerScript.useUp = false;
 
             select = false;
         }

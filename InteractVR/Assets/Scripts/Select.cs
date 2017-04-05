@@ -153,7 +153,7 @@ public class Select : MonoBehaviour {
     void GetInputs()
     {
         //Checks for holding an object
-        if (Input.GetButton("Jump") || managerScript.select)
+        if (Input.GetButton("Jump") || managerScript.use)
         {
             if (Hit)
             {
@@ -166,7 +166,7 @@ public class Select : MonoBehaviour {
         }
 
         //Used to make the information about an object pop up
-        if (Input.GetButtonUp("Jump") || managerScript.selectUp)
+        if (Input.GetButtonUp("Jump") || managerScript.useUp)
         {
             if (Hit)
             {
