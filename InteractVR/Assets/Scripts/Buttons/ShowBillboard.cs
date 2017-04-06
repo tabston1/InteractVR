@@ -2,46 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowBillboard : MonoBehaviour {
+public class ShowBillboard : MonoBehaviour
+{
 
-    private GameObject billboard;
-    private GameObject Camera;
+	private GameObject billboard;
+	private GameObject Camera;
 
-    //Finds the child object Billboard with a specific tag
-    public static GameObject FindComponentInChildWithTag(GameObject parent, string tag)
-    {
+	//Finds the child object Billboard with a specific tag
+	public static GameObject FindComponentInChildWithTag (GameObject parent, string tag)
+	{
 
-        Transform t = parent.transform;
-        foreach (Transform child in t)
-        {
-            Debug.Log(child.name);
-            if (child.tag == tag)
-            {
-                Debug.Log(child.name);
-                return child.gameObject;
-            }
+		Transform t = parent.transform;
+		foreach (Transform child in t) {
+			Debug.Log (child.name);
+			if (child.tag == tag) {
+				Debug.Log (child.name);
+				return child.gameObject;
+			}
 
-        }
+		}
 
-        return null;
+		return null;
 
-    }
+	}
 
-    void onSelect()
-    {
-       
-        Camera = GameObject.Find("Main Camera");
-        billboard = FindComponentInChildWithTag(this.gameObject, "Billboard");
-        Debug.Log(this.name);
-        Debug.Log(billboard);
+	void Start ()
+	{
+		Camera = GameObject.Find ("Main Camera");
+	}
 
-        if (billboard != null)
-        {
-            //billboard.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
-            billboard.transform.forward = -Camera.transform.forward;
-            billboard.SetActive(true);
-        }
-    }
+	void onSelect ()
+	{ 
+		billboard = FindComponentInChildWithTag (this.gameObject, "Billboard");
+		//Debug.Log (this.name);
+		//Debug.Log (billboard);
+
+		if (billboard != null) {
+			//billboard.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
+			billboard.transform.forward = -Camera.transform.forward;
+			billboard.SetActive (true);
+		}
+	}
 
    
 }
