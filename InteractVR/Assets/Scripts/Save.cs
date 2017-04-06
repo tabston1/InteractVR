@@ -16,9 +16,10 @@ public class Save : MonoBehaviour
 	//void Start()
 	void onClick ()
 	{
-		//writer = new StreamWriter(Application.persistentDataPath + "/SavedScene.txt");
-		writer = new StreamWriter (Application.persistentDataPath + "/SavedScene.txt");
-		buildNumbers = new Dictionary<string, int> ();
+        //writer = new StreamWriter(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/SavedScene.txt");
+        //(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/SavedScene.txt");
+        writer = new StreamWriter (Application.persistentDataPath + "/SavedScene.txt");
+        buildNumbers = new Dictionary<string, int> ();
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 
 		if (mainCamera == null)
@@ -38,9 +39,12 @@ public class Save : MonoBehaviour
 	protected void addBuildNumbers ()
 	{
 		foreach (Transform child in modelMenu.transform) {
-			if (child.name != "Cancel") {
-				buildNumbers.Add (child.name, 0);
-			}
+			if (child.name == "ModelButtons") {
+                foreach (Transform button in child)
+                {
+                    buildNumbers.Add (button.name, 0);
+                }
+            }
       
 		}
 
@@ -48,6 +52,7 @@ public class Save : MonoBehaviour
 
 	protected void saveState ()
 	{
+        Debug.Log("Saving");
 		allGameObjects = (GameObject[])GameObject.FindObjectsOfType (typeof(GameObject));
 		Transform objTrans;
 

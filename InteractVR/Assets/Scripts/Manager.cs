@@ -9,7 +9,7 @@ public class Manager : MonoBehaviour
 
 	//Global reference to the Controller object
 	public static GameObject controller = null;
-
+    public GameObject head;
 
 
 
@@ -48,13 +48,13 @@ public class Manager : MonoBehaviour
         syncMenuIsActive = false;
 
 		authoring = false;
-		mode.text = "Current mode: Run-time";
+		//mode.text = "Current mode: Run-time";
 
 		menu.gameObject.SetActive (false);
 		modelMenu.gameObject.SetActive (false);
         syncMenu.gameObject.SetActive(false);
         controllerOffset = new Vector3();
-
+        head = GameObject.Find("Head");
 
 		//Grab the Controller object from the scene
 		controller = GameObject.FindGameObjectWithTag ("Controller");
@@ -80,7 +80,9 @@ public class Manager : MonoBehaviour
    void Sync()
     {
         //controllerOffset = controllerOffset * controller.transform.rotation;
-        controllerOffset = controllerOffset + controller.transform.rotation.eulerAngles;
+        controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
+        
+        //Debug.Log(controllerOffset);
     }
 
 }
