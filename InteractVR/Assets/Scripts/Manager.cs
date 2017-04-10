@@ -9,24 +9,22 @@ public class Manager : MonoBehaviour
 
 	//Global reference to the Controller object
 	public static GameObject controller = null;
-    public GameObject head;
-
-
+	public GameObject head;
 
 	//Global reference to the Controller's Select script (for laser information)
 	public static Select select = null;
 
-  public bool menuIsActive;
-  public bool modelMenuIsActive;
-  public bool syncMenuIsActive;
-    public bool landingMenuIsActive;
+	public bool menuIsActive;
+	public bool modelMenuIsActive;
+	public bool syncMenuIsActive;
+	public bool landingMenuIsActive;
 
-    public bool fire1;
-    public bool fire1Up;
-    public bool use;
-    public bool useUp;
-    public bool submit;
-    public bool submitUp;
+	public bool fire1;
+	public bool fire1Up;
+	public bool use;
+	public bool useUp;
+	public bool submit;
+	public bool submitUp;
 
 
 	public bool authoring;
@@ -34,27 +32,27 @@ public class Manager : MonoBehaviour
 
 	public Canvas menu;
 	public Canvas modelMenu;
-  public Canvas syncMenu;
-    public Canvas landingMenu;
+	public Canvas syncMenu;
+	public Canvas landingMenu;
 	
 
-   public Vector3 controllerOffset;
+	public Vector3 controllerOffset;
   
-  // Use this for initialization
+	// Use this for initialization
 	void Start ()
 	{ 
-        menuIsActive = false;
-        modelMenuIsActive = false;
-        syncMenuIsActive = false;
+		menuIsActive = false;
+		modelMenuIsActive = false;
+		syncMenuIsActive = false;
 
 		authoring = false;
 		//mode.text = "Current mode: Run-time";
 
 		menu.gameObject.SetActive (false);
 		modelMenu.gameObject.SetActive (false);
-        syncMenu.gameObject.SetActive(false);
-        controllerOffset = new Vector3();
-        head = GameObject.Find("Head");
+		syncMenu.gameObject.SetActive (false);
+		controllerOffset = new Vector3 ();
+		head = GameObject.Find ("Head");
 
 		//Grab the Controller object from the scene
 		controller = GameObject.FindGameObjectWithTag ("Controller");
@@ -76,13 +74,13 @@ public class Manager : MonoBehaviour
 			billboard.BroadcastMessage ("disableTool");
 		}
 	}
-  
-   void Sync()
-    {
-        //controllerOffset = controllerOffset * controller.transform.rotation;
-        controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
+
+	void Sync ()
+	{
+		//controllerOffset = controllerOffset * controller.transform.rotation;
+		controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
         
-        //Debug.Log(controllerOffset);
-    }
+		//Debug.Log(controllerOffset);
+	}
 
 }

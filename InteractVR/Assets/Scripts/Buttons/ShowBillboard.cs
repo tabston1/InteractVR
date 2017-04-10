@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class ShowBillboard : MonoBehaviour
 {
+	//Wrapper script for the object model on which this script is attached
+	private BasicObject objScript;
 
+	//Reference to billboard/toolbar object
 	private GameObject billboard;
+
 	private GameObject Camera;
 
 	//Finds the child object Billboard with a specific tag
@@ -29,15 +33,21 @@ public class ShowBillboard : MonoBehaviour
 	void Start ()
 	{
 		Camera = GameObject.Find ("Main Camera");
+
+		//Grab reference to this object's object wrapper script
+		objScript = gameObject.GetComponent<BasicObject> ();
+
+		billboard = FindComponentInChildWithTag (this.gameObject, "Billboard");
 	}
 
 	void onSelect ()
 	{ 
-		billboard = FindComponentInChildWithTag (this.gameObject, "Billboard");
-		//Debug.Log (this.name);
-		//Debug.Log (billboard);
+
 
 		if (billboard != null) {
+			//Temporarily disable gravity on this object's rigidbody whenever its billboard/toolbar is active
+			objScript.disableGravity ();
+
 			//billboard.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
 			billboard.transform.forward = -Camera.transform.forward;
 			billboard.SetActive (true);

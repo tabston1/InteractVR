@@ -132,6 +132,15 @@ public class InstantiateObject : MonoBehaviour
 		AddCollider (obj);
 		addShader (obj);
 		addBillboard (obj);
+		//AddRigidBody (obj);
+	}
+
+	public void AddRigidBody (GameObject obj)
+	{
+		Rigidbody rigidBod;
+
+		rigidBod = obj.AddComponent<Rigidbody> ();
+		rigidBod.useGravity = false;
 	}
 
 	//Removes colliders from the child objects making up the object and adds just one to the parent object
@@ -162,7 +171,10 @@ public class InstantiateObject : MonoBehaviour
 					Destroy (element);
 				}
 			}
-		}  
+		} 
+
+		//Make the mesh collider convex to decrease computation complexity and to allow rigidbodies to be used
+		objMeshCollider.convex = true;
 	}
 
 	//Adds a standard shader to all of the components of the Immersafied Object

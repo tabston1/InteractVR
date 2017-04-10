@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class GravityController : MonoBehaviour
 {
-	//Object associated with the billboard
+	//Object associated with the billboard and wrapper script for object models
 	private GameObject obj;
+	private BasicObject objScript;
 
 	//Billboard on which this button is placed
 	private GameObject billboard;
@@ -18,8 +19,7 @@ public class GravityController : MonoBehaviour
 	private Sprite gravityEnabledSprite;
 	private Sprite gravityDisabledSprite;
 
-	//Boolean representing whether gravity is enabled/disabled for this object
-	public bool gravityEnabled = false;
+
 
 
 	// Use this for initialization
@@ -32,6 +32,9 @@ public class GravityController : MonoBehaviour
 
 			if (billboard.transform.parent != null) {
 				obj = billboard.transform.parent.gameObject;
+
+				//Grab reference to this object's object wrapper script
+				objScript = obj.GetComponent<BasicObject> ();
 			}
 		}
 
@@ -53,15 +56,17 @@ public class GravityController : MonoBehaviour
 
 	void onClick ()
 	{
-		//Disable gravity if it is currently enabled (will actually take effect on toolbar/billboard close)
-		if (gravityEnabled) {
-			buttonIcon.sprite = gravityDisabledSprite;
-			gravityEnabled = false;
-		} 
+		if (obj != null) {
+			//Disable gravity if it is currently enabled (will actually take effect on toolbar/billboard close)
+			if (objScript.gravityOn) {
+				buttonIcon.sprite = gravityDisabledSprite;
+				objScript.gravityOn = false;
+			} 
 		//Enable gravity if it is currently enabled (will actually take effect on on toolbar/billboard close)
 		else {
-			buttonIcon.sprite = gravityEnabledSprite;
-			gravityEnabled = true;
+				buttonIcon.sprite = gravityEnabledSprite;
+				objScript.gravityOn = true;
+			}
 		}
 	}
 
