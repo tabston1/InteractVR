@@ -6,6 +6,5 @@ using RuntimeGizmos;
 public class BasicObject : MonoBehaviour
 {
 
-    public string buildNo { get; set; }
-
+	public string buildNo { get; set; }
 }
