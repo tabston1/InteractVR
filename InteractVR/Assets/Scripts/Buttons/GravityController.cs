@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GravityController : MonoBehaviour
 {
+	public GameObject emptyParentContainer;
+
 	//Object associated with the billboard and wrapper script for object models
 	private GameObject obj;
 	private BasicObject objScript;
@@ -25,6 +27,7 @@ public class GravityController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		/*
 		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
 		if (this.transform.parent != null) {
 			//billboard = this.transform.parent.gameObject;
@@ -37,6 +40,30 @@ public class GravityController : MonoBehaviour
 				objScript = obj.GetComponent<BasicObject> ();
 			}
 		}
+		*/
+
+		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
+		//Empty parent object wrapper has 2 children: billboard and model object
+		billboard = transform.parent.transform.parent.gameObject;
+
+		if (billboard != null) {
+			emptyParentContainer = billboard.transform.parent.gameObject;
+
+			if (emptyParentContainer != null) {
+				obj = emptyParentContainer.transform.GetChild (0).gameObject;
+
+				if (obj != null) {
+					//Grab reference to this object's object wrapper script
+					objScript = obj.GetComponent<BasicObject> ();
+					if (objScript == null)
+						Debug.Log ("Could not grab basic object script for " + obj.name + " from button " + name);
+				} else
+					Debug.Log ("Could not grab model object reference from " + name);
+			} else
+				Debug.Log ("Could not grab emptyParentContainer reference from " + name);
+		} else
+			Debug.Log ("Could not grab billboard reference from " + name);
+
 
 		//Grab references to the 2 sprites for when gravity is disabled or enabled
 		gravityDisabledSprite = Resources.Load<Sprite> ("Buttons/Gravity_Disabled");

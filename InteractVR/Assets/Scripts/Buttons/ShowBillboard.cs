@@ -37,13 +37,11 @@ public class ShowBillboard : MonoBehaviour
 		//Grab reference to this object's object wrapper script
 		objScript = gameObject.GetComponent<BasicObject> ();
 
-		billboard = FindComponentInChildWithTag (this.gameObject, "Billboard");
+		billboard = FindComponentInChildWithTag (this.transform.parent.gameObject, "Billboard");
 	}
 
 	void onSelect ()
 	{ 
-
-
 		if (billboard != null) {
 			//Temporarily disable gravity on this object's rigidbody whenever its billboard/toolbar is active
 			objScript.disableGravity ();
@@ -51,7 +49,8 @@ public class ShowBillboard : MonoBehaviour
 			//billboard.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
 			billboard.transform.forward = -Camera.transform.forward;
 			billboard.SetActive (true);
-		}
+		} else
+			Debug.Log ("Could not find reference to billboard from ShowBillboard script on " + name);
 	}
 
    

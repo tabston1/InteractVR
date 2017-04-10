@@ -65,7 +65,7 @@ public class Manager : MonoBehaviour
 		} else
 			Debug.Log ("Could not grab a reference to the Controller object");
 	}
-
+		
 	//Utility function to disable any open Transform Gizmo tool by broadcasting to all open Billboards
 	public static void disableAllTransformTools ()
 	{

@@ -5,6 +5,8 @@ using RuntimeGizmos;
 
 public class BillboardExit : MonoBehaviour
 {
+	public GameObject emptyParentContainer;
+
 	//Object associated with the billboard and wrapper script for object models
 	private GameObject obj;
 	private BasicObject objScript;
@@ -15,6 +17,7 @@ public class BillboardExit : MonoBehaviour
 
 	void Start ()
 	{
+		/*
 		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
 		if (this.transform.parent != null) {
 			//billboard = this.transform.parent.gameObject;
@@ -27,6 +30,29 @@ public class BillboardExit : MonoBehaviour
 				objScript = obj.GetComponent<BasicObject> ();
 			}
 		}
+		*/
+
+		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
+		//Empty parent object wrapper has 2 children: billboard and model object
+		billboard = transform.parent.transform.parent.gameObject;
+
+		if (billboard != null) {
+			emptyParentContainer = billboard.transform.parent.gameObject;
+		
+			if (emptyParentContainer != null) {
+				obj = emptyParentContainer.transform.GetChild (0).gameObject;
+
+				if (obj != null) {
+					//Grab reference to this object's object wrapper script
+					objScript = obj.GetComponent<BasicObject> ();
+					if (objScript == null)
+						Debug.Log ("Could not grab basic object script for " + obj.name + " from button " + name);
+				} else
+					Debug.Log ("Could not grab model object reference from " + name);
+			} else
+				Debug.Log ("Could not grab emptyParentContainer reference from " + name);
+		} else
+			Debug.Log ("Could not grab billboard reference from " + name);
 	}
 
 	void onClick ()
@@ -46,16 +72,5 @@ public class BillboardExit : MonoBehaviour
 			}
 		}
 
-	}
-
-	//Called whenever a particular Billboard is closed or destroyed (if it has this script attached)
-	void OnDisable ()
-	{
-		/*
-		if (billboard != null) {
-			//Debug.Log ("BillboardExit: Disabling object: " + billboard.name);
-			billboard.BroadcastMessage ("disableTool");
-		}
-		*/
 	}
 }

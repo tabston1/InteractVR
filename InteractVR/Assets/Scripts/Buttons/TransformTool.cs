@@ -6,6 +6,8 @@ using RuntimeGizmos;
 //Base class for the Transform Tools (Translator, Rotator, Scaler)
 public abstract class TransformTool : MonoBehaviour
 {
+	public GameObject emptyParentContainer;
+
 	//Transform of object being manipulated
 	public Transform obj = null;
 
@@ -95,11 +97,12 @@ public abstract class TransformTool : MonoBehaviour
 		//Billboard.GetComponentInChildren<GenerateText> ().updateText ();
 	}
 
-	//Grab a reference to the GameObject being manipulated
+	//Grab a reference to the GameObject being manipulated, the empty parent, and the object's billboard
 	void setObjectandBillboard ()
 	{
-		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
-		//Transform billboard = transform.parent;
+		/*
+		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
+		//Empty parent object wrapper has 2 children: billboard and model object
 		Transform billboard = transform.parent.transform.parent;
 		if (billboard == null) {
 			Debug.Log ("Could not grab a reference to the Billboard associated with this object.");
@@ -108,6 +111,20 @@ public abstract class TransformTool : MonoBehaviour
 
 		Billboard = billboard.gameObject;
 		obj = billboard.parent;
+		*/
+
+
+		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
+		//Empty parent object wrapper has 2 children: billboard and model object
+		Transform billboard = transform.parent.transform.parent;
+		if (billboard == null) {
+			Debug.Log ("Could not grab a reference to the Billboard associated with this object.");
+			return;
+		}
+
+		Billboard = billboard.gameObject;
+		emptyParentContainer = billboard.parent.gameObject;
+		obj = emptyParentContainer.transform.GetChild (0);
 	}
 
 	//Detach the billboard as a child object (so it will not be affected by rotations/scaling)

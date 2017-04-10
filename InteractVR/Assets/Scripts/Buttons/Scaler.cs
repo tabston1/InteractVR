@@ -14,7 +14,7 @@ public class Scaler : TransformTool
 		gizmoScript.SetType ("Scale");
 
 		//Detach the billboard as a child object so it is not scaled with the transform target object
-		detachBillboard ();
+		//detachBillboard ();
 	}
 
 	//Reattach the billboard to the object after the Scale tool has been disabled
@@ -22,6 +22,6 @@ public class Scaler : TransformTool
 	{
 		base.disableTool ();
 
-		reattachBillboard ();
+		//reattachBillboard ();
 	}
 }

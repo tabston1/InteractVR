@@ -132,7 +132,7 @@ public class InstantiateObject : MonoBehaviour
 		AddCollider (obj);
 		addShader (obj);
 		addBillboard (obj);
-		//AddRigidBody (obj);
+		AddRigidBody (obj);
 	}
 
 	public void AddRigidBody (GameObject obj)
