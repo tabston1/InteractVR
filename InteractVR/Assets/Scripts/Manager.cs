@@ -39,9 +39,8 @@ public class Manager : MonoBehaviour
     public Canvas landingMenu;
 	
 
-   public Vector3 controllerOffset;
+    public Vector3 controllerOffset;
 
-    public GameObject head;
 
 
   
@@ -97,8 +96,4 @@ public class Manager : MonoBehaviour
         //controllerOffset = controllerOffset * controller.transform.rotation;
         controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
     }
-
-		//Debug.Log(controllerOffset);
-	}
-
 }

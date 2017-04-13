@@ -27,26 +27,28 @@ public class controllerOrientation : MonoBehaviour {
 
     void Awake()
     {
+#if !UNITY_EDITOR
         device = new BluetoothDevice();
         connect();
 
-       /* if (BluetoothAdapter.isBluetoothEnabled())
-        {
-            connect();
-        }
-        else
-        {
+        /* if (BluetoothAdapter.isBluetoothEnabled())
+         {
+             connect();
+         }
+         else
+         {
 
-            //BluetoothAdapter.enableBluetooth(); //you can by this force enabling Bluetooth without asking the user
-            statusText.text = "Status : Please enable your Bluetooth";
+             //BluetoothAdapter.enableBluetooth(); //you can by this force enabling Bluetooth without asking the user
+             statusText.text = "Status : Please enable your Bluetooth";
 
-            BluetoothAdapter.OnBluetoothStateChanged += HandleOnBluetoothStateChanged;
-            BluetoothAdapter.listenToBluetoothState(); // if you want to listen to the following two events  OnBluetoothOFF or OnBluetoothON
+             BluetoothAdapter.OnBluetoothStateChanged += HandleOnBluetoothStateChanged;
+             BluetoothAdapter.listenToBluetoothState(); // if you want to listen to the following two events  OnBluetoothOFF or OnBluetoothON
 
-            BluetoothAdapter.askEnableBluetooth();//Ask user to enable Bluetooth
+             BluetoothAdapter.askEnableBluetooth();//Ask user to enable Bluetooth
 
-        }
-        */
+         }
+         */
+#endif
     }
 
     // Use this for initialization
@@ -56,18 +58,18 @@ public class controllerOrientation : MonoBehaviour {
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
 
+#if !UNITY_EDITOR
         BluetoothAdapter.OnDeviceOFF += HandleOnDeviceOff;//This would mean a failure in connection! the reason might be that your remote device is OFF
         BluetoothAdapter.OnDeviceNotFound += HandleOnDeviceNotFound; //Because connecting using the 'Name' property is just searching, the Plugin might not find it!.
+#endif
 
         submit = false;
         fire1 = false;
         select = false;
 
+#if UNITY_EDITOR
 
-        
-
-        stream = new SerialPort("COM3", 9600);
-
+        stream = new SerialPort("COM7", 9600);
         stream.ReadTimeout = 50;
         stream.Open();
 
@@ -79,10 +81,11 @@ public class controllerOrientation : MonoBehaviour {
                 10000f                                 // Timeout (seconds)
             )
         );
-        */
+
+        
+#endif
     }
 
-    /*
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
     {
         DateTime initialTime = DateTime.Now;
@@ -119,7 +122,6 @@ public class controllerOrientation : MonoBehaviour {
             fail();
         yield return null;
     }
-    */
 
     //############### Reading Data  #####################
     //Please note that you don't have to use this Couroutienes/IEnumerator, you can just put your code in the Update() method
