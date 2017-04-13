@@ -65,7 +65,7 @@ public class controllerOrientation : MonoBehaviour {
 
 
         
-
+        /*
         stream = new SerialPort("COM3", 9600);
 
         stream.ReadTimeout = 50;
@@ -79,9 +79,9 @@ public class controllerOrientation : MonoBehaviour {
                 10000f                                 // Timeout (seconds)
             )
         );
-        */
+        */   
     }
-
+    
     /*
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
     {
@@ -234,7 +234,7 @@ public class controllerOrientation : MonoBehaviour {
     {
 
 
-        statusText.text = "Status : Trying To Connect";
+        //statusText.text = "Status : Trying To Connect";
 
 
         /* The Property device.MacAdress doesn't require pairing. 
@@ -265,7 +265,7 @@ public class controllerOrientation : MonoBehaviour {
         device.ReadingCoroutine = ManageConnection;
 
 
-        statusText.text = "Status : trying to connect";
+        //statusText.text = "Status : trying to connect";
 
         device.connect();
 

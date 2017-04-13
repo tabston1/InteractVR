@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
@@ -40,10 +41,14 @@ public class Manager : MonoBehaviour
 	
 
    public Vector3 controllerOffset;
+    public Text statusText;
 
-    public GameObject head;
 
 
+    void Update()
+    {
+        if (Input.GetButton("Jump")) statusText.text = "Jump";
+    }
   
 	// Use this for initialization
 	void Start ()
@@ -99,6 +104,6 @@ public class Manager : MonoBehaviour
     }
 
 		//Debug.Log(controllerOffset);
-	}
+	
 
 }

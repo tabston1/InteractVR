@@ -859,6 +859,11 @@ Prefab:
       propertyPath: landingController
       value: 
       objectReference: {fileID: 1888781804}
+    - target: {fileID: 114677599884886668, guid: 0136f8e1a797f904cacbea8c3004b767,
+        type: 2}
+      propertyPath: statusText
+      value: 
+      objectReference: {fileID: 1609859107}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0136f8e1a797f904cacbea8c3004b767, type: 2}
   m_IsPrefabParent: 0
