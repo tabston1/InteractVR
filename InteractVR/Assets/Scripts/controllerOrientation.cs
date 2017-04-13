@@ -39,7 +39,6 @@ public class controllerOrientation : MonoBehaviour {
          {
 
              //BluetoothAdapter.enableBluetooth(); //you can by this force enabling Bluetooth without asking the user
-             statusText.text = "Status : Please enable your Bluetooth";
 
              BluetoothAdapter.OnBluetoothStateChanged += HandleOnBluetoothStateChanged;
              BluetoothAdapter.listenToBluetoothState(); // if you want to listen to the following two events  OnBluetoothOFF or OnBluetoothON
@@ -150,6 +149,8 @@ public class controllerOrientation : MonoBehaviour {
         string[] orientation = s.Split(' ');
         string buttons;
 
+        statusText.text = s;
+
         try
         {
             x = Convert.ToSingle(orientation[0]) - managerScript.controllerOffset.x;
@@ -235,10 +236,6 @@ public class controllerOrientation : MonoBehaviour {
     private void connect()
     {
 
-
-        statusText.text = "Status : Trying To Connect";
-
-
         /* The Property device.MacAdress doesn't require pairing. 
 		 * Also Mac Adress in this library is Case sensitive,  all chars must be capital letters
 		 
@@ -266,9 +263,6 @@ public class controllerOrientation : MonoBehaviour {
 		 */
         device.ReadingCoroutine = ManageConnection;
 
-
-        statusText.text = "Status : trying to connect";
-
         device.connect();
 
     }
@@ -287,7 +281,9 @@ public class controllerOrientation : MonoBehaviour {
 
     //This would mean a failure in connection! the reason might be that your remote device is OFF
     void HandleOnDeviceOff(BluetoothDevice dev)
-    {
+    { 
+        return;
+        /*
         if (!string.IsNullOrEmpty(dev.Name))
         {
             statusText.text = "Status : can't connect to '" + dev.Name + "', device is OFF ";
@@ -296,16 +292,20 @@ public class controllerOrientation : MonoBehaviour {
         {
             statusText.text = "Status : can't connect to '" + dev.MacAddress + "', device is OFF ";
         }
+        */
     }
 
     //Because connecting using the 'Name' property is just searching, the Plugin might not find it!.
     void HandleOnDeviceNotFound(BluetoothDevice dev)
     {
+        return;
+    /*
         if (!string.IsNullOrEmpty(dev.Name))
         {
             statusText.text = "Status : Can't find a device with the name '" + dev.Name + "', device might be OFF or not paird yet ";
 
         }
+        */
     }
 
     public void disconnect()
