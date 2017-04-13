@@ -32,10 +32,15 @@ namespace RuntimeGizmos
 		int circleDetail = 40;
 		float minSelectedDistanceCheck = .04f;
 		float laserHighlightDistanceCheck = 1.5f;
-		float moveSpeedMultiplier = 0.5f;
-		float scaleSpeedMultiplier = 0.5f;
-		float rotateSpeedMultiplier = 200f;
-		float allRotateSpeedMultiplier = 20f;
+        //float moveSpeedMultiplier = 0.5f;
+        //float scaleSpeedMultiplier = 0.5f;
+        //float rotateSpeedMultiplier = 200f;
+        float rotateSpeedMultiplier = 20f;
+        float moveSpeedMultiplier = 0.1f;
+        float scaleSpeedMultiplier = 0.1f;
+
+
+        float allRotateSpeedMultiplier = 20f;
 
 		AxisVectors handleLines = new AxisVectors ();
 		AxisVectors handleTriangles = new AxisVectors ();
@@ -55,6 +60,8 @@ namespace RuntimeGizmos
 		GameObject rightEye;
 		TransformGizmoRenderer leftEyeGizmoScript;
 		TransformGizmoRenderer rightEyeGizmoScript;
+        protected GameObject manager;
+        protected Manager managerScript;
 
 		static Material lineMaterial;
 
@@ -81,7 +88,10 @@ namespace RuntimeGizmos
 			//Ensure each of those scripts can access this class instance
 			leftEyeGizmoScript.setGizmoReference (this);
 			rightEyeGizmoScript.setGizmoReference (this);
-		}
+
+            manager = GameObject.Find("Manager");
+            managerScript = manager.GetComponent<Manager>();
+        }
 
 		void Update ()
 		{
@@ -184,7 +194,7 @@ namespace RuntimeGizmos
 		void TransformSelected ()
 		{
 			//if (selectedAxis != Axis.None && Input.GetMouseButtonDown (0)) {
-			if (selectedAxis != Axis.None && Input.GetButtonDown ("Jump")) {
+			if (selectedAxis != Axis.None && (Input.GetButtonDown ("Jump") || managerScript.use)) {
 				StartCoroutine (TransformSelected (type));
 			}
 		}
@@ -202,7 +212,7 @@ namespace RuntimeGizmos
 			Vector3 previousMousePosition = Vector3.zero;
 
 			//while (!Input.GetMouseButtonUp (0)) {
-			while (!Input.GetButtonUp ("Jump")) {
+			while (!(Input.GetButtonUp ("Jump") || managerScript.useUp)) {
 				//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
@@ -272,7 +282,7 @@ namespace RuntimeGizmos
 		//NOT USED. Replaced with SetTarget
 		void GetTarget ()
 		{
-			if (selectedAxis == Axis.None && Input.GetButtonDown ("Jump")) {
+			if (selectedAxis == Axis.None && (Input.GetButtonDown ("Jump") || managerScript.use)) {
 				//check if the controller laser is hitting anything
 				if (select.Hit) {
 					//if so, use the HitInfo to grab the transform of the object being selected
@@ -309,7 +319,7 @@ namespace RuntimeGizmos
 			//if (!Input.GetButtonDown ("Jump"))
 			//	return;
 
-			if (Input.GetButtonDown ("Jump"))
+			if ((Input.GetButtonDown ("Jump") || managerScript.use))
 				selectedAxis = Axis.None;
 
 			float xClosestDistance = float.MaxValue;
@@ -348,31 +358,31 @@ namespace RuntimeGizmos
 					select.lineColor (Color.red, Color.red);
 			}
 
-			if (!Input.GetButtonDown ("Jump"))
+			if (!(Input.GetButtonDown ("Jump") || managerScript.use))
 				return;
 
 
 
 			if (type == TransformType.Scale && allClosestDistance <= minSelectedDistanceCheck) {
-				if (Input.GetButtonDown ("Jump"))
+				if ((Input.GetButtonDown ("Jump") || managerScript.use))
 					selectedAxis = Axis.Any;
 			} else if (xClosestDistance <= minSelectedDistanceCheck && xClosestDistance <= yClosestDistance && xClosestDistance <= zClosestDistance) {
-				if (Input.GetButtonDown ("Jump"))
-					selectedAxis = Axis.X;
+				if ((Input.GetButtonDown("Jump") || managerScript.use))
+                    selectedAxis = Axis.X;
 			} else if (yClosestDistance <= minSelectedDistanceCheck && yClosestDistance <= xClosestDistance && yClosestDistance <= zClosestDistance) {
-				if (Input.GetButtonDown ("Jump"))
-					selectedAxis = Axis.Y;
+				if ((Input.GetButtonDown("Jump") || managerScript.use))
+                    selectedAxis = Axis.Y;
 			} else if (zClosestDistance <= minSelectedDistanceCheck && zClosestDistance <= xClosestDistance && zClosestDistance <= yClosestDistance) {
-				if (Input.GetButtonDown ("Jump"))
-					selectedAxis = Axis.Z;
+				if ((Input.GetButtonDown("Jump") || managerScript.use))
+                    selectedAxis = Axis.Z;
 			} else if (type == TransformType.Rotate && target != null) {
 				//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 
 				Vector3 mousePlaneHit = Geometry.LinePlaneIntersect (mouseRay.origin, mouseRay.direction, target.position, (transform.position - target.position).normalized);
 				if ((target.position - mousePlaneHit).sqrMagnitude <= (handleLength * GetDistanceMultiplier ()).Squared ()) {
-					if (Input.GetButtonDown ("Jump"))
-						selectedAxis = Axis.Any;
+					if ((Input.GetButtonDown("Jump") || managerScript.use))
+                        selectedAxis = Axis.Any;
 				}
 			}
 		}

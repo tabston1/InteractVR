@@ -9,6 +9,22 @@ TagManager:
   - Button
   - Manager
   - Billboard
+  - LandingController
+  - Item
+  - Slot
+  - ItemIcon
+  - Slots
+  - MainInventory
+  - Canvas
+  - EquipmentSystem
+  - CraftSystem
+  - DraggingItem
+  - Tooltip
+  - Timer
+  - Panel
+  - Hotbar
+  - ResultSlot
+  - UI
   layers:
   - Default
   - TransparentFX
