@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <!--
      Copyright 2014 Google Inc. All rights reserved.
 
@@ -14,14 +15,16 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:icon="@drawable/app_icon"
-                 android:label="@string/app_name">
-        <activity android:name="com.google.unity.GoogleUnityActivity"
-                  android:label="@string/app_name"
-                  android:screenOrientation="landscape"
-                  android:launchMode="singleTask"
-                  android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
+    
+  <!--Permissions added by the BT library-->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+<application android:icon="@drawable/app_icon" android:label="@string/app_name">
+        <activity android:name="com.google.unity.GoogleUnityActivity" android:label="@string/app_name" android:screenOrientation="landscape" android:launchMode="singleTask" android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,17 +33,19 @@
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
         <meta-data android:name="IMMERSIVE_MODE" android:value="true" />
-    </application>
+    <!--Activity added by the BT library-->
+  <activity android:name="com.techtweaking.bluetoothcontroller.ForwardingActivity" android:background="#00000000"></activity>
+  </application>
     <!-- Set target sdk version to Lollipop to prevent issues with Marshmallow's runtime permissions. -->
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="24" />
     <uses-feature android:glEsVersion="0x00020000" />
-    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
-    <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true"/>
-    <uses-permission android:name="android.permission.NFC"/>
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+    <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true" />
+    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- VR feature tags. -->
-    <uses-feature android:name="android.software.vr.mode" android:required="false"/>
-    <uses-feature android:name="android.hardware.vr.high_performance" android:required="false"/>
+    <uses-feature android:name="android.software.vr.mode" android:required="false" />
+    <uses-feature android:name="android.hardware.vr.high_performance" android:required="false" />
 </manifest>

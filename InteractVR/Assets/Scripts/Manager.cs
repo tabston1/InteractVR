@@ -16,9 +16,9 @@ public class Manager : MonoBehaviour
 	//Global reference to the Controller's Select script (for laser information)
 	public static Select select = null;
 
-  public bool menuIsActive;
-  public bool modelMenuIsActive;
-  public bool syncMenuIsActive;
+    public bool menuIsActive;
+    public bool modelMenuIsActive;
+    public bool syncMenuIsActive;
     public bool landingMenuIsActive;
 
     public bool fire1;
@@ -34,11 +34,13 @@ public class Manager : MonoBehaviour
 
 	public Canvas menu;
 	public Canvas modelMenu;
-  public Canvas syncMenu;
+    public Canvas syncMenu;
     public Canvas landingMenu;
 	
 
    public Vector3 controllerOffset;
+
+    public GameObject head;
   
   // Use this for initialization
 	void Start ()
@@ -46,6 +48,7 @@ public class Manager : MonoBehaviour
         menuIsActive = false;
         modelMenuIsActive = false;
         syncMenuIsActive = false;
+        landingMenuIsActive = true;
 
 		authoring = false;
 		mode.text = "Current mode: Run-time";
@@ -53,7 +56,11 @@ public class Manager : MonoBehaviour
 		menu.gameObject.SetActive (false);
 		modelMenu.gameObject.SetActive (false);
         syncMenu.gameObject.SetActive(false);
+        landingMenu.gameObject.SetActive(true);
+
         controllerOffset = new Vector3();
+
+        head = GameObject.Find("Head");
 
 
 		//Grab the Controller object from the scene
@@ -80,7 +87,7 @@ public class Manager : MonoBehaviour
    void Sync()
     {
         //controllerOffset = controllerOffset * controller.transform.rotation;
-        controllerOffset = controllerOffset + controller.transform.rotation.eulerAngles;
+        controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
     }
 
 }
