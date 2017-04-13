@@ -42,10 +42,8 @@ public class Manager : MonoBehaviour
     public Vector3 controllerOffset;
 
 
-
-  
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
 	{ 
 
         menuIsActive = false;
