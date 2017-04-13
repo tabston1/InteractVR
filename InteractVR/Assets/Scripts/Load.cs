@@ -20,6 +20,7 @@ public class Load : MonoBehaviour {
     void onClick()
     {
         //System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop)
+        //reader = new StreamReader(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/SavedScene.txt");
         reader = new StreamReader(Application.persistentDataPath + "/SavedScene.txt");
         manager = GameObject.FindGameObjectWithTag("Manager");
         itemPosition = new float[3];
@@ -30,7 +31,7 @@ public class Load : MonoBehaviour {
 
     IEnumerator readData()
     {
-
+        Debug.Log("Loading");
         while (reader.Peek() != -1)
         {
             line = reader.ReadLine();
