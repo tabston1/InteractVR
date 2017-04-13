@@ -67,6 +67,7 @@ public class Menu : MonoBehaviour {
         }
         else
         {
+            Manager.disableAllTransformTools();
             managerScript.menu.gameObject.SetActive(true);
             managerScript.menuIsActive = true;
         }
