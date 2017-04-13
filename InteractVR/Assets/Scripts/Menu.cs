@@ -60,7 +60,7 @@ public class Menu : MonoBehaviour {
             managerScript.modelMenuIsActive = false;
         }
 
-        else if(managerScript.modelMenuIsActive)
+        else if(managerScript.menuIsActive)
         {
             managerScript.menu.gameObject.SetActive(false);
             managerScript.menuIsActive = false;
