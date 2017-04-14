@@ -13157,17 +13157,13 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1446441259673200
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4592135534694276}
   - component: {fileID: 95325034996574854}
-  - component: {fileID: 54615526031629242}
-  - component: {fileID: 65490543554376576}
-  - component: {fileID: 114036516534360026}
-  - component: {fileID: 114760005693880184}
   m_Layer: 0
   m_Name: TVSet
   m_TagString: Untagged
@@ -16784,6 +16780,25 @@ GameObject:
   - component: {fileID: 4112364382570996}
   m_Layer: 0
   m_Name: instance_452
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1565758017877080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4932602057326384}
+  - component: {fileID: 54435237443560994}
+  - component: {fileID: 65641329128512866}
+  - component: {fileID: 114500719398978622}
+  - component: {fileID: 114984925920064084}
+  m_Layer: 0
+  m_Name: TV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42711,7 +42726,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4592135534694276}
+  - {fileID: 4932602057326384}
   - {fileID: 224340833301570302}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45069,12 +45084,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1446441259673200}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 1, y: -1, z: 3}
+  m_LocalPosition: {x: 1.545, y: -0.848, z: -0.46}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 4789153541491804}
   - {fileID: 4331799061535072}
-  m_Father: {fileID: 4491397399751362}
+  m_Father: {fileID: 4932602057326384}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
 --- !u!4 &4593205427232010
@@ -53624,6 +53639,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4896353074074130}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4932602057326384
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1565758017877080}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4592135534694276}
+  m_Father: {fileID: 4491397399751362}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4932707412279946
@@ -98325,12 +98354,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1507111301372674}
   m_Mesh: {fileID: 4300832, guid: c494c2cb1f88ed048b275cd0749eb6c3, type: 3}
---- !u!54 &54615526031629242
+--- !u!54 &54435237443560994
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1446441259673200}
+  m_GameObject: {fileID: 1565758017877080}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -98364,18 +98393,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65490543554376576
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1446441259673200}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: -24.375029, y: 70.52644, z: 43.102615}
-  m_Center: {x: -8.664355, y: 32.845917, z: 21.051733}
 --- !u!65 &65511066916654408
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -98400,6 +98417,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65641329128512866
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1565758017877080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5309813, y: 2.253302, z: 0.969041}
+  m_Center: {x: -0.14469421, y: 0.18880963, z: -0.066479266}
 --- !u!65 &65737895678520946
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -98523,18 +98552,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114036516534360026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1446441259673200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37a3e0983e589654886369fc1780c1ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gravityOn: 0
 --- !u!114 &114170599975133548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98734,6 +98751,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 0, y: 0}
   m_UseGraphicAlpha: 0
+--- !u!114 &114500719398978622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1565758017877080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a3e0983e589654886369fc1780c1ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityOn: 0
 --- !u!114 &114508248537494582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -98936,17 +98965,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: " Name: Bed\n Color: Red\n Scale: 1\n Rotation: \n\tX: 0\n\tY: 0\n\tZ: 0\n "
---- !u!114 &114760005693880184
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1446441259673200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bac5cf325c86e5541bca66d5f7273efa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114779333708723426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99082,6 +99100,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114984925920064084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1565758017877080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac5cf325c86e5541bca66d5f7273efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222399589269810584
 CanvasRenderer:
   m_ObjectHideFlags: 1
