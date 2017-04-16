@@ -181,8 +181,6 @@ public class Select : MonoBehaviour
 			timer = 0f;
 		}
 
-		// TODO: use arrow keys to control the controller
-
 		// Control the direction the controller faces
 		var xRotation = Input.GetAxis ("Vertical") * axisSpeed;
 		var yRotation = Input.GetAxis ("Horizontal") * axisSpeed;
