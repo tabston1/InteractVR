@@ -59,17 +59,11 @@ public class Menu : MonoBehaviour {
             managerScript.modelMenu.gameObject.SetActive(false);
             managerScript.modelMenuIsActive = false;
         }
-
-        else if(managerScript.modelMenuIsActive)
-        {
-            managerScript.menu.gameObject.SetActive(false);
-            managerScript.menuIsActive = false;
-        }
         else
         {
-            Manager.disableAllTransformTools();
-            managerScript.menu.gameObject.SetActive(true);
-            managerScript.menuIsActive = true;
+            if (!managerScript.menuIsActive) Manager.disableAllTransformTools();
+            managerScript.menu.gameObject.SetActive(!managerScript.menuIsActive);
+            managerScript.menuIsActive = !managerScript.menuIsActive;
         }
     }
 
