@@ -25,6 +25,7 @@ TagManager:
   - Hotbar
   - ResultSlot
   - UI
+  - Movable
   layers:
   - Default
   - TransparentFX
