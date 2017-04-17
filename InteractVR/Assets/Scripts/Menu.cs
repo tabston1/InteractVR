@@ -36,6 +36,7 @@ public class Menu : MonoBehaviour {
         {
             if (timer < syncTime) menuButton();
             timer = 0f;
+            managerScript.submitUp = false;
         }
 	}
 
