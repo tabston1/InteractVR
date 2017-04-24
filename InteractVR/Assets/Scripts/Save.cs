@@ -22,8 +22,6 @@ public class Save : MonoBehaviour
         buildNumbers = new Dictionary<string, int> ();
 		mainCamera = GameObject.FindGameObjectWithTag ("MainCamera");
 
-		if (mainCamera == null)
-			Debug.Log ("camera null");
 		//Find the model menu so build numbers can be accessed
 		foreach (Transform child in mainCamera.transform) {
 			if (child.name == "ModelMenu") {
@@ -55,14 +53,19 @@ public class Save : MonoBehaviour
         Debug.Log("Saving");
 		allGameObjects = (GameObject[])GameObject.FindObjectsOfType (typeof(GameObject));
 		Transform objTrans;
+        BasicObject bobj;
+        GameObject model;
 
 		//Iterate through all objects in the scene to find the ones that are currently instantiated
 		foreach (GameObject obj in allGameObjects) {
-			BasicObject bobj = (BasicObject)obj.GetComponent (typeof(BasicObject));
-			if (bobj != null) {
+			bobj = (BasicObject)obj.GetComponent (typeof(BasicObject));
+            model = bobj.transform.parent.gameObject;
+            if (model != null) {
+                Debug.Log(model.name);
 				//BasicObject bobj = (BasicObject)obj.GetComponent(typeof(BasicObject));
 				if (buildNumbers.ContainsKey (bobj.buildNo)) {
-					objTrans = bobj.transform;
+                    Debug.Log("Save Build No" + bobj.buildNo);
+                    objTrans = bobj.transform;
 					buildNumbers [bobj.buildNo] += 1;
 
 					//Save the state of every user instantiated object in the scene

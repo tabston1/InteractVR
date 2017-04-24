@@ -26,6 +26,7 @@ TagManager:
   - ResultSlot
   - UI
   - Movable
+  - Model
   layers:
   - Default
   - TransparentFX
