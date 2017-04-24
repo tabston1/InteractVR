@@ -14,6 +14,9 @@ public abstract class TransformTool : MonoBehaviour
 	//Reference to the script handling all of the Transformation Gizmo work
 	public TransformGizmo gizmoScript;
 
+	//Reference to the BasicObject script associated with the object being transformed
+	public BasicObject objScript;
+
 	//The billboard that corresponds to this button
 	public GameObject Billboard { get; set; }
 
@@ -28,8 +31,6 @@ public abstract class TransformTool : MonoBehaviour
 			if (_active) {
 				if (Manager.activeTransformGizmo)
 					Debug.Log ("Activating a transformation tool, but the Manager says a tool is already active!");
-			} else {
-				//Debug.Log ("Deactivating a transformation tool");
 			}
 
 			Manager.activeTransformGizmo = value;
@@ -41,6 +42,11 @@ public abstract class TransformTool : MonoBehaviour
 	void Start ()
 	{
 		setObjectandBillboard ();
+
+		objScript = obj.gameObject.GetComponent<BasicObject> ();
+		if (objScript == null)
+			Debug.Log ("Could not grab a reference to the BasicObject script for " + transform.name);
+		
 
 		gizmoScript = GameObject.Find ("Main Camera").GetComponent<TransformGizmo> ();
 		if (gizmoScript == null)
@@ -70,6 +76,9 @@ public abstract class TransformTool : MonoBehaviour
 		//Ensure no other tool is enabled already (even on a different billboard)
 		Manager.disableAllTransformTools ();
 
+		//Ensure the rigidbody is frozen so that physics won't interfere with transformations
+		objScript.disableMotion ();
+
 		Active = true;
 
 		//Change the object's layer so that the laser will ignore it while a tool is enabled
@@ -92,28 +101,13 @@ public abstract class TransformTool : MonoBehaviour
 		Active = false;
 
 		//Change the object's layer back to Movable
-		obj.gameObject.layer = LayerMask.NameToLayer ("Movable");
-
-		//Billboard.GetComponentInChildren<GenerateText> ().updateText ();
+		if (obj != null)
+			obj.gameObject.layer = LayerMask.NameToLayer ("Movable");
 	}
 
 	//Grab a reference to the GameObject being manipulated, the empty parent, and the object's billboard
 	void setObjectandBillboard ()
 	{
-		/*
-		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
-		//Empty parent object wrapper has 2 children: billboard and model object
-		Transform billboard = transform.parent.transform.parent;
-		if (billboard == null) {
-			Debug.Log ("Could not grab a reference to the Billboard associated with this object.");
-			return;
-		}
-
-		Billboard = billboard.gameObject;
-		obj = billboard.parent;
-		*/
-
-
 		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
 		//Empty parent object wrapper has 2 children: billboard and model object
 		Transform billboard = transform.parent.transform.parent;

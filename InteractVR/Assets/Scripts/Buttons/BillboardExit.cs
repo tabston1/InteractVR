@@ -66,8 +66,10 @@ public class BillboardExit : MonoBehaviour
 
 			//Enable/Disable gravity if it is turned on/off for this object (as billboard closes)
 			if (objScript.gravityOn) {
+				objScript.enableMotion ();
 				objScript.enableGravity ();
 			} else {
+				objScript.disableMotion ();
 				objScript.disableGravity ();
 			}
 		}

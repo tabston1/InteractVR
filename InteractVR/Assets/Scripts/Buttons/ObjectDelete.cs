@@ -16,18 +16,6 @@ public class ObjectDelete : MonoBehaviour
 
 	void Start ()
 	{
-		/*
-		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
-		if (this.transform.parent != null) {
-			//billboard = this.transform.parent.gameObject;
-			billboard = this.transform.parent.transform.parent.gameObject;
-
-			if (billboard.transform.parent != null) {
-				obj = billboard.transform.parent.gameObject;
-			}
-		}
-		*/
-
 		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
 		//Empty parent object wrapper has 2 children: billboard and model object
 		billboard = transform.parent.transform.parent.gameObject;

@@ -213,6 +213,9 @@ namespace RuntimeGizmos
 
 			//while (!Input.GetMouseButtonUp (0)) {
 			while (!(Input.GetButtonUp ("Jump") || managerScript.useUp)) {
+				if (target == null)
+					yield break;
+
 				//Ray mouseRay = mainCamera.ScreenPointToRay (Input.mousePosition);
 				Ray mouseRay = new Ray (select.controllerOrigin, select.controllerDirection);
 

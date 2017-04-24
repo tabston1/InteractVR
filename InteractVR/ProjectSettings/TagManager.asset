@@ -27,6 +27,7 @@ TagManager:
   - UI
   - Movable
   - Wall
+  - DeletionBoundary
   layers:
   - Default
   - TransparentFX

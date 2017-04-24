@@ -70,11 +70,16 @@ public class Select : MonoBehaviour
 
 		selectedObject = HitInfo.transform.gameObject;
 
+		//Ignore walls
+		if (selectedObject.tag == "Wall")
+			return;
+
 		//Enable the description for the object
 		if (selectedObject.tag == "Button")
 			selectedObject.BroadcastMessage ("onClick");
-		else
+		else {
 			selectedObject.BroadcastMessage ("onSelect");
+		}
 	}
 
 	//Disables an active description for a child, making it disappear.
@@ -149,22 +154,18 @@ public class Select : MonoBehaviour
 
 	void Grab ()
 	{
+		//Don't allow a user to grab an object if a transformation tool is active for another object
+		if (Manager.activeTransformGizmo)
+			return;
+			
 		if (HitInfo.transform.gameObject.tag == "Movable") {
-
-			//Ensure the object's rigidbody is not kinematic
-			if (HitInfo.rigidbody) {
-				HitInfo.rigidbody.isKinematic = false;
-			}
-
-
 			holdingObject = true;
 
 			//Also toggle beingHeld bool in the specific object's Basic Object script
 			BasicObject objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
 			if (objScript != null) {
 				objScript.beingHeld = true;
-				//objScript.disableGravity ();
-				//objScript.enableKinematic();
+				objScript.enableMotion ();
 			}
 
 			distance = Vector3.Distance (controller.transform.position, HitInfo.transform.position);
@@ -174,14 +175,6 @@ public class Select : MonoBehaviour
 
 	void Drop ()
 	{
-		/*
-		if (HitInfo.rigidbody) {
-			HitInfo.rigidbody.velocity = Vector3.zero;
-			if (!objScript.gravityOn)
-				HitInfo.rigidbody.isKinematic = true;
-		}
-		*/
-
 		if (HitInfo.rigidbody) {
 			HitInfo.rigidbody.velocity = Vector3.zero;
 		}
@@ -193,17 +186,9 @@ public class Select : MonoBehaviour
 		if (objScript != null) {
 			objScript.beingHeld = false;
 			if (!objScript.billboard.activeSelf) {
-				//objScript.disableKinematic();
+				StartCoroutine (objScript.DelayedObjectMotionFreeze ());
 			}
-			//if (!objScript.billboard.activeSelf)
-			//objScript.enableGravity ();
 		}
-
-
-		/*
-		if (objScript != null)
-			objScript.beingHeld = false;
-		*/
 
 		canSelect = false;
 		lineColor (Color.green, Color.green);
@@ -274,9 +259,6 @@ public class Select : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		//camera = GameObject.FindGameObjectWithTag("MainCamera");
-		//cameraTrans = camera.GetComponent<Transform>();
-
 		controller = GameObject.FindGameObjectWithTag ("Controller");
 
 		selectedObject = null;
@@ -290,10 +272,6 @@ public class Select : MonoBehaviour
 
 	void Update ()
 	{
-		//gazeOrigin = Camera.main.transform.position;
-		//gazeDirection = Camera.main.transform.forward;
-		//gazeRotation = Camera.main.transform.rotation;
-
 		// Update controller information
 		controllerOrigin = controller.transform.position;
 		controllerDirection = controller.transform.forward;

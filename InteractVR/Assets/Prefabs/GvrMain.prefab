@@ -1408,12 +1408,12 @@ Transform:
   - {fileID: 4594037983944566}
   - {fileID: 4411045210278658}
   - {fileID: 4323058136523580}
-  - {fileID: 224916979758945598}
   - {fileID: 224309303790717668}
+  - {fileID: 224916979758945598}
   - {fileID: 224009081195958484}
+  - {fileID: 224893271946007892}
   - {fileID: 224729507938216238}
   - {fileID: 224082030602063164}
-  - {fileID: 224893271946007892}
   m_Father: {fileID: 4592348838570678}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1917,7 +1917,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1958035405481610}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 17.5, y: 7.5, z: 0.1}
@@ -1989,7 +1989,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1278665721416696}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2001,7 +2001,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783737372487522}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5, y: 2, z: 0.1}
@@ -2013,7 +2013,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1132083580910316}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5, y: 2, z: 0.1}
@@ -2049,7 +2049,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1128848833729414}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 20, y: 18, z: 0}
@@ -2097,7 +2097,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1706305565713416}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5, y: 2, z: 0.1}
@@ -6717,7 +6717,7 @@ RectTransform:
   m_Children:
   - {fileID: 224013502339308814}
   m_Father: {fileID: 4741769469523638}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6959,7 +6959,7 @@ RectTransform:
   - {fileID: 224924017950389862}
   - {fileID: 224303078995033974}
   m_Father: {fileID: 4741769469523638}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7361,7 +7361,7 @@ RectTransform:
   - {fileID: 224969102628175500}
   - {fileID: 224066111475748782}
   m_Father: {fileID: 4741769469523638}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7511,7 +7511,7 @@ RectTransform:
   - {fileID: 224834407188183520}
   - {fileID: 4812142039697852}
   m_Father: {fileID: 4741769469523638}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7551,7 +7551,7 @@ RectTransform:
   - {fileID: 224247560408874700}
   - {fileID: 224354672412867484}
   m_Father: {fileID: 4741769469523638}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

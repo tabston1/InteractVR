@@ -74,17 +74,12 @@ public class GravityController : MonoBehaviour
 				buttonIcon.sprite = gravityDisabledSprite;
 				objScript.gravityOn = false;
 			} 
-		//Enable gravity if it is currently enabled (will actually take effect on on toolbar/billboard close)
-		else {
+			//Enable gravity if it is currently enabled (will actually take effect on on toolbar/billboard close)
+			else {
 				buttonIcon.sprite = gravityEnabledSprite;
 				objScript.gravityOn = true;
 			}
-		}
-	}
-
-	// Update is called once per frame
-	void Update ()
-	{
-		
+		} else
+			Debug.Log ("Could not grab reference to the object model in GravityController");
 	}
 }
