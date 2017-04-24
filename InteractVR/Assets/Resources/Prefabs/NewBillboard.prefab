@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114803146662358842}
   - component: {fileID: 114858622025943498}
   - component: {fileID: 65769645121953008}
+  - component: {fileID: 54197092726086218}
   m_Layer: 5
   m_Name: Gravity
   m_TagString: Button
@@ -44,6 +45,7 @@ GameObject:
   - component: {fileID: 114407017994383984}
   - component: {fileID: 114313449238325364}
   - component: {fileID: 65692785880205092}
+  - component: {fileID: 54951480373029492}
   m_Layer: 5
   m_Name: Rotation
   m_TagString: Button
@@ -64,6 +66,7 @@ GameObject:
   - component: {fileID: 114586984600862048}
   - component: {fileID: 114729459534992814}
   - component: {fileID: 65735986384559246}
+  - component: {fileID: 54854497143050672}
   m_Layer: 5
   m_Name: DeleteBillboard
   m_TagString: Button
@@ -102,6 +105,7 @@ GameObject:
   - component: {fileID: 114288591050325268}
   - component: {fileID: 114842452192358268}
   - component: {fileID: 65944030182270980}
+  - component: {fileID: 54186630344562226}
   m_Layer: 5
   m_Name: ObjectDelete
   m_TagString: Button
@@ -122,6 +126,7 @@ GameObject:
   - component: {fileID: 114481345496622208}
   - component: {fileID: 114568810753704114}
   - component: {fileID: 65652807102371258}
+  - component: {fileID: 54678403232934492}
   m_Layer: 5
   m_Name: Transform
   m_TagString: Button
@@ -157,7 +162,6 @@ GameObject:
   - component: {fileID: 114284924108479948}
   - component: {fileID: 222289927263428018}
   - component: {fileID: 114905795041244466}
-  - component: {fileID: 114481179472979746}
   - component: {fileID: 114305507332585626}
   m_Layer: 5
   m_Name: NewBillboard
@@ -165,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1950920501661770
 GameObject:
   m_ObjectHideFlags: 1
@@ -179,6 +183,7 @@ GameObject:
   - component: {fileID: 114011964202542374}
   - component: {fileID: 65237247116277254}
   - component: {fileID: 114193190134442406}
+  - component: {fileID: 54586804919409238}
   m_Layer: 5
   m_Name: Scale
   m_TagString: Button
@@ -217,6 +222,96 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!54 &54186630344562226
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1555066130445482}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54197092726086218
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072187601495732}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54586804919409238
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1950920501661770}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54678403232934492
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1701824568453438}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54854497143050672
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377464941914530}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54951480373029492
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237289181701434}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65237247116277254
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -480,7 +575,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 770ffee747abd433d8313e8ddfdbda81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c6d59122ee5e4497af45555f5fb5b48, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -583,20 +678,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114481179472979746
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842912492741424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 0, y: 0}
-  m_UseGraphicAlpha: 0
 --- !u!114 &114481345496622208
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -26,6 +26,8 @@ public class Select : MonoBehaviour
 
 	public RaycastHit HitInfo { get; private set; }
 
+	public Ray HitRay { get; private set; }
+
 	/// Position of the intersection of the user's gaze and the object in the scene.
 	public Vector3 Position { get; private set; }
 
@@ -51,20 +53,33 @@ public class Select : MonoBehaviour
 	private GameObject manager;
 	private Manager managerScript;
 
+	private float speed = 5.0f;
+	private float maxSpeed = 15.0f;
+
 	// Finds the description child of an object and makes the description appear
 	void OnSelect ()
 	{
 		if (selectedObject != null) {
 			Deselect ();
 		}
-			
+
+		//Ensure the object's rigidbody is not kinematic at this point
+		if (HitInfo.rigidbody) {
+			HitInfo.rigidbody.isKinematic = false;
+		}
+
 		selectedObject = HitInfo.transform.gameObject;
+
+		//Ignore walls
+		if (selectedObject.tag == "Wall")
+			return;
 
 		//Enable the description for the object
 		if (selectedObject.tag == "Button")
 			selectedObject.BroadcastMessage ("onClick");
-		else
+		else {
 			selectedObject.BroadcastMessage ("onSelect");
+		}
 	}
 
 	//Disables an active description for a child, making it disappear.
@@ -125,7 +140,7 @@ public class Select : MonoBehaviour
 		if (FocusedObject.tag == "Button")
 			FocusedObject.GetComponent<Button> ().Select ();
  
-		if (FocusedObject.tag != "UI")
+		if (!(FocusedObject.tag == "UI" || FocusedObject.tag == "Wall"))
 			lineColor (Color.green, Color.green);        
 	}
 
@@ -139,8 +154,20 @@ public class Select : MonoBehaviour
 
 	void Grab ()
 	{
+		//Don't allow a user to grab an object if a transformation tool is active for another object
+		if (Manager.activeTransformGizmo)
+			return;
+			
 		if (HitInfo.transform.gameObject.tag == "Movable") {
 			holdingObject = true;
+
+			//Also toggle beingHeld bool in the specific object's Basic Object script
+			BasicObject objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
+			if (objScript != null) {
+				objScript.beingHeld = true;
+				objScript.enableMotion ();
+			}
+
 			distance = Vector3.Distance (controller.transform.position, HitInfo.transform.position);
 			lineColor (Color.blue, Color.blue);
 		}
@@ -148,7 +175,21 @@ public class Select : MonoBehaviour
 
 	void Drop ()
 	{
+		if (HitInfo.rigidbody) {
+			HitInfo.rigidbody.velocity = Vector3.zero;
+		}
+
 		holdingObject = false;
+
+		//Also toggle beingHeld bool in the specific object's Basic Object script
+		BasicObject objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
+		if (objScript != null) {
+			objScript.beingHeld = false;
+			if (!objScript.billboard.activeSelf) {
+				StartCoroutine (objScript.DelayedObjectMotionFreeze ());
+			}
+		}
+
 		canSelect = false;
 		lineColor (Color.green, Color.green);
 	}
@@ -218,9 +259,6 @@ public class Select : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		//camera = GameObject.FindGameObjectWithTag("MainCamera");
-		//cameraTrans = camera.GetComponent<Transform>();
-
 		controller = GameObject.FindGameObjectWithTag ("Controller");
 
 		selectedObject = null;
@@ -234,22 +272,37 @@ public class Select : MonoBehaviour
 
 	void Update ()
 	{
-		//gazeOrigin = Camera.main.transform.position;
-		//gazeDirection = Camera.main.transform.forward;
-		//gazeRotation = Camera.main.transform.rotation;
-
 		// Update controller information
 		controllerOrigin = controller.transform.position;
 		controllerDirection = controller.transform.forward;
 		controllerRotation = controller.transform.rotation;
 
+		/*
 		// Grab functionality
 		if (!holdingObject)
 			UpdateRaycast ();
 		else
 			HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+		*/
 
-		//else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+		// Grab functionality
+		if (!holdingObject)
+			UpdateRaycast ();
+		else {
+			if (HitInfo.rigidbody) {
+				HitRay = new Ray (controllerOrigin, controllerDirection);
+				Vector3 velocity = (HitRay.GetPoint (distance) - HitInfo.transform.position) * speed;
+
+				if (velocity.magnitude > maxSpeed)
+					velocity *= maxSpeed / velocity.magnitude;
+
+				HitInfo.rigidbody.velocity = velocity;
+			} else {
+				HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+			}
+		}
+		
+
 
 		// Get inputs from controller
 		GetInputs ();
