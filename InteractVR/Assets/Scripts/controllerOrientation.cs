@@ -53,7 +53,7 @@ public class controllerOrientation : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        controller = GameObject.Find("Controller");
+        controller = GameObject.FindGameObjectWithTag("Controller");
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
 
