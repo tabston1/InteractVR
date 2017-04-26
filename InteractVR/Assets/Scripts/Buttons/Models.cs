@@ -20,7 +20,7 @@ public class Models : MonoBehaviour {
 
     void onClick()
     {
-        GameObject controller = GameObject.Find("Controller");
+        GameObject controller = GameObject.FindGameObjectWithTag("Controller");
         controller.BroadcastMessage("menuButton");
 
         managerScript.modelMenu.gameObject.SetActive(true);

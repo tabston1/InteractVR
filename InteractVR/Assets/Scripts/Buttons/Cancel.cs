@@ -16,7 +16,7 @@ public class Cancel : MonoBehaviour
 		manager = GameObject.Find ("Manager");
 		managerScript = manager.GetComponent<Manager> ();
 
-		controller = GameObject.Find ("Controller");
+		controller = GameObject.FindGameObjectWithTag ("Controller");
 		landingController = GameObject.Find ("LandingController");
 
 	}
