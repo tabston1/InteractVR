@@ -3096,7 +3096,7 @@ GameObject:
   - component: {fileID: 4113952003071656}
   m_Layer: 0
   m_Name: 58e1cfd65c4e0
-  m_TagString: Movable
+  m_TagString: Model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

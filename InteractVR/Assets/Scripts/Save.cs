@@ -53,29 +53,40 @@ public class Save : MonoBehaviour
         Debug.Log("Saving");
 		allGameObjects = (GameObject[])GameObject.FindObjectsOfType (typeof(GameObject));
 		Transform objTrans;
-        BasicObject bobj;
-        GameObject model;
+        string bobj;
+        Transform bobjChild = null;
 
 		//Iterate through all objects in the scene to find the ones that are currently instantiated
 		foreach (GameObject obj in allGameObjects) {
-			bobj = (BasicObject)obj.GetComponent (typeof(BasicObject));
-            model = bobj.transform.parent.gameObject;
-            if (model != null) {
-                Debug.Log(model.name);
-				//BasicObject bobj = (BasicObject)obj.GetComponent(typeof(BasicObject));
-				if (buildNumbers.ContainsKey (bobj.buildNo)) {
-                    Debug.Log("Save Build No" + bobj.buildNo);
-                    objTrans = bobj.transform;
-					buildNumbers [bobj.buildNo] += 1;
+			//bobj = (BasicObject)obj.GetComponent (typeof(BasicObject));
+            
+            if (obj.tag.Equals("Model")) {
+                bobj = obj.name.Remove(obj.name.Length - 7, 7); //Strips the word "(Clone)" away from the build number            
+				if (buildNumbers.ContainsKey (bobj)) {
+                    Debug.Log("Save Build No" + bobj);
+                    foreach (Transform child in obj.transform)
+                    {
+                        if (child.tag == "Movable")
+                        {
+                            bobjChild = child;
+                        }         
+    
+                    }
+             
+                    objTrans = obj.transform;
+					buildNumbers [bobj] += 1;
 
 					//Save the state of every user instantiated object in the scene
 					//Saves position, rotation, and scale
-					writer.WriteLine (bobj.buildNo + " " +
+					writer.WriteLine (bobj + " " + 
 					objTrans.position.x + " " + objTrans.position.y + " " + objTrans.position.z + " " +
 					objTrans.rotation.eulerAngles.x + " " + objTrans.rotation.eulerAngles.y + " " + objTrans.rotation.eulerAngles.z + " " +
-					objTrans.localScale.x + " " + objTrans.localScale.y + " " + objTrans.localScale.z);
-                  
-				}
+					objTrans.localScale.x + " " + objTrans.localScale.y + " " + objTrans.localScale.z + " " +
+                    bobjChild.position.x + " " + bobjChild.position.y + " " + bobjChild.position.z + " " +
+                    bobjChild.rotation.eulerAngles.x + " " + bobjChild.rotation.eulerAngles.y + " " + bobjChild.rotation.eulerAngles.z + " " +
+                    bobjChild.localScale.x + " " + bobjChild.localScale.y + " " + bobjChild.localScale.z);
+
+                }
 			}
 		}
 		writer.Close ();
