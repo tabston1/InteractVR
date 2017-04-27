@@ -55,7 +55,8 @@ public class ShowBillboard : MonoBehaviour
 			//billboard.transform.position = Camera.transform.position + (5 * Camera.transform.forward);
 			billboard.transform.position = gameObject.transform.position;
 			billboard.transform.Translate (Vector3.up * 2, Space.World);
-			billboard.transform.forward = -Camera.transform.forward;
+			//billboard.transform.forward = -Camera.transform.forward;
+			billboard.transform.forward = -Manager.select.controllerDirection;
 			billboard.SetActive (true);
 		} else
 			Debug.Log ("Could not find reference to billboard from ShowBillboard script on " + name);
