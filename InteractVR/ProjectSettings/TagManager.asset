@@ -28,6 +28,7 @@ TagManager:
   - Movable
   - Wall
   - DeletionBoundary
+  - Model
   layers:
   - Default
   - TransparentFX

@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 4804460386554192}
   m_Layer: 0
   m_Name: 58e1d516b8e87
-  m_TagString: Untagged
+  m_TagString: Model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
