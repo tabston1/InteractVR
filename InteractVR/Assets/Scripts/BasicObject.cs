@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RuntimeGizmos;
@@ -112,22 +113,25 @@ public class BasicObject : MonoBehaviour
 			Debug.Log ("Deleting " + name);
 
 			if (billboard != null) {
-				//Disable any active tool
-				billboard.BroadcastMessage ("disableTool");
+				try {
+					//Disable any active tool
+					billboard.BroadcastMessage ("disableTool");
+				} catch (Exception e) {
+				}
+						
+				try {
+					//If the Billboard is currently detached, it will not be destroyed with the object, so destroy it manually first
+					Destroy (billboard);
+				} catch (Exception e) {
+				}
 
-				//If the Billboard is currently detached, it will not be destroyed with the object, so destroy it manually first
-				Destroy (billboard);
 			}
 
-			//Now destroy the actual object (by deleting the empty parent object)
-			Destroy (emptyParentContainer);
-
-			//Emulate the "OnGazeLeave()" functionality from the Select script
-			if (Manager.select != null) {
-				EventSystem.current.SetSelectedGameObject (null);
-				Manager.select.lineColor (Color.red, Color.red);
+			try {
+				//Now destroy the actual object (by deleting the empty parent object)
+				Destroy (emptyParentContainer);
+			} catch (Exception e) {
 			}
-
 		}
 	}
 
@@ -140,14 +144,14 @@ public class BasicObject : MonoBehaviour
 
 		while (rigidBod.velocity.magnitude > threshold && !beingHeld) {
 			elapsed += Time.deltaTime;
-			Debug.Log (elapsed + " seconds spent slowing down " + name + ". Velocity: " + rigidBod.velocity.magnitude);
+			//Debug.Log (elapsed + " seconds spent slowing down " + name + ". Velocity: " + rigidBod.velocity.magnitude);
 
 			//Reduce the velocity and angular velocity by some reduction factor
 			rigidBod.velocity *= reductionFactor;
 			rigidBod.angularVelocity *= reductionFactor;
 
 			//After trying 10 to slow down the object for 10 seconds, just stop it
-			if (elapsed >= 10f) {
+			if (elapsed >= 8f) {
 				rigidBod.velocity = Vector3.zero;
 				rigidBod.angularVelocity = Vector3.zero;
 				break;
@@ -155,12 +159,12 @@ public class BasicObject : MonoBehaviour
 			yield return new WaitForSeconds (0.5f);
 		}
 
-		Debug.Log ("Constraining motion for " + name);
+		//Debug.Log ("Constraining motion for " + name);
 		//Fully constrain rigidbody motion after slowing it down
 		if (!beingHeld)
 			rigidBod.constraints = RigidbodyConstraints.FreezeAll;
 		else
-			Debug.Log ("Didn't freeze " + name + " because it was grabbed by the user");
+			//Debug.Log ("Didn't freeze " + name + " because it was grabbed by the user");
 
 		yield break;
 	}
