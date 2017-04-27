@@ -55,6 +55,7 @@ public class Save : MonoBehaviour
 		Transform objTrans;
         string bobj;
         Transform bobjChild = null;
+     
 
 		//Iterate through all objects in the scene to find the ones that are currently instantiated
 		foreach (GameObject obj in allGameObjects) {

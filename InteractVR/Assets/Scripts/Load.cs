@@ -39,7 +39,7 @@ public class Load : MonoBehaviour {
 
     IEnumerator readData()
     {
-        Debug.Log("Loading");
+        Rigidbody rbody = null;
         while (reader.Peek() != -1)
         {
             line = reader.ReadLine();
@@ -83,9 +83,14 @@ public class Load : MonoBehaviour {
                     child.position = new Vector3(childPosition[0], childPosition[1], childPosition[2]);
                     child.eulerAngles = new Vector3(childRotation[0], childRotation[1], childRotation[2]);
                     child.localScale = new Vector3(childScale[0], childScale[1], childScale[2]);
+
+                    //Freezes the position and the rotation of the object
+                    rbody = child.GetComponent<Rigidbody>();
+                    rbody.constraints = RigidbodyConstraints.FreezeAll;
+
                 }
             }
-         
+            
         }
         reader.Close();
 

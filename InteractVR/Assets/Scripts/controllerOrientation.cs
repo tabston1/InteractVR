@@ -138,7 +138,9 @@ public class controllerOrientation : MonoBehaviour {
                 {
                     string content = System.Text.ASCIIEncoding.ASCII.GetString(msg);
                     updateController(content);
+                   
                 }
+                
             }
 
             yield return null;
