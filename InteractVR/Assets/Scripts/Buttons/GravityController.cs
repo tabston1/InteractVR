@@ -27,21 +27,6 @@ public class GravityController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		/*
-		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> GameObject being manipulated
-		if (this.transform.parent != null) {
-			//billboard = this.transform.parent.gameObject;
-			billboard = this.transform.parent.transform.parent.gameObject;
-
-			if (billboard.transform.parent != null) {
-				obj = billboard.transform.parent.gameObject;
-
-				//Grab reference to this object's object wrapper script
-				objScript = obj.GetComponent<BasicObject> ();
-			}
-		}
-		*/
-
 		//Current hierarchy: this button -> Slot (grid layout) -> Billboard -> Empty parent object wrapper
 		//Empty parent object wrapper has 2 children: billboard and model object
 		billboard = transform.parent.transform.parent.gameObject;
@@ -89,17 +74,12 @@ public class GravityController : MonoBehaviour
 				buttonIcon.sprite = gravityDisabledSprite;
 				objScript.gravityOn = false;
 			} 
-		//Enable gravity if it is currently enabled (will actually take effect on on toolbar/billboard close)
-		else {
+			//Enable gravity if it is currently enabled (will actually take effect on on toolbar/billboard close)
+			else {
 				buttonIcon.sprite = gravityEnabledSprite;
 				objScript.gravityOn = true;
 			}
-		}
-	}
-
-	// Update is called once per frame
-	void Update ()
-	{
-		
+		} else
+			Debug.Log ("Could not grab reference to the object model in GravityController");
 	}
 }

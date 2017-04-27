@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class Select : MonoBehaviour
 {
 
 	private GameObject camera;
+	private Rigidbody cameraRigidBod;
 	private Transform cameraTrans;
 
 	private GameObject selectedObject;
@@ -26,6 +28,8 @@ public class Select : MonoBehaviour
 
 	public RaycastHit HitInfo { get; private set; }
 
+	public Ray HitRay { get; private set; }
+
 	/// Position of the intersection of the user's gaze and the object in the scene.
 	public Vector3 Position { get; private set; }
 
@@ -34,16 +38,24 @@ public class Select : MonoBehaviour
 
 	public GameObject FocusedObject { get; private set; }
 
+	public BasicObject objScript { get; private set; }
+
 	private Vector3 gazeOrigin;
 	private Vector3 gazeDirection;
 	private Quaternion gazeRotation;
 	private float lastHitDistance = 15.0f;
 	private float distance;
+	private float initialGrabDistance = 0f;
+	private float previousDistanceMagnitude = Mathf.Infinity;
+	private float distanceThreshold = 3.0f;
+
+	private Vector3 lastCameraPosition;
 
 	public GameObject controller;
 	public Vector3 controllerOrigin;
 	public Vector3 controllerDirection;
 	public Quaternion controllerRotation;
+	private float grabForce = 750f;
 
 	private LineRenderer linePointer;
 	public float axisSpeed;
@@ -51,20 +63,38 @@ public class Select : MonoBehaviour
 	private GameObject manager;
 	private Manager managerScript;
 
+	private float speed = 30.0f;
+	private float maxSpeed = 50.0f;
+	private float maxDistance = 5.0f;
+
 	// Finds the description child of an object and makes the description appear
 	void OnSelect ()
 	{
 		if (selectedObject != null) {
 			Deselect ();
 		}
-			
+
+		//Ensure the object's rigidbody is not kinematic at this point
+		if (HitInfo.rigidbody) {
+			HitInfo.rigidbody.isKinematic = false;
+		}
+
 		selectedObject = HitInfo.transform.gameObject;
+
+		//Ignore walls
+		if (selectedObject.tag == "Wall")
+			return;
 
 		//Enable the description for the object
 		if (selectedObject.tag == "Button")
 			selectedObject.BroadcastMessage ("onClick");
-		else
-			selectedObject.BroadcastMessage ("onSelect");
+		else {
+			try {
+				selectedObject.BroadcastMessage ("onSelect");
+			} catch (Exception e) {
+				selectedObject = null;
+			}
+		}
 	}
 
 	//Disables an active description for a child, making it disappear.
@@ -125,8 +155,8 @@ public class Select : MonoBehaviour
 		if (FocusedObject.tag == "Button")
 			FocusedObject.GetComponent<Button> ().Select ();
  
-		if (FocusedObject.tag != "UI")
-			lineColor (Color.green, Color.green);        
+		if (!(FocusedObject.tag == "UI" || FocusedObject.tag == "Wall"))
+			lineColor (Color.green, Color.green);  
 	}
 
 	private void OnGazeLeave (GameObject OldFocusedObject)
@@ -134,21 +164,64 @@ public class Select : MonoBehaviour
 		if (OldFocusedObject.tag == "Button")
 			EventSystem.current.SetSelectedGameObject (null);
 
-		lineColor (Color.red, Color.red);        
+		lineColor (Color.red, Color.red);  
 	}
 
 	void Grab ()
 	{
+		//Don't allow a user to grab an object if a transformation tool is active for another object
+		if (Manager.activeTransformGizmo)
+			return;
+			
 		if (HitInfo.transform.gameObject.tag == "Movable") {
 			holdingObject = true;
+
+			//Also toggle beingHeld bool in the specific object's Basic Object script
+			//BasicObject objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
+			if (objScript == null) {
+				objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
+			}
+
+			if (objScript != null) {
+				objScript.beingHeld = true;
+				objScript.enableMotion ();
+
+				//objScript.disableGravity();
+			}
+
 			distance = Vector3.Distance (controller.transform.position, HitInfo.transform.position);
+
+			//Save the initial grab distance if the object was just picked up
+			if (initialGrabDistance == 0f) {
+				initialGrabDistance = distance;
+			}
+
+
 			lineColor (Color.blue, Color.blue);
 		}
 	}
 
 	void Drop ()
 	{
+		if (HitInfo.rigidbody) {
+			HitInfo.rigidbody.velocity = Vector3.zero;
+		}
+
 		holdingObject = false;
+
+		//Also toggle beingHeld bool in the specific object's Basic Object script
+		//BasicObject objScript = HitInfo.transform.gameObject.GetComponent<BasicObject> ();
+		if (objScript != null) {
+			objScript.beingHeld = false;
+			if (!objScript.billboard.activeSelf) {
+				StartCoroutine (objScript.DelayedObjectMotionFreeze ());
+			}
+			objScript = null;
+		}
+
+		//Reset the initial grab distance to prepare for the next object to be picked up
+		initialGrabDistance = 0f;
+
 		canSelect = false;
 		lineColor (Color.green, Color.green);
 	}
@@ -218,10 +291,10 @@ public class Select : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		//camera = GameObject.FindGameObjectWithTag("MainCamera");
-		//cameraTrans = camera.GetComponent<Transform>();
-
 		controller = GameObject.FindGameObjectWithTag ("Controller");
+		camera = GameObject.FindGameObjectWithTag ("MainCamera");
+		cameraRigidBod = camera.GetComponent<Rigidbody> ();
+		lastCameraPosition = camera.transform.position;
 
 		selectedObject = null;
 		timer = 0f;
@@ -234,10 +307,6 @@ public class Select : MonoBehaviour
 
 	void Update ()
 	{
-		//gazeOrigin = Camera.main.transform.position;
-		//gazeDirection = Camera.main.transform.forward;
-		//gazeRotation = Camera.main.transform.rotation;
-
 		// Update controller information
 		controllerOrigin = controller.transform.position;
 		controllerDirection = controller.transform.forward;
@@ -246,10 +315,9 @@ public class Select : MonoBehaviour
 		// Grab functionality
 		if (!holdingObject)
 			UpdateRaycast ();
-		else
-			HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
 
-		//else HitInfo.transform.position = (gazeOrigin + (lastHitDistance * gazeDirection));
+		
+		lastCameraPosition = camera.transform.position;
 
 		// Get inputs from controller
 		GetInputs ();
@@ -259,5 +327,47 @@ public class Select : MonoBehaviour
 	{
 		// Update controller's laser
 		updateLine ();
+	}
+
+	void FixedUpdate ()
+	{
+		if (holdingObject) {
+			if (HitInfo.rigidbody) {
+				HitRay = new Ray (controllerOrigin, controllerDirection);
+				Vector3 laserEndPoint = HitRay.GetPoint (initialGrabDistance);
+				Vector3 directionVector = laserEndPoint - HitInfo.transform.position;
+				float offsetDistance = Vector3.Distance (laserEndPoint, HitInfo.transform.position);
+
+
+				//Counteract gravitational force each frame if gravity is currently influencing the object
+				if (HitInfo.rigidbody.useGravity) {
+					HitInfo.rigidbody.AddForce (-Physics.gravity, ForceMode.Acceleration);
+				}
+
+				//float currentDistanceMagnitude = (HitRay.GetPoint (initialGrabDistance) - HitInfo.transform.position).sqrMagnitude;
+				Vector3 newVelocity = directionVector.normalized * speed;
+				if (newVelocity.magnitude > maxSpeed) {
+					Debug.Log ("Reducing object velocity");
+					newVelocity *= maxSpeed / newVelocity.magnitude;
+				}
+					
+				//Dampen velocity changes when the object is close to the end of the laser pointer
+				if (offsetDistance < (distanceThreshold / 75f)) {
+					HitInfo.rigidbody.velocity = Vector3.zero;
+				} else if (offsetDistance < (distanceThreshold / 25f)) {
+					HitInfo.rigidbody.velocity = newVelocity * 0.05f;
+				} else if (offsetDistance < (distanceThreshold / 10f)) {
+					HitInfo.rigidbody.velocity = newVelocity * 0.2f;
+				} else if (offsetDistance < (distanceThreshold / 5f)) {
+					HitInfo.rigidbody.velocity = newVelocity * 0.6f;
+				} else if (offsetDistance < (distanceThreshold)) {
+					HitInfo.rigidbody.velocity = newVelocity * 0.8f;
+				} else {
+					HitInfo.rigidbody.velocity = newVelocity;
+				}
+			} else {
+				HitInfo.transform.position = (controllerOrigin + (distance * controllerDirection));
+			}
+		}
 	}
 }

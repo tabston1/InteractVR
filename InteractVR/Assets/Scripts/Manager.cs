@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,21 +36,21 @@ public class Manager : MonoBehaviour
 	public Canvas menu;
 	public Canvas modelMenu;
 
-    public Canvas syncMenu;
-    public Canvas landingMenu;
+	public Canvas syncMenu;
+	public Canvas landingMenu;
 	
 
-    public Vector3 controllerOffset;
+	public Vector3 controllerOffset;
 
 
-    // Use this for initialization
-    void Start ()
+	// Use this for initialization
+	void Start ()
 	{ 
 
-        menuIsActive = false;
-        modelMenuIsActive = false;
-        syncMenuIsActive = false;
-        landingMenuIsActive = true;
+		menuIsActive = false;
+		modelMenuIsActive = false;
+		syncMenuIsActive = false;
+		landingMenuIsActive = true;
 
 
 		authoring = false;
@@ -58,12 +59,12 @@ public class Manager : MonoBehaviour
 		menu.gameObject.SetActive (false);
 		modelMenu.gameObject.SetActive (false);
 
-        syncMenu.gameObject.SetActive(false);
-        landingMenu.gameObject.SetActive(true);
+		syncMenu.gameObject.SetActive (false);
+		landingMenu.gameObject.SetActive (true);
 
-        controllerOffset = new Vector3();
+		controllerOffset = new Vector3 ();
 
-        head = GameObject.Find("Head");
+		head = GameObject.Find ("Head");
 
 
 
@@ -84,14 +85,17 @@ public class Manager : MonoBehaviour
 	{
 		GameObject[] allBillboards = GameObject.FindGameObjectsWithTag ("Billboard");
 		foreach (GameObject billboard in allBillboards) {
-			billboard.BroadcastMessage ("disableTool");
+			try {
+				billboard.BroadcastMessage ("disableTool");
+			} catch (Exception e) {
+			}
 		}
 	}
 
   
-   void Sync()
-    {
-        //controllerOffset = controllerOffset * controller.transform.rotation;
-        controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
-    }
+	void Sync ()
+	{
+		//controllerOffset = controllerOffset * controller.transform.rotation;
+		controllerOffset = controllerOffset + (controller.transform.rotation.eulerAngles - head.transform.rotation.eulerAngles);
+	}
 }

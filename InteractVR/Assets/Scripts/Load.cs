@@ -11,11 +11,16 @@ public class Load : MonoBehaviour {
     protected string line;
     protected string[] text;
     protected string buildNo;
-    protected float[] itemPosition;
-    protected float[] itemRotation;
-    protected float[] itemScale;
+    protected float[] parentPosition;
+    protected float[] parentRotation;
+    protected float[] parentScale;
+    protected float[] childPosition;
+    protected float[] childRotation;
+    protected float[] childScale;
     protected InstantiateObject newObj;
     protected GameObject obj;
+    protected GameObject model;
+    protected string path;
 
     void onClick()
     {
@@ -23,9 +28,12 @@ public class Load : MonoBehaviour {
         //reader = new StreamReader(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "/SavedScene.txt");
         reader = new StreamReader(Application.persistentDataPath + "/SavedScene.txt");
         manager = GameObject.FindGameObjectWithTag("Manager");
-        itemPosition = new float[3];
-        itemRotation = new float[3];
-        itemScale = new float[3];
+        parentPosition = new float[3];
+        parentRotation = new float[3];
+        parentScale = new float[3];
+        childPosition = new float[3];
+        childRotation = new float[3];
+        childScale = new float[3];
         StartCoroutine(readData());
     }
 
@@ -37,34 +45,47 @@ public class Load : MonoBehaviour {
             line = reader.ReadLine();
             text = line.Split(' ');
             buildNo = text[0];
-            itemPosition[0] = float.Parse(text[1]);
-            itemPosition[1] = float.Parse(text[2]);
-            itemPosition[2] = float.Parse(text[3]);
-            itemRotation[0] = float.Parse(text[4]);
-            itemRotation[1] = float.Parse(text[5]);
-            itemRotation[2] = float.Parse(text[6]);
-            itemScale[0] = float.Parse(text[7]);
-            itemScale[1] = float.Parse(text[8]);
-            itemScale[2] = float.Parse(text[9]);
 
-            Debug.Log(itemPosition[1]);
+            //Stores the parent and child object positions, rotations, and scales read in from the save file
+            parentPosition[0] = float.Parse(text[1]);
+            parentPosition[1] = float.Parse(text[2]);
+            parentPosition[2] = float.Parse(text[3]);
+            parentRotation[0] = float.Parse(text[4]);
+            parentRotation[1] = float.Parse(text[5]);
+            parentRotation[2] = float.Parse(text[6]);
+            parentScale[0] = float.Parse(text[7]);
+            parentScale[1] = float.Parse(text[8]);
+            parentScale[2] = float.Parse(text[9]);
+            childPosition[0] = float.Parse(text[10]);
+            childPosition[1] = float.Parse(text[11]);
+            childPosition[2] = float.Parse(text[12]);
+            childRotation[0] = float.Parse(text[13]);
+            childRotation[1] = float.Parse(text[14]);
+            childRotation[2] = float.Parse(text[15]);
+            childScale[0] = float.Parse(text[16]);
+            childScale[1] = float.Parse(text[17]);
+            childScale[2] = float.Parse(text[18]);
 
-            newObj = (InstantiateObject)manager.GetComponent(typeof(InstantiateObject));
-            newObj.addObject(buildNo);
-            while (newObj.returnedObj == null) {
+            //Waits for the model to load in and then sets the parent object and its child object accordingly.
+            model = Resources.Load("Prefabs/" + buildNo) as GameObject;
+            while (model == null)
+            {
                 yield return null;
-            };
-            obj = newObj.returnedObj;
-            obj.transform.position = new Vector3(itemPosition[0], itemPosition[1], itemPosition[2]);
-            obj.transform.eulerAngles = new Vector3(itemRotation[0], itemRotation[1], itemRotation[2]);
-            obj.transform.localScale = new Vector3(itemScale[0], itemScale[1], itemScale[2]);
-
-
-            //foreach (string word in text)
-            //{
-            //    Debug.Log(word);
-            //}
-
+            }
+            obj = Instantiate(model);
+            obj.transform.position = new Vector3(parentPosition[0], parentPosition[1], parentPosition[2]);
+            obj.transform.eulerAngles = new Vector3(parentRotation[0], parentRotation[1], parentRotation[2]);
+            obj.transform.localScale = new Vector3(parentScale[0], parentScale[1], parentScale[2]);
+            foreach (Transform child in obj.transform)
+            {
+                if (child.tag == "Movable")
+                {
+                    child.position = new Vector3(childPosition[0], childPosition[1], childPosition[2]);
+                    child.eulerAngles = new Vector3(childRotation[0], childRotation[1], childRotation[2]);
+                    child.localScale = new Vector3(childScale[0], childScale[1], childScale[2]);
+                }
+            }
+         
         }
         reader.Close();
 

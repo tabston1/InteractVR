@@ -23,11 +23,11 @@ public class controllerOrientation : MonoBehaviour {
     private bool select;
 
     private BluetoothDevice device;
-    public Text statusText;
+    //public Text statusText;
 
     void Awake()
     {
-#if !UNITY_EDITOR
+//#if !UNITY_EDITOR
         device = new BluetoothDevice();
         connect();
 
@@ -47,44 +47,46 @@ public class controllerOrientation : MonoBehaviour {
 
          }
          */
-#endif
+//#endif
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         controller = GameObject.FindGameObjectWithTag("Controller");
         manager = GameObject.Find("Manager");
         managerScript = manager.GetComponent<Manager>();
 
-#if !UNITY_EDITOR
+        //#if !UNITY_EDITOR
         BluetoothAdapter.OnDeviceOFF += HandleOnDeviceOff;//This would mean a failure in connection! the reason might be that your remote device is OFF
         BluetoothAdapter.OnDeviceNotFound += HandleOnDeviceNotFound; //Because connecting using the 'Name' property is just searching, the Plugin might not find it!.
-#endif
+                                                                     //#endif
 
         submit = false;
         fire1 = false;
         select = false;
+        /*
+        #if UNITY_EDITOR
 
-#if UNITY_EDITOR
+                stream = new SerialPort("COM3", 9600);
+                stream.ReadTimeout = 50;
+                stream.Open();
 
-        stream = new SerialPort("COM7", 9600);
-        stream.ReadTimeout = 50;
-        stream.Open();
+                StartCoroutine
+                (
+                    AsynchronousReadFromArduino
+                    (   (string s) => updateController(s),  // Callback
+                        () => Debug.LogError("Error!"),     // Error callback
+                        10000f                                 // Timeout (seconds)
+                    )
+                );
 
-        StartCoroutine
-        (
-            AsynchronousReadFromArduino
-            (   (string s) => updateController(s),  // Callback
-                () => Debug.LogError("Error!"),     // Error callback
-                10000f                                 // Timeout (seconds)
-            )
-        );
 
-        
-#endif
+        #endif
+            }
+            */
     }
-
     public IEnumerator AsynchronousReadFromArduino(Action<string> callback, Action fail = null, float timeout = float.PositiveInfinity)
     {
         DateTime initialTime = DateTime.Now;
@@ -149,7 +151,7 @@ public class controllerOrientation : MonoBehaviour {
         string[] orientation = s.Split(' ');
         string buttons;
 
-        statusText.text = s;
+      //  statusText.text = s;
 
         try
         {
